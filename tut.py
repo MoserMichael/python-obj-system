@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import inspect
-import sys
 import pprintex
 
 # The base class. All python3 classes have the base class of type object.
@@ -66,14 +65,14 @@ foo_obj=Foo()
 
 print("Memory address where object foo_obj is stored is returned by id built-in")
 print("id(foo_obj) : ", id(foo_obj))
-print("If two variables have the same object id value, then they both refer to the very same object!")
-        
+print("If two variables have the same object id value, then they both refer to the very same object/instance!")
+
 # now this is the same as: (the Foo class has a static method __call__ that makes for the shorthand call.
 foo_obj = Foo.__call__()
 
 print("""
-each object has a __dict__ attribute, this is a dictionary that lists all the object instance variable.
-This includes instance members added by baseclass too!!
+each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variable.
+This also includes instance members that were added by the __init__ method of the base class !!
 """)
 
 # result:
@@ -95,22 +94,23 @@ Wait, but where does the __dict__ attribute come from?
 The built-in getattr function can return this built-in __dict__ attribute!
 Interesting: the python notation object.member_name can mean different things:
   1) for built-in attributes it means a call to getattr
-  2) for object instances it mesans a call to retrieve __dict__ attribute, and then a lookup in that dictionary.
+  2) for object instances (assigned in the __init__ method of the class) it means a call to retrieve the __dict__ attribute, and then a lookup of the variable name in that dictionary.
 """)
 
 print("foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!")
 assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )
 
-# The getattr builtin has good part, it return None, if the argument is not an object with a __dict__ attribute. 
-# Tthat can actually happen, for example if you create a object of the following form: obj = object()
-#
+print("""
+The getattr builtin function has good part, its return value can be checked for None, to check, if the argument is not an object with a __dict__ attribute.
+""")
+
 base_obj = object()
-print("a base object of type ", type(base_obj), " doesn't have a __dict__ member")
-assert getattr(base_obj, '__dict__', None) == None
+print("An object of built-in type ", type(base_obj), " doesn't have a __dict__ member")
+assert getattr(base_obj, '__dict__', None) is None
 
 int_obj = 42
-print("an object of built-in type  ", type(int_obj), " also doesn't have a __dict__ member")
-assert getattr(int_obj, '__dict__', None) == None
+print("An object of built-in type ", type(int_obj), " doesn't have a __dict__ member")
+assert getattr(int_obj, '__dict__', None) is None
 
 print("""
 The dir builtin function https://docs.python.org/3/library/functions.html#dir
@@ -170,8 +170,8 @@ print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)
 
 print("""
 mro stands for 'method resultion order'. This is ;
-to get the base class list: this includes all of the base class, on all levels, in depth first traversion order.
-This list is used to resolve a member function of an object, when you call it via: obj_ref.member_function()
+to get the base class list: this includes all of the base class, recursively traversing all base classes, in depth first traversion order.
+This list is used to resolve a member function 'member_function' of an object, when you call it via: obj_ref.member_function()
 """)
 # result;
 #    foo_obj.__class__.__mro__ : (<class '__main__.Foo'>, <class '__main__.Base'>, <class 'object'>)
@@ -218,7 +218,7 @@ for a class object it returns a "list that contains the names of its attributes,
 print("dir(foo_obj) : ", dir( foo_obj ) )
 
 print( """
-Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model!  
+Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model!
 inspect.getmembers returns everything! and it is accessible here: https://github.com/python/cpython/blob/3.10/Lib/inspect.py
 """)
 #result:
@@ -241,6 +241,38 @@ the type of the object is the Class of the object (remember: the classes is an o
 
 print("type(foo_obj) : ", type(foo_obj))
 print("str(foo_obj.__class__) : ", str(foo_obj.__class__) )
+
+print("""
+
+Let's look at both the type and identity of all these objects:
+
+""")
+
+print("id(foo_obj) : ", id(foo_obj))
+
+print("""
+The following expressions refer to the same thing: the type of the object foo_obj, also known as the class of foo_obj
+""")
+
+print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)))
+print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__))
+print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ))
+
+assert id(Foo) == id(type(foo_obj))
+assert id(type(foo_obj)) == id(foo_obj.__class__)
+
+print("""
+The following expressions refer to the same thing: the meta-type of the foo_obj.
+""")
+
+
+print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) )
+print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ) )
+print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ) )
+print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )
+
+assert type(Foo) == type(Foo.__class__)
+assert type(Foo.__class__) == type(Foo.__class__.__class__)
 
 
 print("""
