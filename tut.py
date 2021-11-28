@@ -30,7 +30,7 @@ def eval_and_quote(arg_str):
     sline = sout.getvalue().strip()
     if sline != "":
         print("")
-        print_quoted( '\n'.join( map( lambda line : ">" + line, sline.split("\n") ) ) )
+        print_quoted( '\n'.join( map( lambda line : ">> " + line, sline.split("\n") ) ) )
         print("")
 
 def quote():
@@ -131,7 +131,7 @@ eval_and_quote('print("id(foo_obj) : ", id(foo_obj))')
 print_md("If two variables have the same object id value, then they both refer to the very same object/instance!")
 
 # now this is the same as: (the Foo class has a static method __call__ that makes for the shorthand call.
-foo_obj = Foo.__call__()
+eval_and_quote("""foo_obj = Foo.__call__()""")
 
 print_md("""
 each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variable.
@@ -160,13 +160,16 @@ print_md("""
 The getattr builtin function has good part, its return value can be checked for None, to check, if the argument is not an object with a __dict__ attribute.
 """)
 
-base_obj = object()
-print_md("An object of built-in type ", type(base_obj), " doesn't have a __dict__ member")
-assert getattr(base_obj, '__dict__', None) is None
+eval_and_quote("""base_obj = object()""")
 
-int_obj = 42
+print_md("An object of built-in type ", type(base_obj), " doesn't have a __dict__ member")
+eval_and_quote("""assert getattr(base_obj, '__dict__', None) is None""")
+
+eval_and_quote("""int_obj = 42""")
+
 print_md("An object of built-in type ", type(int_obj), " doesn't have a __dict__ member")
-assert getattr(int_obj, '__dict__', None) is None
+
+eval_and_quote("""assert getattr(int_obj, '__dict__', None) is None""")
 
 print_md("""
 The dir builtin function https://docs.python.org/3/library/functions.html#dir
@@ -175,10 +178,7 @@ for regular objects it returns a  "list that contains the objectâ€™s attributesâ
 all this sorted alphabetically.
 """)
 
-# result:
-#    dir(foo_obj) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'obj_var_a', 'obj_var_b', 'obj_var_base', 'show_base', 'show_derived']
-
-print_quoted("dir(foo_obj) : ", dir(foo_obj))
+eval_and_quote("""print("dir(foo_obj) : ", dir(foo_obj))""")
 
 # doesn't have __slots__, how odd.
 #print_md("foo_obj.__slots__ : ", foo_obj.__slots__)
@@ -193,33 +193,30 @@ Also note that the type built-in of type(foo_obj) is really the same as: str(foo
 """)
 
 
-print_quoted("foo_obj.__class__ :", foo_obj.__class__)
-print_quoted("type(foo_obj) :", type(foo_obj) )
+eval_and_quote( """print("foo_obj.__class__ :", foo_obj.__class__)""")
 
+
+eval_and_quote( """print("type(foo_obj) :", type(foo_obj) )""" )
 
 
 print_md("""
 Again, the built in attribute __class__ can also be accessed with the getattr built-in function.
 """)
 
-print_quoted("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!")
-assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) )
+eval_and_quote( """print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!") """)
+eval_and_quote( """assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) ) """)
 
 print_md(""" the __name__ and __qualname__ built-in attributes return the name of the class, without the module name """)
 
-# result:
-#    foo_boj.__class__.__name__ :  Foo
-#    foo_boj.__class__.__qualname__ :  Foo
-#
-print_quoted("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)
-print_quoted("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)
+eval_and_quote( """print("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)""" )
+eval_and_quote( """print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)""" )
 
 
 print_md("""
 to get the immedeate base class list as declared in that particular class.
 """)
 
-print_quoted("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)
+eval_and_quote( """print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)""")
 
 
 print_md("""
@@ -228,34 +225,21 @@ to get the base class list: this includes all of the base class, recursively tra
 This list is used to resolve a member function 'member_function' of an object, when you call it via: obj_ref.member_function()
 """)
 
-print_quoted("foo_obj.__class__.__mro__ :", foo_obj.__class__.__mro__)
+eval_and_quote( """print("foo_obj.__class__.__mro__ :", foo_obj.__class__.__mro__) """ )
 
-
-# show each class that appears in the mro 'method resulution order'
-# result:
-#   *** mro in detail:
-#        class-in-mro:  <class '__main__.Foo'> id: 140324357869776 dir(cls):  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']
-#        class-in-mro:  <class '__main__.Base'> id: 140324357868832 dir(cls):  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'make_base', 'show_base']
-#        class-in-mro:  <class 'object'> id: 4493945776 dir(cls):  ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
-#    *** eof mro in detail
-
-quote()
-print_md("")
-print_md("*** mro in detail:")
+eval_and_quote("""
+print("*** mro in detail:")
 for cls in foo_obj.__class__.__mro__:
     print_md("\tclass-in-mro: ", str(cls), "id:", id(cls), "dir(cls): ", dir(cls))
-print_md("*** eof mro in detail")
-print_md("")
-quote()
+print("*** eof mro in detail")
+""")
 
 print_md("""
 the class object has a __dict__ too - here you will see all the class variables (for Foo these are class_var and class_var2) and class methods (defined with @staticmethod), but also  the object methods with the self parameter
 """)
 
-# result:
-#    foo_obj.__class__.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7f9fcfd28a60>, 'show_derived': <function Foo.show_derived at 0x7f9fcfd28af0>, 'make_foo': <staticmethod object at 0x7f9fcfd21f70>, '__doc__': None}
 
-print_quoted("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)
+eval_and_quote( """print("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)""" )
 
 # doen't have slots, how odd.
 #print_md("foo_obj.__class__.__slots__ : ", foo_obj.__class__.__slots__)
@@ -267,29 +251,23 @@ for a class object it returns a "list that contains the names of its attributes,
 Note that the names are sorted.
 """)
 
-# result:
-#    dir(foo_obj.__class__) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']
 
-
-print_quoted("dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )
+eval_and_quote("""print("dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )""")
 
 print_md("""
 The class object derives from built-in class type, you can chekck if an object is a type by checking if it is an instance of type !
 """)
 
 # check that foo_obj.__class__ is a type - it is derived from built-in class type
-assert isinstance(foo_obj.__class__, type)
-# same as:
-assert inspect.isclass(foo_obj.__class__)
+eval_and_quote("""assert isinstance(foo_obj.__class__, type)""")
+eval_and_quote("""assert inspect.isclass(foo_obj.__class__)""")
 
 print_md( """
 Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
 inspect.getmembers returns everything! You can see the source of inspect.getmembers here: https://github.com/python/cpython/blob/3.10/Lib/inspect.py
 """)
-#result:
-#   inspect.getmembers(foo_obj):  [('__class__', <class '__main__.Foo'>), ('__delattr__', <method-wrapper '__delattr__' of Foo object at 0x7f9bb0d214c0>), ('__dict__', {'obj_var_a': 42, 'obj_var_b': 'name', 'obj_var_base': 10}), ('__dir__', <built-in method __dir__ of Foo object at 0x7f9bb0d214c0>), ('__doc__', None), ('__eq__', <method-wrapper '__eq__' of Foo object at 0x7f9bb0d214c0>), ('__format__', <built-in method __format__ of Foo object at 0x7f9bb0d214c0>), ('__ge__', <method-wrapper '__ge__' of Foo object at 0x7f9bb0d214c0>), ('__getattribute__', <method-wrapper '__getattribute__' of Foo object at 0x7f9bb0d214c0>), ('__gt__', <method-wrapper '__gt__' of Foo object at 0x7f9bb0d214c0>), ('__hash__', <method-wrapper '__hash__' of Foo object at 0x7f9bb0d214c0>), ('__init__', <bound method Foo.__init__ of <__main__.Foo object at 0x7f9bb0d214c0>>), ('__init_subclass__', <built-in method __init_subclass__ of type object at 0x7f9bb0a5a680>), ('__le__', <method-wrapper '__le__' of Foo object at 0x7f9bb0d214c0>), ('__lt__', <method-wrapper '__lt__' of Foo object at 0x7f9bb0d214c0>), ('__module__', '__main__'), ('__ne__', <method-wrapper '__ne__' of Foo object at 0x7f9bb0d214c0>), ('__new__', <built-in method __new__ of type object at 0x10f6c5bb0>), ('__reduce__', <built-in method __reduce__ of Foo object at 0x7f9bb0d214c0>), ('__reduce_ex__', <built-in method __reduce_ex__ of Foo object at 0x7f9bb0d214c0>), ('__repr__', <method-wrapper '__repr__' of Foo object at 0x7f9bb0d214c0>), ('__setattr__', <method-wrapper '__setattr__' of Foo object at 0x7f9bb0d214c0>), ('__sizeof__', <built-in method __sizeof__ of Foo object at 0x7f9bb0d214c0>), ('__str__', <method-wrapper '__str__' of Foo object at 0x7f9bb0d214c0>), ('__subclasshook__', <built-in method __subclasshook__ of type object at 0x7f9bb0a5a680>), ('__weakref__', None), ('base_clas_var', 'Base'), ('class_var', 42), ('class_var2', 43), ('make_base', <function Base.make_base at 0x7f9bb0dd60d0>), ('make_foo', <function Foo.make_foo at 0x7f9bb0dd6280>), ('obj_var_a', 42), ('obj_var_b', 'name'), ('obj_var_base', 10), ('show_base', <bound method Base.show_base of <__main__.Foo object at 0x7f9bb0d214c0>>), ('show_derived', <bound method Foo.show_derived of <__main__.Foo object at 0x7f9bb0d214c0>>)]
 
-print_quoted("inspect.getmembers(foo_obj): ", inspect.getmembers(foo_obj))
+eval_and_quote("""print("inspect.getmembers(foo_obj): ", inspect.getmembers(foo_obj))""")
 
 
 print_md("""
@@ -297,15 +275,8 @@ Attention!
 the type of the object is the Class of the object (remember: the classes is an object, where the __dict__ member holds the class variables)
 """)
 
-# Result:
-#
-#    type(foo_obj) :  <class '__main__.Foo'>
-#    str(foo_obj.__class__) :  <class '__main__.Foo'>
-#    type( type( foo_obj ) ) :  <class 'type'>
-#    str( foo_obj.__class__.__class__ ) :  <class 'type'>
-
-print_quoted("type(foo_obj) : ", type(foo_obj))
-print_quoted("str(foo_obj.__class__) : ", str(foo_obj.__class__) )
+eval_and_quote("""print("type(foo_obj) : ", type(foo_obj))""")
+eval_and_quote("""print("str(foo_obj.__class__) : ", str(foo_obj.__class__) )""")
 
 print_md("""
 
@@ -313,28 +284,28 @@ Let's look at both the type and identity of all these objects:
 
 """)
 
-print_quoted("id(foo_obj) : ", id(foo_obj), " str(foo_obj) : ", str(foo_obj))
+eval_and_quote("""print("id(foo_obj) : ", id(foo_obj), " str(foo_obj) : ", str(foo_obj))""")
 
 print_md("""
 The following expressions refer to the same thing: the type of the object foo_obj, also known as the class of foo_obj
 """)
 
-print_quoted("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
-print_quoted("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
-print_quoted("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)
+eval_and_quote("""print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )""")
+eval_and_quote("""print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)""")
+eval_and_quote("""print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)""")
 
-assert id(Foo) == id(type(foo_obj))
-assert id(type(foo_obj)) == id(foo_obj.__class__)
+eval_and_quote("""assert id(Foo) == id(type(foo_obj))""")
+eval_and_quote("""assert id(type(foo_obj)) == id(foo_obj.__class__)""")
 
 
 print_md("""
     The Foo class members
 """)
 
-print_quoted(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)
-print_quoted(" Foo.__dict__ : ", Foo.__dict__)
+eval_and_quote("""print(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)""")
+eval_and_quote("""print(" Foo.__dict__ : ", Foo.__dict__)""")
 
-print_quoted(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )
+eval_and_quote("""print(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )""")
 
 
 
@@ -343,37 +314,34 @@ The following expressions refer to the same thing: the meta-type of the foo_obj.
 """)
 
 
-print_quoted("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )
-print_quoted("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
-print_quoted("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
-print_quoted("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )
+eval_and_quote("""print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )""")
+eval_and_quote("""print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)""")
+eval_and_quote("""print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)""")
+eval_and_quote("""print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )""")
 
-assert type(Foo) == type(Foo.__class__)
-assert type(Foo.__class__) == type(Foo.__class__.__class__)
+eval_and_quote("""assert type(Foo) == type(Foo.__class__)""")
+eval_and_quote("""assert type(Foo.__class__) == type(Foo.__class__.__class__)""")
 
 
 print_md("""
 The type of the type is the metaclass - the metaclass constructs the Class object! (the class of an object is also an object!)
 """)
 
-print_quoted("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )
-print_quoted("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )
+eval_and_quote("""print("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )""")
+eval_and_quote("""print("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )""")
 
 
 # result:
 
-print_quoted(" metaclass members: foo_obj.__class__.__class__.__dict__ : ", foo_obj.__class__.__class__.__dict__)
+eval_and_quote("""print(" metaclass members: foo_obj.__class__.__class__.__dict__ : ", foo_obj.__class__.__class__.__dict__)""")
 
-print_quoted(" everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) : ", dir( foo_obj.__class__.__class__) )
+eval_and_quote("""print(" everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) : ", dir( foo_obj.__class__.__class__) )""")
 
 print_md("""
 Wow, any class can tell all of its derived classes! I wonder how that works...
 """)
 
-# result:
-#    Base.__subclasses__() :  [<class '__main__.Foo'>]
-#
-print_quoted("Base.__subclasses__() : ", Base.__subclasses__())
+eval_and_quote("""print("Base.__subclasses__() : ", Base.__subclasses__())""")
 
 
 print_md("""

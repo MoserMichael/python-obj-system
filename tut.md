@@ -71,9 +71,11 @@ Memory address where object foo\_obj is stored is returned by id built-in
 
 ```print("id(foo_obj) : ", id(foo_obj))```
 
-```>id(foo_obj) :  140408711424608```
+```>> id(foo_obj) :  140388605146832```
 
 If two variables have the same object id value, then they both refer to the very same object/instance!
+
+```foo_obj = Foo.__call__()```
 
 each user defined object has a \_\_dict\_\_ attribute, this is a dictionary that lists all the object instance variable.
 This also includes instance members that were added by the \_\_init\_\_ method of the base class !!
@@ -81,7 +83,7 @@ This also includes instance members that were added by the \_\_init\_\_ method o
 
 ```print("foo_obj.__dict__ : ", foo_obj.__dict__)```
 
-```>foo_obj.__dict__ :  {'obj_var_a': 42, 'obj_var_b': 'name', 'obj_var_base': 10}```
+```>> foo_obj.__dict__ :  {'obj_var_a': 42, 'obj_var_b': 'name', 'obj_var_base': 10}```
 
 
 
@@ -94,22 +96,34 @@ Interesting: the python notation object.member\_name can mean different things:
 
 ```print("foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!") ```
 
-```>foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!```
+```>> foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!```
 
 
 ```assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )```
 
 The getattr builtin function has good part, its return value can be checked for None, to check, if the argument is not an object with a \_\_dict\_\_ attribute.
 
+
+```base_obj = object()```
 An object of built-in type  <class 'object'>  doesn't have a \_\_dict\_\_ member
+
+```assert getattr(base_obj, '__dict__', None) is None```
+
+```int_obj = 42```
 An object of built-in type  <class 'int'>  doesn't have a \_\_dict\_\_ member
+
+```assert getattr(int_obj, '__dict__', None) is None```
 
 The dir builtin function https://docs.python.org/3/library/functions.html#dir
 it does different things, depending on the argument,
 for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes."
 all this sorted alphabetically.
 
-```dir(foo_obj) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'obj_var_a', 'obj_var_b', 'obj_var_base', 'show_base', 'show_derived']```
+
+```print("dir(foo_obj) : ", dir(foo_obj))```
+
+```>> dir(foo_obj) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'obj_var_a', 'obj_var_b', 'obj_var_base', 'show_base', 'show_derived']```
+
 
 The class is an object, it's purpose is to hold the static data that is shared between all object instances.
 
@@ -118,95 +132,226 @@ Each object has a built-in \_\_class\_\_ attribute, that refers to this class ob
 Note that the name of the class includes the module name, \_\_main\_\_ if the class is defined in the file given as argument to the python interpreter.
 Also note that the type built-in of type(foo\_obj) is really the same as: str(foo\_obj.\_\_class\_\_) (for python3)
 
-```foo_obj.__class__ : <class '__main__.Foo'>```
-```type(foo_obj) : <class '__main__.Foo'>```
+
+```print("foo_obj.__class__ :", foo_obj.__class__)```
+
+```>> foo_obj.__class__ : <class '__main__.Foo'>```
+
+
+```print("type(foo_obj) :", type(foo_obj) )```
+
+```>> type(foo_obj) : <class '__main__.Foo'>```
+
 
 Again, the built in attribute \_\_class\_\_ can also be accessed with the getattr built-in function.
 
-```foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!```
+
+```print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!") ```
+
+```>> foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!```
+
+
+```assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) ) ```
  the \_\_name\_\_ and \_\_qualname\_\_ built-in attributes return the name of the class, without the module name 
-```foo_boj.__class__.__name__ :  Foo```
-```foo_boj.__class__.__qualname__ :  Foo```
+
+```print("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)```
+
+```>> foo_boj.__class__.__name__ :  Foo```
+
+
+```print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)```
+
+```>> foo_boj.__class__.__qualname__ :  Foo```
+
 
 to get the immedeate base class list as declared in that particular class.
 
-```foo_obj.__class__.__bases__ : (<class '__main__.Base'>,)```
+
+```print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)```
+
+```>> foo_obj.__class__.__bases__ : (<class '__main__.Base'>,)```
+
 
 mro stands for 'method resultion order'. This is ;
 to get the base class list: this includes all of the base class, recursively traversing all base classes, in depth first traversion order.
 This list is used to resolve a member function 'member\_function' of an object, when you call it via: obj\_ref.member\_function()
 
-```foo_obj.__class__.__mro__ : (<class '__main__.Foo'>, <class '__main__.Base'>, <class 'object'>)```
-```
 
-*** mro in detail:
-	class-in-mro:  <class '\_\_main\_\_.Foo'> id: 140408708537216 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dict\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_module\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_', '\_\_weakref\_\_', 'base\_clas\_var', 'class\_var', 'class\_var2', 'make\_base', 'make\_foo', 'show\_base', 'show\_derived']
-	class-in-mro:  <class '\_\_main\_\_.Base'> id: 140408708536272 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dict\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_module\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_', '\_\_weakref\_\_', 'base\_clas\_var', 'make\_base', 'show\_base']
-	class-in-mro:  <class 'object'> id: 4335262640 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_']
-*** eof mro in detail
+```print("foo_obj.__class__.__mro__ :", foo_obj.__class__.__mro__) ```
+
+```>> foo_obj.__class__.__mro__ : (<class '__main__.Foo'>, <class '__main__.Base'>, <class 'object'>)```
+
 
 ```
+print("*** mro in detail:")
+for cls in foo_obj.__class__.__mro__:
+    print_md("	class-in-mro: ", str(cls), "id:", id(cls), "dir(cls): ", dir(cls))
+print("*** eof mro in detail")
+```
+
+```>> *** mro in detail:
+>> 	class-in-mro:  <class '\_\_main\_\_.Foo'> id: 140388597817168 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dict\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_module\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_', '\_\_weakref\_\_', 'base\_clas\_var', 'class\_var', 'class\_var2', 'make\_base', 'make\_foo', 'show\_base', 'show\_derived']
+>> 	class-in-mro:  <class '\_\_main\_\_.Base'> id: 140388597816224 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dict\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_module\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_', '\_\_weakref\_\_', 'base\_clas\_var', 'make\_base', 'show\_base']
+>> 	class-in-mro:  <class 'object'> id: 4298484656 dir(cls):  ['\_\_class\_\_', '\_\_delattr\_\_', '\_\_dir\_\_', '\_\_doc\_\_', '\_\_eq\_\_', '\_\_format\_\_', '\_\_ge\_\_', '\_\_getattribute\_\_', '\_\_gt\_\_', '\_\_hash\_\_', '\_\_init\_\_', '\_\_init\_subclass\_\_', '\_\_le\_\_', '\_\_lt\_\_', '\_\_ne\_\_', '\_\_new\_\_', '\_\_reduce\_\_', '\_\_reduce\_ex\_\_', '\_\_repr\_\_', '\_\_setattr\_\_', '\_\_sizeof\_\_', '\_\_str\_\_', '\_\_subclasshook\_\_']
+>> *** eof mro in detail```
+
 
 the class object has a \_\_dict\_\_ too - here you will see all the class variables (for Foo these are class\_var and class\_var2) and class methods (defined with @staticmethod), but also  the object methods with the self parameter
 
-```foo_obj.__class__.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7fb3735df940>, 'show_derived': <function Foo.show_derived at 0x7fb3735df9d0>, 'make_foo': <staticmethod object at 0x7fb3735e2c70>, '__doc__': None}```
+
+```print("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)```
+
+```>> foo_obj.__class__.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7faec4f09af0>, 'show_derived': <function Foo.show_derived at 0x7faec4f09b80>, 'make_foo': <staticmethod object at 0x7faec4f0b8e0>, '__doc__': None}```
+
 
 the dir method for a class:
 Again, this built-in dir function does different things, depending on the argument type
 for a class object it returns a "list that contains the names of its attributes, and recursively of the attributes of its bases"
 Note that the names are sorted.
 
-```dir(foo_obj.__class__) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']```
+
+```print("dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )```
+
+```>> dir(foo_obj.__class__) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']```
+
 
 The class object derives from built-in class type, you can chekck if an object is a type by checking if it is an instance of type !
 
 
+```assert isinstance(foo_obj.__class__, type)```
+
+```assert inspect.isclass(foo_obj.__class__)```
+
 Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
 inspect.getmembers returns everything! You can see the source of inspect.getmembers here: https://github.com/python/cpython/blob/3.10/Lib/inspect.py
 
-```inspect.getmembers(foo_obj):  [('__class__', <class '__main__.Foo'>), ('__delattr__', <method-wrapper '__delattr__' of Foo object at 0x7fb3735e2ee0>), ('__dict__', {'obj_var_a': 42, 'obj_var_b': 'name', 'obj_var_base': 10}), ('__dir__', <built-in method __dir__ of Foo object at 0x7fb3735e2ee0>), ('__doc__', None), ('__eq__', <method-wrapper '__eq__' of Foo object at 0x7fb3735e2ee0>), ('__format__', <built-in method __format__ of Foo object at 0x7fb3735e2ee0>), ('__ge__', <method-wrapper '__ge__' of Foo object at 0x7fb3735e2ee0>), ('__getattribute__', <method-wrapper '__getattribute__' of Foo object at 0x7fb3735e2ee0>), ('__gt__', <method-wrapper '__gt__' of Foo object at 0x7fb3735e2ee0>), ('__hash__', <method-wrapper '__hash__' of Foo object at 0x7fb3735e2ee0>), ('__init__', <bound method Foo.__init__ of <__main__.Foo object at 0x7fb3735e2ee0>>), ('__init_subclass__', <built-in method __init_subclass__ of type object at 0x7fb373321b80>), ('__le__', <method-wrapper '__le__' of Foo object at 0x7fb3735e2ee0>), ('__lt__', <method-wrapper '__lt__' of Foo object at 0x7fb3735e2ee0>), ('__module__', '__main__'), ('__ne__', <method-wrapper '__ne__' of Foo object at 0x7fb3735e2ee0>), ('__new__', <built-in method __new__ of type object at 0x10266dbb0>), ('__reduce__', <built-in method __reduce__ of Foo object at 0x7fb3735e2ee0>), ('__reduce_ex__', <built-in method __reduce_ex__ of Foo object at 0x7fb3735e2ee0>), ('__repr__', <method-wrapper '__repr__' of Foo object at 0x7fb3735e2ee0>), ('__setattr__', <method-wrapper '__setattr__' of Foo object at 0x7fb3735e2ee0>), ('__sizeof__', <built-in method __sizeof__ of Foo object at 0x7fb3735e2ee0>), ('__str__', <method-wrapper '__str__' of Foo object at 0x7fb3735e2ee0>), ('__subclasshook__', <built-in method __subclasshook__ of type object at 0x7fb373321b80>), ('__weakref__', None), ('base_clas_var', 'Base'), ('class_var', 42), ('class_var2', 43), ('make_base', <function Base.make_base at 0x7fb3735df8b0>), ('make_foo', <function Foo.make_foo at 0x7fb3735dfa60>), ('obj_var_a', 42), ('obj_var_b', 'name'), ('obj_var_base', 10), ('show_base', <bound method Base.show_base of <__main__.Foo object at 0x7fb3735e2ee0>>), ('show_derived', <bound method Foo.show_derived of <__main__.Foo object at 0x7fb3735e2ee0>>)]```
+
+```print("inspect.getmembers(foo_obj): ", inspect.getmembers(foo_obj))```
+
+```>> inspect.getmembers(foo_obj):  [('__class__', <class '__main__.Foo'>), ('__delattr__', <method-wrapper '__delattr__' of Foo object at 0x7faec4f0bb50>), ('__dict__', {'obj_var_a': 42, 'obj_var_b': 'name', 'obj_var_base': 10}), ('__dir__', <built-in method __dir__ of Foo object at 0x7faec4f0bb50>), ('__doc__', None), ('__eq__', <method-wrapper '__eq__' of Foo object at 0x7faec4f0bb50>), ('__format__', <built-in method __format__ of Foo object at 0x7faec4f0bb50>), ('__ge__', <method-wrapper '__ge__' of Foo object at 0x7faec4f0bb50>), ('__getattribute__', <method-wrapper '__getattribute__' of Foo object at 0x7faec4f0bb50>), ('__gt__', <method-wrapper '__gt__' of Foo object at 0x7faec4f0bb50>), ('__hash__', <method-wrapper '__hash__' of Foo object at 0x7faec4f0bb50>), ('__init__', <bound method Foo.__init__ of <__main__.Foo object at 0x7faec4f0bb50>>), ('__init_subclass__', <built-in method __init_subclass__ of type object at 0x7faec480df50>), ('__le__', <method-wrapper '__le__' of Foo object at 0x7faec4f0bb50>), ('__lt__', <method-wrapper '__lt__' of Foo object at 0x7faec4f0bb50>), ('__module__', '__main__'), ('__ne__', <method-wrapper '__ne__' of Foo object at 0x7faec4f0bb50>), ('__new__', <built-in method __new__ of type object at 0x10035abb0>), ('__reduce__', <built-in method __reduce__ of Foo object at 0x7faec4f0bb50>), ('__reduce_ex__', <built-in method __reduce_ex__ of Foo object at 0x7faec4f0bb50>), ('__repr__', <method-wrapper '__repr__' of Foo object at 0x7faec4f0bb50>), ('__setattr__', <method-wrapper '__setattr__' of Foo object at 0x7faec4f0bb50>), ('__sizeof__', <built-in method __sizeof__ of Foo object at 0x7faec4f0bb50>), ('__str__', <method-wrapper '__str__' of Foo object at 0x7faec4f0bb50>), ('__subclasshook__', <built-in method __subclasshook__ of type object at 0x7faec480df50>), ('__weakref__', None), ('base_clas_var', 'Base'), ('class_var', 42), ('class_var2', 43), ('make_base', <function Base.make_base at 0x7faec4f09a60>), ('make_foo', <function Foo.make_foo at 0x7faec4f09c10>), ('obj_var_a', 42), ('obj_var_b', 'name'), ('obj_var_base', 10), ('show_base', <bound method Base.show_base of <__main__.Foo object at 0x7faec4f0bb50>>), ('show_derived', <bound method Foo.show_derived of <__main__.Foo object at 0x7faec4f0bb50>>)]```
+
 
 Attention!
 the type of the object is the Class of the object (remember: the classes is an object, where the \_\_dict\_\_ member holds the class variables)
 
-```type(foo_obj) :  <class '__main__.Foo'>```
-```str(foo_obj.__class__) :  <class '__main__.Foo'>```
+
+```print("type(foo_obj) : ", type(foo_obj))```
+
+```>> type(foo_obj) :  <class '__main__.Foo'>```
+
+
+```print("str(foo_obj.__class__) : ", str(foo_obj.__class__) )```
+
+```>> str(foo_obj.__class__) :  <class '__main__.Foo'>```
+
 
 
 Let's look at both the type and identity of all these objects:
 
 
-```id(foo_obj) :  140408711425760  str(foo_obj) :  <__main__.Foo object at 0x7fb3735e2ee0>```
+
+```print("id(foo_obj) : ", id(foo_obj), " str(foo_obj) : ", str(foo_obj))```
+
+```>> id(foo_obj) :  140388605147984  str(foo_obj) :  <__main__.Foo object at 0x7faec4f0bb50>```
+
 
 The following expressions refer to the same thing: the type of the object foo\_obj, also known as the class of foo\_obj
 
-```type(foo_obj) :  <class '__main__.Foo'>  id(type(foo_obj)) :  140408708537216  type(foo_obj).__name__ :  Foo```
-```str(foo_obj.__class__) :  <class '__main__.Foo'>  id(foo_obj.__class__) :  140408708537216 foo_obj.__class__.__name__ :  Foo```
-```str(Foo) :  <class '__main__.Foo'>  id(Foo) :  140408708537216 Foo.__name__ :  Foo```
+
+```print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )```
+
+```>> type(foo_obj) :  <class '__main__.Foo'>  id(type(foo_obj)) :  140388597817168  type(foo_obj).__name__ :  Foo```
+
+
+```print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)```
+
+```>> str(foo_obj.__class__) :  <class '__main__.Foo'>  id(foo_obj.__class__) :  140388597817168 foo_obj.__class__.__name__ :  Foo```
+
+
+```print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)```
+
+```>> str(Foo) :  <class '__main__.Foo'>  id(Foo) :  140388597817168 Foo.__name__ :  Foo```
+
+
+```assert id(Foo) == id(type(foo_obj))```
+
+```assert id(type(foo_obj)) == id(foo_obj.__class__)```
 
     The Foo class members
 
-``` foo_obj.__class__.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7fb3735df940>, 'show_derived': <function Foo.show_derived at 0x7fb3735df9d0>, 'make_foo': <staticmethod object at 0x7fb3735e2c70>, '__doc__': None}```
-``` Foo.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7fb3735df940>, 'show_derived': <function Foo.show_derived at 0x7fb3735df9d0>, 'make_foo': <staticmethod object at 0x7fb3735e2c70>, '__doc__': None}```
-``` dir(foo_obj.__class__) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']```
+
+```print(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)```
+
+```>> foo_obj.__class__.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7faec4f09af0>, 'show_derived': <function Foo.show_derived at 0x7faec4f09b80>, 'make_foo': <staticmethod object at 0x7faec4f0b8e0>, '__doc__': None}```
+
+
+```print(" Foo.__dict__ : ", Foo.__dict__)```
+
+```>> Foo.__dict__ :  {'__module__': '__main__', 'class_var': 42, 'class_var2': 43, '__init__': <function Foo.__init__ at 0x7faec4f09af0>, 'show_derived': <function Foo.show_derived at 0x7faec4f09b80>, 'make_foo': <staticmethod object at 0x7faec4f0b8e0>, '__doc__': None}```
+
+
+```print(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )```
+
+```>> dir(foo_obj.__class__) :  ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'base_clas_var', 'class_var', 'class_var2', 'make_base', 'make_foo', 'show_base', 'show_derived']```
+
 
 The following expressions refer to the same thing: the meta-type of the foo\_obj.
 
-```type(foo_obj.__class__.__class__) :  <class 'type'>  id( foo_obj.__class__.__class__ ) :  4335263048 foo_obj.__class__.__class__.__name__ :  type```
-```type(Foo) :  <class 'type'>  id(type(Foo)) :  4335263048  Foo.__class__.__name__ :  type```
-```type(Foo.__class__) :  <class 'type'>  id(type(Foo.__class__)) :  4335263048  Foo.__class__.__name__ :  type```
-```type(Foo.__class__.__class__)  <class 'type'>  id(type(Foo.__class__.__class__)) :  4335263048```
+
+```print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )```
+
+```>> type(foo_obj.__class__.__class__) :  <class 'type'>  id( foo_obj.__class__.__class__ ) :  4298485064 foo_obj.__class__.__class__.__name__ :  type```
+
+
+```print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)```
+
+```>> type(Foo) :  <class 'type'>  id(type(Foo)) :  4298485064  Foo.__class__.__name__ :  type```
+
+
+```print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)```
+
+```>> type(Foo.__class__) :  <class 'type'>  id(type(Foo.__class__)) :  4298485064  Foo.__class__.__name__ :  type```
+
+
+```print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )```
+
+```>> type(Foo.__class__.__class__)  <class 'type'>  id(type(Foo.__class__.__class__)) :  4298485064```
+
+
+```assert type(Foo) == type(Foo.__class__)```
+
+```assert type(Foo.__class__) == type(Foo.__class__.__class__)```
 
 The type of the type is the metaclass - the metaclass constructs the Class object! (the class of an object is also an object!)
 
-```type( type( foo_obj ) ) :  <class 'type'>```
-```str( foo_obj.__class__.__class__ ) :  <class 'type'>```
-``` metaclass members: foo_obj.__class__.__class__.__dict__ :  {'__repr__': <slot wrapper '__repr__' of 'type' objects>, '__call__': <slot wrapper '__call__' of 'type' objects>, '__getattribute__': <slot wrapper '__getattribute__' of 'type' objects>, '__setattr__': <slot wrapper '__setattr__' of 'type' objects>, '__delattr__': <slot wrapper '__delattr__' of 'type' objects>, '__init__': <slot wrapper '__init__' of 'type' objects>, '__new__': <built-in method __new__ of type object at 0x10266dd48>, 'mro': <method 'mro' of 'type' objects>, '__subclasses__': <method '__subclasses__' of 'type' objects>, '__prepare__': <method '__prepare__' of 'type' objects>, '__instancecheck__': <method '__instancecheck__' of 'type' objects>, '__subclasscheck__': <method '__subclasscheck__' of 'type' objects>, '__dir__': <method '__dir__' of 'type' objects>, '__sizeof__': <method '__sizeof__' of 'type' objects>, '__basicsize__': <member '__basicsize__' of 'type' objects>, '__itemsize__': <member '__itemsize__' of 'type' objects>, '__flags__': <member '__flags__' of 'type' objects>, '__weakrefoffset__': <member '__weakrefoffset__' of 'type' objects>, '__base__': <member '__base__' of 'type' objects>, '__dictoffset__': <member '__dictoffset__' of 'type' objects>, '__mro__': <member '__mro__' of 'type' objects>, '__name__': <attribute '__name__' of 'type' objects>, '__qualname__': <attribute '__qualname__' of 'type' objects>, '__bases__': <attribute '__bases__' of 'type' objects>, '__module__': <attribute '__module__' of 'type' objects>, '__abstractmethods__': <attribute '__abstractmethods__' of 'type' objects>, '__dict__': <attribute '__dict__' of 'type' objects>, '__doc__': <attribute '__doc__' of 'type' objects>, '__text_signature__': <attribute '__text_signature__' of 'type' objects>}```
-``` everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) :  ['__abstractmethods__', '__base__', '__bases__', '__basicsize__', '__call__', '__class__', '__delattr__', '__dict__', '__dictoffset__', '__dir__', '__doc__', '__eq__', '__flags__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__instancecheck__', '__itemsize__', '__le__', '__lt__', '__module__', '__mro__', '__name__', '__ne__', '__new__', '__prepare__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasscheck__', '__subclasses__', '__subclasshook__', '__text_signature__', '__weakrefoffset__', 'mro']```
+
+```print("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )```
+
+```>> type( type( foo_obj ) ) :  <class 'type'>```
+
+
+```print("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )```
+
+```>> str( foo_obj.__class__.__class__ ) :  <class 'type'>```
+
+
+```print(" metaclass members: foo_obj.__class__.__class__.__dict__ : ", foo_obj.__class__.__class__.__dict__)```
+
+```>> metaclass members: foo_obj.__class__.__class__.__dict__ :  {'__repr__': <slot wrapper '__repr__' of 'type' objects>, '__call__': <slot wrapper '__call__' of 'type' objects>, '__getattribute__': <slot wrapper '__getattribute__' of 'type' objects>, '__setattr__': <slot wrapper '__setattr__' of 'type' objects>, '__delattr__': <slot wrapper '__delattr__' of 'type' objects>, '__init__': <slot wrapper '__init__' of 'type' objects>, '__new__': <built-in method __new__ of type object at 0x10035ad48>, 'mro': <method 'mro' of 'type' objects>, '__subclasses__': <method '__subclasses__' of 'type' objects>, '__prepare__': <method '__prepare__' of 'type' objects>, '__instancecheck__': <method '__instancecheck__' of 'type' objects>, '__subclasscheck__': <method '__subclasscheck__' of 'type' objects>, '__dir__': <method '__dir__' of 'type' objects>, '__sizeof__': <method '__sizeof__' of 'type' objects>, '__basicsize__': <member '__basicsize__' of 'type' objects>, '__itemsize__': <member '__itemsize__' of 'type' objects>, '__flags__': <member '__flags__' of 'type' objects>, '__weakrefoffset__': <member '__weakrefoffset__' of 'type' objects>, '__base__': <member '__base__' of 'type' objects>, '__dictoffset__': <member '__dictoffset__' of 'type' objects>, '__mro__': <member '__mro__' of 'type' objects>, '__name__': <attribute '__name__' of 'type' objects>, '__qualname__': <attribute '__qualname__' of 'type' objects>, '__bases__': <attribute '__bases__' of 'type' objects>, '__module__': <attribute '__module__' of 'type' objects>, '__abstractmethods__': <attribute '__abstractmethods__' of 'type' objects>, '__dict__': <attribute '__dict__' of 'type' objects>, '__doc__': <attribute '__doc__' of 'type' objects>, '__text_signature__': <attribute '__text_signature__' of 'type' objects>}```
+
+
+```print(" everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) : ", dir( foo_obj.__class__.__class__) )```
+
+```>> everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) :  ['__abstractmethods__', '__base__', '__bases__', '__basicsize__', '__call__', '__class__', '__delattr__', '__dict__', '__dictoffset__', '__dir__', '__doc__', '__eq__', '__flags__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__instancecheck__', '__itemsize__', '__le__', '__lt__', '__module__', '__mro__', '__name__', '__ne__', '__new__', '__prepare__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasscheck__', '__subclasses__', '__subclasshook__', '__text_signature__', '__weakrefoffset__', 'mro']```
+
 
 Wow, any class can tell all of its derived classes! I wonder how that works...
 
-```Base.__subclasses__() :  [<class '__main__.Foo'>]```
+
+```print("Base.__subclasses__() : ", Base.__subclasses__())```
+
+```>> Base.__subclasses__() :  [<class '__main__.Foo'>]```
+
 
 
 PART II - OBJECT CREATION
@@ -233,7 +378,7 @@ actually that was a bit of a simplification...
 
 
 ```
-instance_of_foo <class '__main__.Foo'> at 0x7fb3735e2fa0 fields: {
+instance_of_foo <class '__main__.Foo'> at 0x7faec4d21700 fields: {
   'obj_var_a' : 42,
   'obj_var_b' : 'name',
   'obj_var_base' : 10
