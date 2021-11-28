@@ -154,7 +154,7 @@ Interesting: the python notation object.member_name can mean different things:
   2) for object instances (assigned in the __init__ method of the class) it means a call to retrieve the __dict__ attribute, and then a lookup of the variable name in that dictionary.
 """)
 
-eval_and_quote("""print("foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!") """)
+print_md( """foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing! """)
 
 eval_and_quote("""assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )""")
 
