@@ -144,7 +144,7 @@ print_md("")
 
 print_md("""
 Wait, but where does the __dict__ attribute come from?
-The built-in getattr function can return this built-in __dict__ attribute!
+The [built-in getattr](https://docs.python.org/3/library/functions.html#getattr) function can return this built-in __dict__ attribute!
 Interesting: the python notation object.member_name can mean different things:
   1) for built-in attributes it means a call to getattr
   2) for object instances (assigned in the __init__ method of the class) it means a call to retrieve the __dict__ attribute, and then a lookup of the variable name in that dictionary.
