@@ -33,9 +33,6 @@ def eval_and_quote(arg_str):
         print_quoted( '\n'.join( map( lambda line : ">> " + line, sline.split("\n") ) ) )
         print("")
 
-def quote():
-    print_md("```")
-
 # function to show a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
 def show_type_hierarchy(type_class):
 
