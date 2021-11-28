@@ -9,7 +9,7 @@ import contextlib
 def print_md(*args):
     print(" ".join(map(str, args)).replace('_', "\\_") )
 def print_quoted(*args):
-    print("```" +  ' '.join(map(str, args)) + "```" )
+    print("```\n" +  ' '.join(map(str, args)) + "\n```" )
 def eval_and_quote(arg_str):
     print("")
 
