@@ -10,9 +10,7 @@ def print_md(*args):
     print(" ".join(map(str, args)).replace('_', "\\_") )
 def print_quoted(*args):
     print("```" +  ' '.join(map(str, args)) + "```" )
-
 def eval_and_quote(arg_str):
-
     print("")
 
     print_quoted(arg_str)
@@ -140,11 +138,9 @@ each user defined object has a __dict__ attribute, this is a dictionary that lis
 This also includes instance members that were added by the __init__ method of the base class !!
 """)
 
-print_quoted("foo_obj.__dict__ : ", foo_obj.__dict__)
+eval_and_quote("""print("foo_obj.__dict__ : ", foo_obj.__dict__)""")
 
-quote()
-pprintex.dprint('foo instance', foo_obj)
-quote()
+#eval_and_quote("""printex.dprint("foo instance", foo_obj)""")
 
 print_md("")
 
@@ -156,8 +152,9 @@ Interesting: the python notation object.member_name can mean different things:
   2) for object instances (assigned in the __init__ method of the class) it means a call to retrieve the __dict__ attribute, and then a lookup of the variable name in that dictionary.
 """)
 
-print_md("foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!")
-assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )
+eval_and_quote("""print("foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same thing!") """)
+
+eval_and_quote("""assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )""")
 
 print_md("""
 The getattr builtin function has good part, its return value can be checked for None, to check, if the argument is not an object with a __dict__ attribute.
