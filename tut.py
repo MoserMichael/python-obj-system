@@ -354,18 +354,18 @@ Objects recap:
 
 What happens upon: foo = Foo() ?
 
-# take the type of Foo - the metaclass of Foo. (the metaclass knows how to create an instance of the class, and instances of the object)
-class_obj = Foo
+take the type of Foo - the metaclass of Foo. (the metaclass knows how to create an instance of the class, and instances of the object)
+    class_obj = Foo
 
-# the metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
-# now this __call__ method creates and initialises the object instance.
-# the implementation of __call__ now does two steps:
-#   - first it does a lookup for the Foo class, if the Foo class has already been created.
-#     It creates the Foo class instance, if it does not yet exist, upon the first call.
-#   - it uses the Foo class and calls its __init__ method, in order to create the instance of class Foo !!!
-instance_of_foo = class_obj.__call__()
+The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
+Now this __call__ method creates and initialises the object instance.
+The implementation of __call__ now does two steps:
+   - first it does a lookup for the Foo class, if the Foo class has already been created.
+     It creates the Foo class instance, if it does not yet exist, upon the first call.
+   - it uses the Foo class and calls its __init__ method, in order to create the instance of class Foo !!!
+     instance_of_foo = class_obj.__call__()
 
-# actually that was a bit of a simplification...
+actually that was a bit of a simplification...
 
 """)
 
