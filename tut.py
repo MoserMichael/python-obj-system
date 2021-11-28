@@ -55,6 +55,10 @@ def show_type_hierarchy(type_class):
 
 
 print("""
+# Python object primer for python3
+
+Python is good at creating the illusion of being a simple programming language. Sometimes this illusion fails, like when you have to deal with the import/module system  [my attempts to get it](https://github.com/MoserMichael/pythonimportplayground). Another area of complexity is the object system, last week I tried to understand how [python enums](https://docs.python.org/3/library/enum.html), it turns that they are built on top of [meta classes](https://github.com/python/cpython/blob/2c56c97f015a7ea81719615ddcf3c745fba5b4f3/Lib/enum.py#L511), So now I have come to realize, that I really don't know much about python and its object system, after having failed to understand meta classes. The purpose of this text is to figure out, how the python object system ticks.
+
 Lets look at a simple python class Foo with a single base class, and see how objects are created and represented in memory
 """)
 
