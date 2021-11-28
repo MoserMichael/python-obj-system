@@ -125,7 +125,8 @@ foo_obj=Foo()
 
 """)
 
-print_md("Memory address where object foo_obj is stored is returned by id built-in")
+print_md("Memory address where object foo_obj is stored is returned by the [id built-in](https://docs.python.org/3/library/functions.html#id)")
+
 eval_and_quote('print("id(foo_obj) : ", id(foo_obj))')
 
 print_md("If two variables have the same object id value, then they both refer to the very same object/instance!")
@@ -172,7 +173,7 @@ print_md("An object of built-in type ", type(int_obj), " doesn't have a __dict__
 eval_and_quote("""assert getattr(int_obj, '__dict__', None) is None""")
 
 print_md("""
-The dir builtin function https://docs.python.org/3/library/functions.html#dir
+The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function 
 it does different things, depending on the argument,
 for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes."
 all this sorted alphabetically.
