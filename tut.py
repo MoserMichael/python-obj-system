@@ -139,9 +139,12 @@ This also includes instance members that were added by the __init__ method of th
 
 eval_and_quote("""print("foo_obj.__dict__ : ", foo_obj.__dict__)""")
 
-#eval_and_quote("""printex.dprint("foo instance", foo_obj)""")
 
-print_md("")
+print_md("""
+So you see that the following is exactly the same thing:
+""")
+
+eval_and_quote("""assert id(foo_obj.obj_var_a) == id( foo_obj.__dict__['obj_var_a'] ) """)
 
 print_md("""
 Wait, but where does the __dict__ attribute come from?
