@@ -10,7 +10,10 @@ def print_md(*args):
     print(" ".join(map(str, args)).replace('_', "\\_") )
 def print_quoted(*args):
     print("```" +  ' '.join(map(str, args)) + "```" )
+
 def eval_and_quote(arg_str):
+
+    print("")
 
     print_quoted(arg_str)
 
@@ -28,7 +31,9 @@ def eval_and_quote(arg_str):
     
     sline = sout.getvalue().strip()
     if sline != "":
+        print("")
         print_quoted( '\n'.join( map( lambda line : ">" + line, sout.getvalue().split("\n") ) ) )
+        print("")
 
 def quote():
     print_md("```")
