@@ -32,7 +32,7 @@ def eval_and_quote(arg_str):
     sline = sout.getvalue().strip()
     if sline != "":
         print("")
-        print_quoted( '\n'.join( map( lambda line : "\>" + line, sout.getvalue().split("\n") ) ) )
+        print_quoted( '\n'.join( map( lambda line : ">" + line, sline.split("\n") ) ) )
         print("")
 
 def quote():
