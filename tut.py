@@ -131,9 +131,6 @@ eval_and_quote('print("id(foo_obj) : ", id(foo_obj))')
 
 print_md("If two variables have the same object id value, then they both refer to the very same object/instance!")
 
-# now this is the same as: (the Foo class has a static method __call__ that makes for the shorthand call.
-eval_and_quote("""foo_obj = Foo.__call__()""")
-
 print_md("""
 each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variable.
 This also includes instance members that were added by the __init__ method of the base class !!
@@ -371,8 +368,10 @@ actually that was a bit of a simplification...
 
 """)
 
+eval_and_quote("""foo_obj = Foo.__call__()""")
+
 eval_and_quote("""class_obj = Foo
 instance_of_foo = class_obj.__call__()
-print('instance_of_foo', instance_of_foo)""")
+print('instance_of_foo', instance_of_foo.__dict__)""")
 
 print_md("*** eof tutorial ***")
