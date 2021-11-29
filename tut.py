@@ -1,37 +1,5 @@
 #!/usr/bin/env python3
-import sys
-from io import StringIO
-import inspect
-import pprintex
-import contextlib
-
-# stuff for producing this tutorial.
-def print_md(*args):
-    print(" ".join(map(str, args)).replace('_', "\\_") )
-def print_quoted(*args):
-    print("```\n" +  ' '.join(map(str, args)) + "\n```" )
-def eval_and_quote(arg_str):
-    print("")
-
-    print_quoted(arg_str)
-
-    @contextlib.contextmanager
-    def stdoutIO(stdout=None):
-        old = sys.stdout
-        if stdout is None:
-            stdout = StringIO()
-        sys.stdout = stdout
-        yield stdout
-        sys.stdout = old
-     
-    with stdoutIO() as sout:
-        exec(arg_str, globals())
-    
-    sline = sout.getvalue().strip()
-    if sline != "":
-        print("")
-        print_quoted( '\n'.join( map( lambda line : ">> " + line, sline.split("\n") ) ) )
-        print("")
+from mdformat import *
 
 # function to show a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
 def show_type_hierarchy(type_class):
