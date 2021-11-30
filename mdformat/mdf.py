@@ -16,7 +16,7 @@ def print_md(*args):
     paragraph = " ".join(map(str, args)) 
     paragrah =  paragraph.replace('_', "\\_") 
     paragraph = re.sub(r"^\s+","", paragraph)
-    print( )
+    print(paragraph)
 
 # show arguments as quoted text
 def print_quoted(*args):
