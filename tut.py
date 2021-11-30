@@ -344,6 +344,7 @@ eval_and_quote("""foo_obj = Foo.__call__()""")
 
 eval_and_quote("""class_obj = Foo
 instance_of_foo = class_obj.__call__()
-print('instance_of_foo', instance_of_foo.__dict__)""")
+print('instance_of_foo', instance_of_foo.__dict__)
+pprintex.dprint('instance_of_foo', instance_of_foo)""")
 
 print_md("*** eof tutorial ***")
