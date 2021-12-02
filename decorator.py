@@ -126,6 +126,7 @@ say_miau = CountCalls(say_miau)
 #  - logs the return value of the siau_miau function
 #
 say_miau()
+say_miau()
 """)
 
 print_md("now lets look at the properties of the say_miau variable")
