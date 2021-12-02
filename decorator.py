@@ -16,7 +16,7 @@ header_md("Callable objects", nesting=2)
  
 print_md("""
 A class is callable, if an object of the class can be called as a function.
-This requires us to define a __call__ method on the class.
+This requires us to define a __call__ instance method
 Let's look at an example:
 """)
 
@@ -423,11 +423,11 @@ for idx in range(1, 5):
 """)
 
 print_md("""
-call on a static function with arguments
-this declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max_hits and log_calls) set.
+The next example uses the @LimitCalls2 decorator with on a function with arguments.
+This declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max_hits and log_calls) set.
 The LimitCalls2 function returns a reference to closure forward_func_call
-the Python runtime then calls forward_func_call, which returns the still nested closure wrapper has captured the other decorator arguments (max_hits and log_calls).
-The result: it works, but poor programmer has to take a drink.
+The Python runtime then calls forward_func_call, which returns the still nested closure wrapper has captured the other decorator arguments (max_hits and log_calls).
+The result: it works, but poor programmer will probably need a drink here.
 """)
 
 eval_and_quote("""
@@ -447,7 +447,7 @@ for idx in range(1, 4):
 """)
 
 print_md("""
-lets add the decorator the function declarattion. It captures the class __init__ method.
+Lets add the decorator the function declaration. It captures the class __init__ method.
 """)
 
 eval_and_quote("""
