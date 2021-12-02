@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7fc7c76d5c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7ffeaced5c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,7 +412,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc7c76debe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ffeaceddbe0>
 >> do_something in Foo
 ```
 
@@ -420,20 +420,20 @@ Now the following doesn't work.
 We can't use this to decorate an instance member. Get the following error;
 "missing 1 required positional argument: 'self'"
 The \_\_call\_\_ method of the \_LimitCalls class doesn't receive the self reference of foo2.
-#
-#class Foo2:
-#    def \_\_init\_\_(self):
-#        print("inside Foo2.\_\_init\_\_")
-#        self = 42
-#
-#    @LimitCalls(log\_calls=True)
-#    def do\_something(self):
-#        print("do\_something in Foo2")
-#
-#
-#foo2 = Foo2()
-#foo2.do\_something()
-#
+\#
+\#class Foo2:
+\#    def \_\_init\_\_(self):
+\#        print("inside Foo2.\_\_init\_\_")
+\#        self = 42
+\#
+\#    @LimitCalls(log\_calls=True)
+\#    def do\_something(self):
+\#        print("do\_something in Foo2")
+\#
+\#
+\#foo2 = Foo2()
+\#foo2.do\_something()
+\#
 
 
 ## Decorators by means of first class functions/closures
@@ -441,7 +441,7 @@ The \_\_call\_\_ method of the \_LimitCalls class doesn't receive the self refer
 time to examine other options.
 python people like to do decorators with first class functions, with lots of closures and functions returned from function.
 (in my book that is a bit of a brain damage, but let's go, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
-you have a very good tutorial here: https://realpython.com/primer-on-python-decorators/#decorating-classes (though it is a bit long wound, in my opinion)
+you have a very good tutorial here: https://realpython.com/primer-on-python-decorators/\#decorating-classes (though it is a bit long wound, in my opinion)
 
 Lets do the LimitCalls decorator in this style:
 if the decorator is called with default arguments, then the \_func argument is set,
@@ -528,8 +528,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fc7c76e48b0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc7c76e48b0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7ffeacee58b0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ffeacee58b0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -571,7 +571,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc7c76e4e50>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ffeacee5e50>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -610,7 +610,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc7c76dd040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ffeacedb040>
 >> do_something in Foo3
 ```
 
@@ -639,9 +639,9 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc7c76e1af0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ffeacee1af0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc7c76ddd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ffeacedbd30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```

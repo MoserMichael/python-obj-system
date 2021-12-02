@@ -14,7 +14,7 @@ def header_md(line, nesting=1):
 #
 def print_md(*args):
     paragraph = " ".join(map(str, args))
-    paragraph =  paragraph.replace('_', "\\_")
+    paragraph =  paragraph.replace('_', "\\_").replace('#','\\#')
     paragraph = re.sub(r"^\s+","", paragraph)
     print(paragraph)
 
