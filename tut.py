@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from mdformat import *
+import pprintex
 
 # function to show a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
 def show_type_hierarchy(type_class):

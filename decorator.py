@@ -15,9 +15,9 @@ header_md("""Python decorator walkthrough""")
 header_md("Callable objects", nesting=2)
  
 print_md("""
-A class is callable, if an object of the class can be called as a function.\
+A class is callable, if an object of the class can be called as a function.
 This requires us to define a __call__ method on the class.
-Let's look at an exammple:
+Let's look at an example:
 """)
 
 eval_and_quote("""
@@ -36,7 +36,7 @@ callable_obj()
 
 print_md("""
 This examples show a callbable object that accepts additional parameters, like a real function.
-This is achieved by adding parameter to the __call__ method.
+Here we need to add parameters to the __call__ method.
 """)
 
 
@@ -52,15 +52,18 @@ callable_obj = CallableObject2("callable with arguments")
 callable_obj(2,3)
 """)
 
-header_md("Simle decorators", nesting=2)
+header_md("Simple decorators", nesting=2)
 
 print_md("""
- function decorators take a given function, it can intercept the call to that function, It can:
+Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
+This gives them the chance to add the following behavior:
   - add prefix code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
   - add postfix code that is run after calling the intercepted function, or alter the return value of the original function, before it is returned to the caller.
- a function decorator therefore acts as a kind of proxy.
+A function decorator therefore acts as a kind of proxy.
 
- the style of doing it as a class has a big plus: you can easily instance variables to the decorator.
+Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
+The class is a callable object, and it calls the original function in its __call__ method.
+The style of doing it as a class has a big plus: you can easily instance variables to the decorator.
 """)
 
 eval_and_quote("""
@@ -119,7 +122,10 @@ print("say_miau.__doc__ : ", say_miau.__doc__)
 # the call to say_miau first calls the __call__ method of the CountCalls object.
 say_miau()
 
-# that an equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
+# Attention!
+# Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
+# the @ syntax is supposed to be a shorter way of doing it.
+#
 @CountCalls
 def say_woof():
     print("Woof!")

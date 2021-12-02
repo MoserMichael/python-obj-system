@@ -8,4 +8,4 @@ echo "" >> README.md
 ./decorator.py >>decorator.md
 ./tut.py >> README.md
 
-
+echo "*** all tutorials generated ***"
