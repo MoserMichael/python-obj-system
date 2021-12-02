@@ -149,12 +149,12 @@ the @ syntax is supposed to be a shorter way of doing it.
 
 eval_and_quote("""
 @CountCalls
-def say_woof():
-    print("Woof!")
+def say_woof(dog_name):
+    print("Woof! says:", dog_name)
 
 print("say_woof is a variable of type", type(say_woof) )
 
-say_woof()
+say_woof("Snoopy")
 """)
 
 print_md("""

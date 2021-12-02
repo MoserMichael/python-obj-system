@@ -179,20 +179,20 @@ __Source:__
 ```
 
 @CountCalls
-def say_woof():
-    print("Woof!")
+def say_woof(dog_name):
+    print("Woof! says:", dog_name)
 
 print("say_woof is a variable of type", type(say_woof) )
 
-say_woof()
+say_woof("Snoopy")
 
 ```
 
 __Result:__
 ```
 >> say_woof is a variable of type <class '__main__.CountCalls'>
->> Calling: say_woof #call: 1 positional-arguments: keyword-arguments:
->> Woof!
+>> Calling: say_woof #call: 1 positional-arguments: Snoopy keyword-arguments:
+>> Woof! says: Snoopy
 >> Return from: say_woof #call: 1 return-value: None
 ```
 
@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7ffbae5d5c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fc7c76d5c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,7 +412,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ffbae5debe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc7c76debe0>
 >> do_something in Foo
 ```
 
@@ -528,8 +528,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7ffbae5e18b0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ffbae5e18b0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fc7c76e48b0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc7c76e48b0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -571,7 +571,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ffbae5e1e50>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc7c76e4e50>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -610,7 +610,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ffbae5dd040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc7c76dd040>
 >> do_something in Foo3
 ```
 
@@ -639,9 +639,9 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ffbae5e5af0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc7c76e1af0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ffbae5ddd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc7c76ddd30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
