@@ -10,14 +10,17 @@
 import functools
 from mdformat import *
 
-print("""
+header_md("""Python decorator walkthrough""")
 
-Python decorator walkthrough
+header_md("Callable objects", nesting=2)
+ 
+print_md("""
+A class is callable, if an object of the class can be called as a function.\
+This requires us to define a __call__ method on the class.
+Let's look at an exammple:
 """)
 
 eval_and_quote("""
-# callable objects;
-# a class is callable, if an object of the class can appear as a function
 class CallableObject:
     def __init__(self, prefix):
         self.prefix = prefix
@@ -27,7 +30,7 @@ class CallableObject:
 
 callable_obj = CallableObject("show me")
 
-# by virtue of the __callable__ member: an insance of CallableObject
+# by virtue of the __callable__ member: lets call an instance of the callable object of class CallableObject
 callable_obj()
 """)
 
@@ -48,6 +51,8 @@ class CallableObject2:
 callable_obj = CallableObject2("callable with arguments")
 callable_obj(2,3)
 """)
+
+header_md("Simle decorators", nesting=2)
 
 print_md("""
  function decorators take a given function, it can intercept the call to that function, It can:
@@ -187,7 +192,7 @@ def LimitCalls(function=None, max_hits=3, log_calls=False):
 """)
 
 print_md("""
-Lets duse the LimitCalls decorator
+Lets use the LimitCalls decorator
 The defauls values for the parameters of the decorator are used. the LimitCalls function is called gets the the square_me function as parameter
 """)
 
@@ -266,8 +271,8 @@ foo.do_something()
 """)
 
 print_md("""
-now the following doesn't work.
-can't decorate an instance member. Get the following error;
+Now the following doesn't work.
+We can't use this to decorate an instance member. Get the following error;
 "missing 1 required positional argument: 'self'"
 The __call__ method of the _LimitCalls class doesn't receive the self reference of foo2.
 #
@@ -285,6 +290,8 @@ The __call__ method of the _LimitCalls class doesn't receive the self reference 
 #foo2.do_something()
 #
 """)
+
+header_md("Decorators by means of first class functions/closures", nesting=2)
 
 print_md("""
 time to examine other options.
