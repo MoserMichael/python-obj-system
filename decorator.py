@@ -312,9 +312,12 @@ foo.do_something()
 
 print_md("""
 Now the following doesn't work.
-We can't use this to decorate an instance member. Get the following error;
+We can't use this to decorate an instance member, this results in the following error;
 "missing 1 required positional argument: 'self'"
-The __call__ method of the _LimitCalls class doesn't receive the self reference of foo2.
+The reason is, that the __call__ method of the _LimitCalls class is not passed the self reference of foo2.
+""")
+
+eval_and_quote("""
 #
 #class Foo2:
 #    def __init__(self):

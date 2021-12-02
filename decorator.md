@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7ffeaced5c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7ff593ed4c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,29 +412,35 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ffeaceddbe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ff593eddc40>
 >> do_something in Foo
 ```
 
 Now the following doesn't work.
-We can't use this to decorate an instance member. Get the following error;
+We can't use this to decorate an instance member, this results in the following error;
 "missing 1 required positional argument: 'self'"
-The \_\_call\_\_ method of the \_LimitCalls class doesn't receive the self reference of foo2.
-\#
-\#class Foo2:
-\#    def \_\_init\_\_(self):
-\#        print("inside Foo2.\_\_init\_\_")
-\#        self = 42
-\#
-\#    @LimitCalls(log\_calls=True)
-\#    def do\_something(self):
-\#        print("do\_something in Foo2")
-\#
-\#
-\#foo2 = Foo2()
-\#foo2.do\_something()
-\#
+The reason is, that the \_\_call\_\_ method of the \_LimitCalls class is not passed the self reference of foo2.
 
+
+__Source:__
+```
+
+#
+#class Foo2:
+#    def __init__(self):
+#        print("inside Foo2.__init__")
+#        self = 42
+#
+#    @LimitCalls(log_calls=True)
+#    def do_something(self):
+#        print("do_something in Foo2")
+#
+#
+#foo2 = Foo2()
+#foo2.do_something()
+#
+
+```
 
 ## Decorators by means of first class functions/closures
 
@@ -528,8 +534,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7ffeacee58b0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ffeacee58b0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7ff593ee3ca0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ff593ee3ca0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -571,7 +577,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ffeacee5e50>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ff593ee7280>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -610,7 +616,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ffeacedb040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ff593ed9040>
 >> do_something in Foo3
 ```
 
@@ -639,9 +645,9 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ffeacee1af0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ff593ee7ee0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ffeacedbd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ff593ed9d30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
