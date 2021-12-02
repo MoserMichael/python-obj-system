@@ -64,6 +64,8 @@ A function decorator therefore acts as a kind of proxy.
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
 The class is a callable object, and it calls the original function in its __call__ method.
 The style of doing it as a class has a big plus: you can easily instance variables to the decorator.
+
+Here is the decorator class, that intercepts the calls to an argument function:
 """)
 
 eval_and_quote("""
@@ -72,7 +74,6 @@ class CountCalls:
     # init method, gets the original function reference,
     # the CountCalls decorator forwards arguments to this original function, and it does so with style...
     def __init__(self, func):
-
 
         # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
         # as well as all entries in __dict__ into this instance __dict__ member.
@@ -103,7 +104,13 @@ class CountCalls:
 
         # return the value of the original function call.
         return ret_val
+""")
 
+print_md("""
+Lets intercept the say_miau function.
+""")
+
+eval_and_quote("""
 def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
@@ -111,6 +118,13 @@ def say_miau():
 # the global say_miau variable now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
+# the call to say_miau first calls the __call__ method of the CountCalls object.
+say_miau()
+""")
+
+print_md("now lets look at the properties of the say_miau variable")
+
+eval_and_quote("""
 # the type of the wrapped object is CountCalls
 print("type(say_miau) : ", type(say_miau))
 
@@ -118,14 +132,15 @@ print("type(say_miau) : ", type(say_miau))
 # This way, the decorated function appears as the original function, despite it having been wrapped.
 print("say_miau.__name__ : ", say_miau.__name__)
 print("say_miau.__doc__ : ", say_miau.__doc__)
+""")
 
-# the call to say_miau first calls the __call__ method of the CountCalls object.
-say_miau()
+print_md("""
+Attention!
+Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
+the @ syntax is supposed to be a shorter way of doing it.
+""")
 
-# Attention!
-# Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
-# the @ syntax is supposed to be a shorter way of doing it.
-#
+eval_and_quote("""
 @CountCalls
 def say_woof():
     print("Woof!")
@@ -133,8 +148,13 @@ def say_woof():
 print("say_woof is a variable of type", type(say_woof) )
 
 say_woof()
+""")
 
-# another example, the inc_me function also returns a return value, the return value is also logged by @CountCall decorator.
+print_md("""
+another example, the inc_me function also returns a return value, the return value is also logged by @CountCall decorator.
+""")
+
+eval_and_quote("""
 @CountCalls
 def inc_me(number_argument):
     return number_argument + 1

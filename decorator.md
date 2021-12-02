@@ -66,6 +66,8 @@ Lets start with an interceptor class, the class receives the wrapped function as
 The class is a callable object, and it calls the original function in its \_\_call\_\_ method.
 The style of doing it as a class has a big plus: you can easily instance variables to the decorator.
 
+Here is the decorator class, that intercepts the calls to an argument function:
+
 
 ```
 
@@ -74,7 +76,6 @@ class CountCalls:
     # init method, gets the original function reference,
     # the CountCalls decorator forwards arguments to this original function, and it does so with style...
     def __init__(self, func):
-
 
         # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
         # as well as all entries in __dict__ into this instance __dict__ member.
@@ -106,12 +107,33 @@ class CountCalls:
         # return the value of the original function call.
         return ret_val
 
+```
+Lets intercept the say\_miau function.
+
+
+```
+
 def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
 # the global say_miau variable now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
+
+# the call to say_miau first calls the __call__ method of the CountCalls object.
+say_miau()
+
+```
+
+```
+>> Calling: say_miau #call: 1 positional-arguments: keyword-arguments:
+>> Miau!
+>> Return from: say_miau #call: 1 return-value: None
+```
+
+now lets look at the properties of the say\_miau variable
+
+```
 
 # the type of the wrapped object is CountCalls
 print("type(say_miau) : ", type(say_miau))
@@ -121,13 +143,21 @@ print("type(say_miau) : ", type(say_miau))
 print("say_miau.__name__ : ", say_miau.__name__)
 print("say_miau.__doc__ : ", say_miau.__doc__)
 
-# the call to say_miau first calls the __call__ method of the CountCalls object.
-say_miau()
+```
 
-# Attention!
-# Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
-# the @ syntax is supposed to be a shorter way of doing it.
-#
+```
+>> type(say_miau) :  <class '__main__.CountCalls'>
+>> say_miau.__name__ :  say_miau
+>> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat
+```
+
+Attention!
+Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say\_woof method.
+the @ syntax is supposed to be a shorter way of doing it.
+
+
+```
+
 @CountCalls
 def say_woof():
     print("Woof!")
@@ -136,7 +166,20 @@ print("say_woof is a variable of type", type(say_woof) )
 
 say_woof()
 
-# another example, the inc_me function also returns a return value, the return value is also logged by @CountCall decorator.
+```
+
+```
+>> say_woof is a variable of type <class '__main__.CountCalls'>
+>> Calling: say_woof #call: 1 positional-arguments: keyword-arguments:
+>> Woof!
+>> Return from: say_woof #call: 1 return-value: None
+```
+
+another example, the inc\_me function also returns a return value, the return value is also logged by @CountCall decorator.
+
+
+```
+
 @CountCalls
 def inc_me(number_argument):
     return number_argument + 1
@@ -150,16 +193,6 @@ print("number of calls ", inc_me.num_calls)
 ```
 
 ```
->> type(say_miau) :  <class '__main__.CountCalls'>
->> say_miau.__name__ :  say_miau
->> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> Calling: say_miau #call: 1 positional-arguments: keyword-arguments:
->> Miau!
->> Return from: say_miau #call: 1 return-value: None
->> say_woof is a variable of type <class '__main__.CountCalls'>
->> Calling: say_woof #call: 1 positional-arguments: keyword-arguments:
->> Woof!
->> Return from: say_woof #call: 1 return-value: None
 >> Calling: inc_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: inc_me #call: 1 return-value: 2
 >> Calling: inc_me #call: 2 positional-arguments: 2 keyword-arguments:
@@ -245,7 +278,7 @@ for idx in range(1, 4):
 ```
 
 ```
->> LimitCalls function: <function square_me at 0x7f9c3a703700> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7ff124e00c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -339,7 +372,7 @@ foo.do_something()
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f9c3a708a00>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ff124e0bbe0>
 >> do_something in Foo
 ```
 
@@ -452,8 +485,8 @@ for idx in range(1, 5):
 ```
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f9c3a70f040> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f9c3a70f040>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7ff124e0f820> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ff124e0f820>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -493,7 +526,7 @@ for idx in range(1, 4):
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f9c3a70f5e0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ff124e0fdc0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -530,7 +563,7 @@ foo.do_something()
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f9c3a5d0b50>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ff124e10040>
 >> do_something in Foo3
 ```
 
@@ -557,9 +590,9 @@ foo.do_something()
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f9c3a716280>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ff124e0ea60>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f9c3a704310> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ff124e10d30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
