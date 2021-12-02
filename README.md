@@ -1,9 +1,10 @@
-# Advanced course on python
+# Advanced course on Python
 
 This course covers several topics
 
 - [The python object system](https://github.com/MoserMichael/python-obj-system/blob/master/python-obj-system.md) 
 - [Python decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md) 
+- Also see my text on [Python import system](https://github.com/MoserMichael/pythonimportplayground)
 
 The lessons are python files, these are run to create the markdown text for the lesson.
 It uses a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course, which formats the output of the script in markdown format.
