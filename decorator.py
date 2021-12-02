@@ -337,10 +337,10 @@ eval_and_quote("""
 header_md("Decorators by means of first class functions/closures", nesting=2)
 
 print_md("""
-time to examine other options.
-python people like to do decorators with first class functions, with lots of closures and functions returned from function.
-(in my book that is a bit of a brain damage, but let's go, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
-you have a very good tutorial here: https://realpython.com/primer-on-python-decorators/#decorating-classes (though it is a bit long wound, in my opinion)
+Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
+In my book that is a bit of a brain damage, but let's go for it, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
+You have a very good tutorial here: https://realpython.com/primer-on-python-decorators/#decorating-classes (though it is a bit long wound, in my opinion)
+This one here is more condensed.
 """)
 
 print_md("""Lets do the LimitCalls decorator in this style:
