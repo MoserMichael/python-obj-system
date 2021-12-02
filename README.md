@@ -10,9 +10,9 @@ It uses a kind of [literate programming tool](https://en.wikipedia.org/wiki/Lite
 The tool is here in this repository, in the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat)
 
 The main function in this package is ```eval_and_quote(string_arg)``` this function 
-    - renders the argument string as a code snippet
-    - evaluates the string argument as a python script, with the global variable context of the current module
-    - renders the result (both standard output and standard error)
+    1. Renders the argument string as a code snippet
+    2. Evaluates the string argument as a python script, with the global variable context of the calling module
+    3. Renders the result of evaluating the code (both standard output and standard error)
 
 There is also ```print_md(*args)``` - this shows the outut as a markdown regular text section
 
