@@ -4,26 +4,24 @@ from io import StringIO
 import inspect
 import contextlib
 
-# show argument string as markdown header.
 def header_md(line, nesting=1):
+    """ show argument string as markdown header. Nesting of level is set by nesting argument """
     print( "\n" + ('#' * nesting) + " " + line  + "\n")
 
-# show text as a paragraph, as part of markdown file.
-#   quotes underscores
-#   removes leading spaces
-#
+
 def print_md(*args):
+    """show text as a paragraph, as part of markdown file, quotes underscores, removes leading spaces"""
     paragraph = " ".join(map(str, args))
     paragraph =  paragraph.replace('_', "\\_") #.replace('#','\\#')
     paragraph = re.sub(r"^\s+","", paragraph)
     print(paragraph)
 
-# show arguments as quoted text
 def print_quoted(*args):
+    """show arguments as quoted text in markdown"""
     print("```\n" +  ' '.join(map(str, args)) + "\n```" )
 
-# evaluate the argument string, show the source and show the results
 def eval_and_quote(arg_str):
+    """evaluate the argument string, show the source and show the results"""
     print("")
     print("__Source:__")
 
