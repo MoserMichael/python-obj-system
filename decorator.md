@@ -11,7 +11,7 @@ This requires us to define a \_\_call\_\_ method on the class.
 Let's look at an example:
 
 
-Source:
+__Source:__
 ```
 
 class CallableObject:
@@ -28,7 +28,7 @@ callable_obj()
 
 ```
 
-Result:
+__Result:__
 ```
 >> <class '__main__.CallableObject'> show me
 ```
@@ -37,7 +37,7 @@ This examples show a callbable object that accepts additional parameters, like a
 Here we need to add parameters to the \_\_call\_\_ method.
 
 
-Source:
+__Source:__
 ```
 
 class CallableObject2:
@@ -52,7 +52,7 @@ callable_obj(2,3)
 
 ```
 
-Result:
+__Result:__
 ```
 >> <class '__main__.CallableObject2'> callable with arguments x: 2 y: 3
 ```
@@ -73,7 +73,7 @@ The style of doing it as a class has a big plus: you can easily instance variabl
 Here is the decorator class, that intercepts the calls to an argument function:
 
 
-Source:
+__Source:__
 ```
 
 class CountCalls:
@@ -116,7 +116,7 @@ class CountCalls:
 Lets intercept the say\_miau function.
 
 
-Source:
+__Source:__
 ```
 
 def say_miau():
@@ -137,7 +137,7 @@ say_miau()
 
 ```
 
-Result:
+__Result:__
 ```
 >> Calling: say_miau #call: 1 positional-arguments: keyword-arguments:
 >> Miau!
@@ -146,7 +146,7 @@ Result:
 
 now lets look at the properties of the say\_miau variable
 
-Source:
+__Source:__
 ```
 
 # the type of the wrapped object is CountCalls
@@ -159,7 +159,7 @@ print("say_miau.__doc__ : ", say_miau.__doc__)
 
 ```
 
-Result:
+__Result:__
 ```
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
@@ -171,7 +171,7 @@ Here is the equivalent way of setting up the decorator instance! just as the pre
 the @ syntax is supposed to be a shorter way of doing it.
 
 
-Source:
+__Source:__
 ```
 
 @CountCalls
@@ -184,7 +184,7 @@ say_woof()
 
 ```
 
-Result:
+__Result:__
 ```
 >> say_woof is a variable of type <class '__main__.CountCalls'>
 >> Calling: say_woof #call: 1 positional-arguments: keyword-arguments:
@@ -196,7 +196,7 @@ Another example: the inc\_me function receives an integer, and returns the incre
 This process is again logged by the @CountCall decorator.
 
 
-Source:
+__Source:__
 ```
 
 @CountCalls
@@ -211,7 +211,7 @@ print("number of calls ", inc_me.num_calls)
 
 ```
 
-Result:
+__Result:__
 ```
 >> Calling: inc_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: inc_me #call: 1 return-value: 2
@@ -230,7 +230,7 @@ Lets look at the LimitCalls decorator, it can be used in different scenarios, it
 The class \_LimitCalls starts with an underscore, to show that this is a private class, that is not supposed to be exported from a module.
 
 
-Source:
+__Source:__
 ```
 
 class _LimitCalls:
@@ -283,7 +283,7 @@ Lets use the LimitCalls decorator
 The defauls values for the parameters of the decorator are used. the LimitCalls function is called gets the the square\_me function as parameter
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls
@@ -306,9 +306,9 @@ for idx in range(1, 4):
 
 ```
 
-Result:
+__Result:__
 ```
->> LimitCalls function: <function square_me at 0x7f85ae0d5c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f8f55ed5c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -324,7 +324,7 @@ The first call returns the internal function wrapper.
 then function wrapper iscalled with the function parameter set to cube\_me. this returns the \_LimitCall2 object.
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls(max_hits=4, log_calls=True)
@@ -334,7 +334,7 @@ def cube_me(arg_num):
 
 ```
 
-Result:
+__Result:__
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
 ```
@@ -342,7 +342,7 @@ Result:
 cube\_me is a variable of type \_LimitCalls
 
 
-Source:
+__Source:__
 ```
 
 print("cube_me type:", type(cube_me))
@@ -359,7 +359,7 @@ for idx in range(1, 6):
 
 ```
 
-Result:
+__Result:__
 ```
 >> cube_me type: <class '__main__._LimitCalls'>
 >> idx: 1
@@ -385,7 +385,7 @@ Can we use the @LimitCalls decorator with a class method? lets try.
 Adding the annotation before the class, only the \_\_init\_\_ method gets intercepted.
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls(max_hits=1, log_calls=True)
@@ -403,12 +403,12 @@ foo.do_something()
 
 ```
 
-Result:
+__Result:__
 ```
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f85ae0debe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f8f55edebe0>
 >> do_something in Foo
 ```
 
@@ -443,7 +443,7 @@ Lets do the LimitCalls decorator in this style:
 if the decorator is called with default arguments, then the \_func argument is set,
 
 
-Source:
+__Source:__
 ```
 
 def LimitCalls2(_func = None, *,  max_hits = 3, log_calls = False):
@@ -499,7 +499,7 @@ this declaration first calls the LimitCalls2 function with function argument set
 LimitCalls2 then calls the nested function forward\_fun\_call, and returns the initialised wrapper, which is then assigned to dec\_three\_from\_me variable.
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls2
@@ -522,10 +522,10 @@ for idx in range(1, 5):
 
 ```
 
-Result:
+__Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f85ae0e48b0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f85ae0e48b0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f8f55ee18b0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f8f55ee18b0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -545,7 +545,7 @@ the Python runtime then calls forward\_func\_call, which returns the still neste
 The result: it works, but poor programmer has to take a drink.
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls2(max_hits=2, log_calls=True)
@@ -564,10 +564,10 @@ for idx in range(1, 4):
 
 ```
 
-Result:
+__Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f85ae0e4e50>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f8f55ee1e50>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -582,7 +582,7 @@ Result:
 lets add the decorator the function declarattion. It captures the class \_\_init\_\_ method.
 
 
-Source:
+__Source:__
 ```
 
 @LimitCalls2(max_hits=1, log_calls=True)
@@ -600,13 +600,13 @@ foo.do_something()
 
 ```
 
-Result:
+__Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 1 Log_calls: True
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f85ae0dd040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f8f55eda040>
 >> do_something in Foo3
 ```
 
@@ -615,7 +615,7 @@ the extra effort was worth it!
 Three cheers for python!
 
 
-Source:
+__Source:__
 ```
 
 class Foo4:
@@ -632,12 +632,12 @@ foo.do_something()
 
 ```
 
-Result:
+__Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f85ae0e5af0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f8f55ee5af0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f85ae0ddd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f8f55edad30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
