@@ -144,7 +144,7 @@ eval_and_quote("""assert getattr(int_obj, '__dict__', None) is None""")
 
 print_md("""
 The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function 
-it does different things, depending on the argument,
+does different things, depending on the argument,
 for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes."
 all this sorted alphabetically.
 """)

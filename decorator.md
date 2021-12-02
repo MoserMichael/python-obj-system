@@ -7,7 +7,7 @@
 ## Callable objects
 
 A class is callable, if an object of the class can be called as a function.
-This requires us to define a \_\_call\_\_ method on the class.
+This requires us to define a \_\_call\_\_ instance method
 Let's look at an example:
 
 
@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7fa74c800c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fb0ec4d4c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,7 +412,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fa74c809c40>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fb0ec4ddc40>
 >> do_something in Foo
 ```
 
@@ -446,7 +446,7 @@ __Source:__
 
 Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
 In my book that is a bit of a brain damage, but let's go for it, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
-You have a very good tutorial here: https://realpython.com/primer-on-python-decorators/\#decorating-classes (though it is a bit long wound, in my opinion)
+You have a very good tutorial here: https://realpython.com/primer-on-python-decorators/#decorating-classes (though it is a bit long wound, in my opinion)
 This one here is more condensed.
 
 Lets do the LimitCalls decorator in this style:
@@ -534,8 +534,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fa74c80eca0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fa74c80eca0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fb0ec4e3c10> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fb0ec4e3c10>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -548,11 +548,11 @@ __Result:__
 >> idx: 4
 ```
 
-call on a static function with arguments
-this declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max\_hits and log\_calls) set.
+The next example uses the @LimitCalls2 decorator with on a function with arguments.
+This declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max\_hits and log\_calls) set.
 The LimitCalls2 function returns a reference to closure forward\_func\_call
-the Python runtime then calls forward\_func\_call, which returns the still nested closure wrapper has captured the other decorator arguments (max\_hits and log\_calls).
-The result: it works, but poor programmer has to take a drink.
+The Python runtime then calls forward\_func\_call, which returns the still nested closure wrapper has captured the other decorator arguments (max\_hits and log\_calls).
+The result: it works, but poor programmer will probably need a drink here.
 
 
 __Source:__
@@ -577,7 +577,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fa74c807280>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fb0ec4e01f0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -589,7 +589,7 @@ __Result:__
 >> idx: 3
 ```
 
-lets add the decorator the function declarattion. It captures the class \_\_init\_\_ method.
+Lets add the decorator the function declaration. It captures the class \_\_init\_\_ method.
 
 
 __Source:__
@@ -616,7 +616,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fa74c80a040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fb0ec4d7040>
 >> do_something in Foo3
 ```
 
@@ -645,9 +645,9 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fa74c807ee0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fb0ec4e0e50>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fa74c80ad30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fb0ec4d7d30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
