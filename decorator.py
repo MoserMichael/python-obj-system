@@ -173,7 +173,13 @@ print("number of calls ", inc_me.num_calls)
 
 """)
 
+header_md("Decorators that can receive parameters", nesting=2)
+
 print_md("""
+Lets look at the LimitCalls decorator, it can be used in different scenarios, it receives the following arguments 
+  - log_calls - a boolean, it logs the call if set. 
+  - max_calls - the maximum number of calls, if decorator does not forward the call to the original function, when the limit on the number of calls has been reached.
+
 The class _LimitCalls starts with an underscore, to show that this is a private class, that is not supposed to be exported from a module.
 """)
 

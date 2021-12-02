@@ -207,6 +207,13 @@ print("number of calls ", inc_me.num_calls)
 >> number of calls  2
 ```
 
+
+## Decorators that can receive parameters
+
+Lets look at the LimitCalls decorator, it can be used in different scenarios, it receives the following arguments 
+  - log\_calls - a boolean, it logs the call if set. 
+  - max\_calls - the maximum number of calls, if decorator does not forward the call to the original function, when the limit on the number of calls has been reached.
+
 The class \_LimitCalls starts with an underscore, to show that this is a private class, that is not supposed to be exported from a module.
 
 
@@ -285,7 +292,7 @@ for idx in range(1, 4):
 ```
 
 ```
->> LimitCalls function: <function square_me at 0x7fd50f5d3c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7feff6fbfc10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -379,7 +386,7 @@ foo.do_something()
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd50f5debe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7feff6fc9c40>
 >> do_something in Foo
 ```
 
@@ -492,8 +499,8 @@ for idx in range(1, 5):
 ```
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fd50f5e4820> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd50f5e4820>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7feff6fd0820> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7feff6fd0820>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -533,7 +540,7 @@ for idx in range(1, 4):
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd50f5e4dc0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7feff6fd0dc0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -570,7 +577,7 @@ foo.do_something()
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd50f5dd040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7feff6fc8040>
 >> do_something in Foo3
 ```
 
@@ -597,9 +604,9 @@ foo.do_something()
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd50f5e6a60>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7feff6fcda60>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd50f5ddd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7feff6fc8d30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
