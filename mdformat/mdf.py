@@ -25,7 +25,7 @@ def print_quoted(*args):
 # evaluate the argument string, show the source and show the results
 def eval_and_quote(arg_str):
     print("")
-    print("Source:")
+    print("__Source:__")
 
     print_quoted(arg_str)
 
@@ -52,7 +52,7 @@ def eval_and_quote(arg_str):
         if sline != "":
             print("")
             if is_first:
-                print("Result:")
+                print("__Result:__")
                 is_first = False
             print_quoted( '\n'.join( map( lambda line : ">> " + line, sline.split("\n") ) ) )
             print("")
