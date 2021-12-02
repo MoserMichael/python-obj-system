@@ -57,9 +57,9 @@ header_md("Simple decorators", nesting=2)
 print_md("""
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
 This gives them the chance to add the following behavior:
-  - add prefix code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
-  - add postfix code that is run after calling the intercepted function, or alter the return value of the original function, before it is returned to the caller.
-A function decorator therefore acts as a kind of proxy.
+  - add code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
+  - add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
 The class is a callable object, and it calls the original function in its __call__ method.
@@ -94,15 +94,15 @@ class CountCalls:
         self.num_calls += 1
 
         # log that we are about to forward the call to the original function
-        print("Calling:",self.func.__name__,"#call:", self.num_calls, "positional-arguments:", *args, "keyword-arguments:", **kwargs)
+        print("Calling:", self.func.__name__, "#call:", self.num_calls, "positional-arguments:", *args, "keyword-arguments:", **kwargs)
 
         # forward the call.
         ret_val = self.func(*args, **kwargs)
 
-        # log that we returned from the original function, also log the return value.
+        # log the event, that we returned from the original function. Also log the return value of the original function
         print("Return from:", self.func.__name__, "#call:", self.num_calls, "return-value:", ret_val)
 
-        # return the value of the original function call.
+        # return the value of the original function call is returned to the caller
         return ret_val
 """)
 
@@ -115,10 +115,16 @@ def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
-# the global say_miau variable now refers to an object, that wraps the original say_miau function.
+# the global variable say_miau  now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
-# the call to say_miau first calls the __call__ method of the CountCalls object.
+# the call to say_miau first calls the __call__ method of the CountCalls object, 
+# This object
+#  - counts the invocation
+#  - logs the call 
+#  - forwards the call to the original say_miau function.
+#  - logs the return value of the siau_miau function
+#
 say_miau()
 """)
 
@@ -151,7 +157,8 @@ say_woof()
 """)
 
 print_md("""
-another example, the inc_me function also returns a return value, the return value is also logged by @CountCall decorator.
+Another example: the inc_me function receives an integer, and returns the increment of the argument.
+This process is again logged by the @CountCall decorator.
 """)
 
 eval_and_quote("""

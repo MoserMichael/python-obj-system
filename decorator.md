@@ -58,9 +58,9 @@ callable_obj(2,3)
 
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
 This gives them the chance to add the following behavior:
-  - add prefix code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
-  - add postfix code that is run after calling the intercepted function, or alter the return value of the original function, before it is returned to the caller.
-A function decorator therefore acts as a kind of proxy.
+  - add code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
+  - add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its \_\_init\_\_ method;
 The class is a callable object, and it calls the original function in its \_\_call\_\_ method.
@@ -96,15 +96,15 @@ class CountCalls:
         self.num_calls += 1
 
         # log that we are about to forward the call to the original function
-        print("Calling:",self.func.__name__,"#call:", self.num_calls, "positional-arguments:", *args, "keyword-arguments:", **kwargs)
+        print("Calling:", self.func.__name__, "#call:", self.num_calls, "positional-arguments:", *args, "keyword-arguments:", **kwargs)
 
         # forward the call.
         ret_val = self.func(*args, **kwargs)
 
-        # log that we returned from the original function, also log the return value.
+        # log the event, that we returned from the original function. Also log the return value of the original function
         print("Return from:", self.func.__name__, "#call:", self.num_calls, "return-value:", ret_val)
 
-        # return the value of the original function call.
+        # return the value of the original function call is returned to the caller
         return ret_val
 
 ```
@@ -117,10 +117,16 @@ def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
-# the global say_miau variable now refers to an object, that wraps the original say_miau function.
+# the global variable say_miau  now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
-# the call to say_miau first calls the __call__ method of the CountCalls object.
+# the call to say_miau first calls the __call__ method of the CountCalls object, 
+# This object
+#  - counts the invocation
+#  - logs the call 
+#  - forwards the call to the original say_miau function.
+#  - logs the return value of the siau_miau function
+#
 say_miau()
 
 ```
@@ -175,7 +181,8 @@ say_woof()
 >> Return from: say_woof #call: 1 return-value: None
 ```
 
-another example, the inc\_me function also returns a return value, the return value is also logged by @CountCall decorator.
+Another example: the inc\_me function receives an integer, and returns the increment of the argument.
+This process is again logged by the @CountCall decorator.
 
 
 ```
@@ -278,7 +285,7 @@ for idx in range(1, 4):
 ```
 
 ```
->> LimitCalls function: <function square_me at 0x7ff124e00c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fd50f5d3c10> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -372,7 +379,7 @@ foo.do_something()
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ff124e0bbe0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd50f5debe0>
 >> do_something in Foo
 ```
 
@@ -485,8 +492,8 @@ for idx in range(1, 5):
 ```
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7ff124e0f820> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ff124e0f820>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fd50f5e4820> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd50f5e4820>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -526,7 +533,7 @@ for idx in range(1, 4):
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ff124e0fdc0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd50f5e4dc0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -563,7 +570,7 @@ foo.do_something()
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ff124e10040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd50f5dd040>
 >> do_something in Foo3
 ```
 
@@ -590,9 +597,9 @@ foo.do_something()
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ff124e0ea60>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd50f5e6a60>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ff124e10d30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd50f5ddd30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
