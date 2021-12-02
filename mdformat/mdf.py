@@ -6,7 +6,7 @@ import contextlib
 
 # show argument string as markdown header.
 def header_md(line, nesting=1):
-    print( "\n" + ('#' * nesting) + line  + "\n")
+    print( "\n" + ('#' * nesting) + " " + line  + "\n")
 
 # show text as a paragraph, as part of markdown file. 
 #   quotes underscores
