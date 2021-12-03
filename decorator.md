@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7fac7fdd6c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f918fde9430> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,7 +412,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fac7fde0d00>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f918fdebf10>
 >> do_something in Foo
 ```
 
@@ -537,8 +537,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fac7fde3d30> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fac7fde3d30>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f918fdf2280> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f918fdf2280>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -580,7 +580,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fac7fde5310>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f918fdf28b0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -619,7 +619,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fac7fde1040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f918fdebac0>
 >> do_something in Foo3
 ```
 
@@ -648,9 +648,9 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fac7fde5f70>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f918fdf3670>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fac7fde1d30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f918fdf1280> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -699,7 +699,7 @@ print("random number between 0 and 1", Math.random())
 __Result:__
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.9926990641412625
+>> random number between 0 and 1 0.5658333325591247
 ```
 
 @classmethod - a method that is annotated with the @staticmethod. It does not have a self parameter, but it has a parameter of the class object.
@@ -736,7 +736,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 
 __Result:__
 ```
->> color red:  <__main__.Colour object at 0x7fac7fdeafa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7f918fdedfa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -765,7 +765,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 
 __Result:__
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fac7fde0c70> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7f918fdf6e50> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 *** eof tutorial ***
