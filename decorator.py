@@ -495,8 +495,8 @@ header_md("@staticmethod and @classmethod", nesting=3)
 print_md("""
 @staticmethod and @classmethod are built-in decorators, you don't have to import any package in order to use them
 
-@staticmethod -  a method that is annotated with @staticmethod does not have a self parameter. 
-That means it can't access the objects instance members. 
+A method that is declared with the @staticmethod decorator, does not have a self parameter. 
+This means, that it can't access the objects instance members. 
 You can use this feature to add functions to a class, that do not require access to the state of any object of the class.
 
 [documentation](https://docs.python.org/3/library/functions.html#staticmethod) 
@@ -527,9 +527,9 @@ print("random number between 0 and 1", Math.random())
 """)
 
 print_md("""
-@classmethod - a method that is annotated with the @staticmethod. It does not have a self parameter, but it has a parameter of the class object.
 
-A method like this can access all the static data of it's class, but no instance data can be accessed, as there is no self parameter.
+A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
+A method like this can access all the static data of the class, however the instance data can't be accessed, as there is no self parameter.
 
 This feature can be used to address a limitation of the python syntax, In Python you can have only one __init__ method, that means there  one constructor available.
 This feature allows you to add additional constructors, or factory methods. like the from_name class method in the following example:
