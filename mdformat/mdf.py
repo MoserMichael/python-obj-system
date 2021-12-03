@@ -2,6 +2,7 @@ import sys
 import re
 from io import StringIO
 import inspect
+import traceback
 import contextlib
 
 def header_md(line, nesting=1):
@@ -56,6 +57,23 @@ def eval_and_quote(arg_str):
             print("")
         return is_first
 
+    # from walk_tb in https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/traceback.py#L93
+    # don't know if that might break in the future
+    def show_custom_trace(code, ex):
+        code_lines = arg_str.split("\n")
+
+        te = traceback.TracebackException.from_exception(ex)
+        first_frame = True
+        for frame_summary in te.stack:
+            if not first_frame:
+                lineno = frame_summary.lineno
+                error_line = ""
+                if len(code_lines) > lineno -1:
+                    error_line = code_lines[ lineno-1 ]
+                print(f"{frame_summary.name}")
+                print(f"\t{lineno}) {error_line}") 
+            first_frame = False
+
     frame = inspect.currentframe()
 
     # get globals from calling frame...
@@ -63,8 +81,27 @@ def eval_and_quote(arg_str):
 
     with stderr_io() as serr:
         with stdout_io() as sout:
-            exec(arg_str, calling_frame_globals)
+            exc = None
 
-    is_first = True
+            try:
+                exec(arg_str, calling_frame_globals)
+            except SyntaxError as err:
+                # get error line
+                error_line = ""
+                code_lines = arg_str.split("\n")
+                if len(code_lines) > err.lineno -1:
+                    error_line = code_lines[ err.lineno-1 ]
+                print("syntax error: ", err, "\n" + str(err.lineno-1) + ")", error_line)
+            except Exception as err:
+                print("Error in code. exception:", err)
+                exc = err
+
+            if exc is not None:
+                # this doesn't show the line that caused the exception
+                #traceback.print_exc()
+                show_custom_trace(arg_str, exc)
+
+
+        is_first = True
     is_first = format_result(sout, is_first)
     format_result(serr, is_first)
