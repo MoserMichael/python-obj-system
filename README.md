@@ -6,7 +6,8 @@ This course covers several topics
 - [Python decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md) 
 - Also see my text on [Python import system](https://github.com/MoserMichael/pythonimportplayground)
 
-Each lesson is a python program, the output of that program is a lesson, rendered a markdown text.
+Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.
+
 I am using a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course.
 The tool is right here in this repository, in the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat)
 
