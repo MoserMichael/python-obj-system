@@ -557,9 +557,8 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 """)
 
 print_md("""
-At first it doesn't make a lot of sence, but lets derive a class from Colour, ColourWithAlphaChannel
+At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
 """)
-
 
 eval_and_quote("""
 class ColourWithAlphaChannel(Colour):
