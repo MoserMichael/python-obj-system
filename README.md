@@ -6,8 +6,8 @@ This course covers several topics
 - [Python decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md) 
 - Also see my text on [Python import system](https://github.com/MoserMichael/pythonimportplayground)
 
-The lessons are python files, these are run to create the markdown text for the lesson.
-It uses a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course, which formats the output of the script in markdown format.
+Each lesson is a python program, the output of that program is a lesson, rendered a markdown text.
+I am using a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course.
 The tool is right here in this repository, in the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat)
 
 The main function of the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat) is ```eval_and_quote(string_arg)```. This function does the following steps:

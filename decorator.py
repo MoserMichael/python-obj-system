@@ -577,11 +577,19 @@ class ColourWithAlphaChannel(Colour):
         cval = Colour.from_name(colour_name) 
         return cls_(cval.red, cval.green, cval.blue, alpha)
 
-# now you can create a named colour with the same factory method from_name
-# It calls the correct method, based on the class name of the call ColourWithAlphaChannel.from_name( "red", 1.0)
+# now you can create a named colour with the same constructor/factory method from_name
+# It calls the correct method, based on the class name of the call ColourWithAlphaChannel.from_name("red", 1.0)
 
 colour_red = ColourWithAlphaChannel.from_name( "red", 1.0)
 print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.green, "blue:", colour_red.blue, "alpha:", colour_red.alpha)
+""")
+
+header_md("The functools library", nesting=3)
+
+print_md("""
+The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
+This library comes with some interesting decorators.
+
 """)
 
 print("*** eof tutorial ***")
