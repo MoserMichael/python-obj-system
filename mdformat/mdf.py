@@ -101,7 +101,6 @@ def eval_and_quote(arg_str):
                 #traceback.print_exc()
                 show_custom_trace(arg_str, exc)
 
-
-        is_first = True
+    is_first = True
     is_first = format_result(sout, is_first)
     format_result(serr, is_first)
