@@ -140,12 +140,13 @@ print("type(say_miau) : ", type(say_miau))
 # This way, the decorated function appears as the original function, despite it having been wrapped.
 print("say_miau.__name__ : ", say_miau.__name__)
 print("say_miau.__doc__ : ", say_miau.__doc__)
+print("say_miau.__wrapped__ : ", say_miau.__wrapped__)
 """)
 
 print_md("""
 Attention!
 Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
-the @ syntax is supposed to be a shorter way of doing it.
+the @CountCalls syntax is supposed to be a shorter way of doing it the same assignment, as in the previous example!
 """)
 
 eval_and_quote("""

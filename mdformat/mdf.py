@@ -78,7 +78,7 @@ def eval_and_quote(arg_str):
 
     # get globals from calling frame...
     calling_frame_globals = frame.f_back.f_globals
-
+    has_error = False
     with stderr_io() as serr:
         with stdout_io() as sout:
             exc = None
@@ -92,15 +92,21 @@ def eval_and_quote(arg_str):
                 if len(code_lines) > err.lineno -1:
                     error_line = code_lines[ err.lineno-1 ]
                 print("syntax error: ", err, "\n" + str(err.lineno-1) + ")", error_line)
+                has_error = True
             except Exception as err:
                 print("Error in code. exception:", err)
                 exc = err
+                has_error = True
 
             if exc is not None:
                 # this doesn't show the line that caused the exception
                 #traceback.print_exc()
                 show_custom_trace(arg_str, exc)
+                        
 
     is_first = True
     is_first = format_result(sout, is_first)
     format_result(serr, is_first)
+    if has_error:
+        print("Error during evalutation of the preceeding code snippet, see standard outut for more details.", file=sys.stderr) 
+        sys.exit(1)
