@@ -497,7 +497,7 @@ print_md("""
 
 A method that is declared with the @staticmethod decorator, does not have a self parameter. 
 This means, that it can't access the objects instance members. 
-You can use this feature to add functions to a class, that do not require access to the state of any object of the class.
+You can use this feature to add static functions to a class, that do not require access to the the objects state.
 
 [documentation](https://docs.python.org/3/library/functions.html#staticmethod) 
 
@@ -522,8 +522,11 @@ class Math:
 
 # call the Math.abs method - you need to specify the class name in the call        
 print("absolute of a number: ", Math.abs(-3))
-
 print("random number between 0 and 1", Math.random())
+
+# you can also call a static method, given a object of the class.
+math_obj = Math()
+print("random number between 0 and 1", math_obj.random())
 """)
 
 print_md("""
