@@ -312,7 +312,7 @@ for idx in range(1, 4):
 
 __Result:__
 ```
->> LimitCalls function: <function square_me at 0x7f90326d3c10> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fcf405d1f70> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -412,7 +412,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f90326dddc0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fcf41cdfd00>
 >> do_something in Foo
 ```
 
@@ -466,6 +466,9 @@ def LimitCalls2(_func = None, *,  max_hits = 3, log_calls = False):
         print("LimitCalls in nested forward_func_call. func:", func)
 
         # similar to functool.update_wrapper
+        # the __name__ and __doc__ string of the wrapped function is forwarded to the decorator.
+        # full list of forwarded attributes (right now) is __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ 
+        # also all entries of __dict__ of the wrapped function are updated into the __dict__ of the decorator.
         @functools.wraps(func)
 
         # the wrapper function call the function that is wrapped/extended by the decorator.
@@ -534,8 +537,8 @@ for idx in range(1, 5):
 
 __Result:__
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f90326e3d30> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f90326e3d30>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fcf41ce4dc0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fcf41ce4dc0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -577,7 +580,7 @@ for idx in range(1, 4):
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f90326e6310>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fcf41ce23a0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -616,7 +619,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f90326dc040>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fcf41cde040>
 >> do_something in Foo3
 ```
 
@@ -645,11 +648,124 @@ foo.do_something()
 __Result:__
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f90326e6f70>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fcf41ceb040>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f90326dcd30> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fcf41cded30> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
+```
+
+
+## Decorators in the python standard library
+
+
+### @staticmethod and @classmethod
+
+@staticmethod and @classmethod are built-in decorators, you don't have to import any package in order to use them
+
+@staticmethod -  a method that is annotated with @staticmethod does not have a self parameter. 
+That means it can't access the objects instance members. 
+You can use this feature to add functions to a class, that do not require access to the state of any object of the class.
+
+[documentation](https://docs.python.org/3/library/functions.html#staticmethod) 
+
+
+
+__Source:__
+```
+
+class Math:
+    @staticmethod
+    def abs(num_arg):
+        ''' return the absolute of a number'''
+        if num_arg < 0:
+            return -num_arg
+        return num_arg
+    
+    @staticmethod
+    def random():
+        ''' return a random number betweeen 0 and 1'''
+        import random
+        return random.uniform(0, 1)
+
+
+# call the Math.abs method - you need to specify the class name in the call        
+print("absolute of a number: ", Math.abs(-3))
+
+print("random number between 0 and 1", Math.random())
+
+```
+
+__Result:__
+```
+>> absolute of a number:  3
+>> random number between 0 and 1 0.08621028958017973
+```
+
+@classmethod - a method that is annotated with the @staticmethod. It does not have a self parameter, but it has a parameter of the class object.
+
+A method like this can access all the static data of it's class, but no instance data can be accessed, as there is no self parameter.
+
+This feature can be used to address a limitation of the python syntax, In Python you can have only one \_\_init\_\_ method, that means there  one constructor available.
+This feature allows you to add additional constructors, or factory methods. like the from\_name class method in the following example:
+
+
+__Source:__
+```
+
+
+class Colour:
+    def __init__(self, red, green, blue):
+        self.red = red
+        self.green = green
+        self.blue = blue
+
+    # calling this method as Colour.from_name, will pass the clas Colour as the first parameter
+    @classmethod
+    def from_name(cls, colour_name):
+        named_colours = { 'black' : (0,0,0), 'white' : (255,255,255), 'red' : (255, 0, 0, 0) }
+
+        # using the class parameter in order to create the colour instance
+        rgb = named_colours[ colour_name ]
+        return cls( rgb[0], rgb[1], rgb[2] )
+
+colour_red = Colour.from_name('red')
+print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.green, "blue:", colour_red.blue)
+
+```
+
+__Result:__
+```
+>> color red:  <__main__.Colour object at 0x7fcf41ce7fa0> red: 255 green: 0 blue: 0
+```
+
+At first it doesn't make a lot of sence, but lets derive a class from Colour, ColourWithAlphaChannel
+
+
+__Source:__
+```
+
+class ColourWithAlphaChannel(Colour):
+    def __init__(self, red, green, blue, alpha):
+        self.alpha = alpha
+        super().__init__(red, green, blue)
+
+    @classmethod
+    def from_name(cls_, colour_name, alpha):
+        cval = Colour.from_name(colour_name) 
+        return cls_(cval.red, cval.green, cval.blue, alpha)
+
+# now you can create a named colour with the same factory method from_name
+# It calls the correct method, based on the class name of the call ColourWithAlphaChannel.from_name( "red", 1.0)
+
+colour_red = ColourWithAlphaChannel.from_name( "red", 1.0)
+print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.green, "blue:", colour_red.blue, "alpha:", colour_red.alpha)
+
+```
+
+__Result:__
+```
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fcf41cdfc70> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 *** eof tutorial ***
