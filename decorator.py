@@ -75,8 +75,9 @@ class CountCalls:
     # the CountCalls decorator forwards arguments to this original function, and it does so with style...
     def __init__(self, func):
 
-        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
-        # as well as all entries in __dict__ into this instance __dict__ member.
+        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
+        # the CountCalls instance also gets a __wrapped__ attribute, which points to the wrapped function supplied by the func constructor argument.
+        # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the CountCalls instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
         functools.update_wrapper(self, func)
 
@@ -189,7 +190,8 @@ class _LimitCalls:
     def __init__(self, function, max_hits, log_calls):
 
         # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
-        # as well as all entries in __dict__ into this instance __dict__ member.
+        # the _LimitCalls instance also gets a __wrapped__ attribute, which points to the wrapped function supplied by the func constructor argument.
+        # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the  instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
         functools.update_wrapper(self, function)
 
@@ -359,6 +361,7 @@ def LimitCalls2(_func = None, *,  max_hits = 3, log_calls = False):
 
         # similar to functool.update_wrapper
         # the __name__ and __doc__ string of the wrapped function is forwarded to the decorator.
+        # the decorator also gets a __wrapped__ attribute, which points to the original function that is being wrapped.
         # full list of forwarded attributes (right now) is __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ 
         # also all entries of __dict__ of the wrapped function are updated into the __dict__ of the decorator.
         @functools.wraps(func)
