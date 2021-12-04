@@ -58,7 +58,7 @@ class Base:
         # each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
         self.obj_var_base = 10
 
-    # an object method - needs an object instance, which is passed as first 'self' argument.
+    # an object method - needs to access the object instance, which is passed as first 'self' argument.
     def show_base(self):
         print_md("obj_var_base: ", self.obj_var_base)
 
@@ -76,6 +76,10 @@ class Foo(Base):
 
     # the object constructor/init method, Note the first 'self' argument, which is the object instance.
     def __init__(self):
+        # when not calling the base class __init__ method: the base class object variables are not added  to the object !!!
+        # but then it is called. the 'obj_var_base' member is added to the __dict__ member of this object instance.
+        super().__init__()
+
         print("calling Foo.__init__")
 
         # object variables are specific to a given instance of Foo
@@ -87,11 +91,7 @@ class Foo(Base):
         # define object variable: obj_var_b
         self.obj_var_b="name"
 
-        # when not calling the base class __init__ method: the base class object variables are not added  to the object !!!
-        # but then it is called. the 'obj_var_base' member is added to the __dict__ member of this object instance.
-        super().__init__()
-
-    # an object method - needs an object instance, which is passed as first 'self' argument.
+    # an object method - needs to access the object instance, which is passed as first 'self' argument.
     def show_derived(self):
         print_md("obj_var_a:", self.obj_var_a, "obj_var_b:", self.obj_var_b)
 

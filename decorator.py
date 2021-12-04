@@ -725,10 +725,11 @@ assert not person_a >= person_b
 
 header_md("dataclasses", nesting=3)
 
-print_md("read all about it [here](https://docs.python.org/3/library/dataclasses.html")
+print_md("read all about it [here](https://docs.python.org/3/library/dataclasses.html)")
 
 header_md("contextlib", nesting=3)
 
-print_md("read all about it [here](https://docs.python.org/3/reference/datamodel.html#context-managers)")
+print_md("""read all about it [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
+""")
 
 print("*** eof tutorial ***")
