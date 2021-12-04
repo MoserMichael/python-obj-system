@@ -187,7 +187,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7ff798ee5a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fb264013a60>
 ```
 
 Attention!
@@ -340,7 +340,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7ff798ee84c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fb2640154c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -446,7 +446,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ff798ed9b80>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fb264018460>
 >> do_something in Foo
 ```
 
@@ -576,8 +576,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7ff798ef2310> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ff798ef2310>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fb26401f310> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fb26401f310>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -621,7 +621,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ff798ef2940>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fb26401f940>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -662,7 +662,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ff798ef32b0>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fb264021070>
 >> do_something in Foo3
 ```
 
@@ -693,9 +693,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ff798ef6700>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fb264020700>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ff798ee4b20> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fb264011ac0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -749,8 +749,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.6874867136782116
->> random number between 0 and 1 0.2865538769801521
+>> random number between 0 and 1 0.037134398764359866
+>> random number between 0 and 1 0.763357942987826
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -788,7 +788,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7ff798eedfa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fb264026fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -819,15 +819,165 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7ff798ef5e50> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fb264021790> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 
 ### <a id='s1-5-2' />The functools library
 
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
-This library comes with some interesting decorators.
+This library comes with some interesting decorators. The following are examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros.
 
+Please look at the [documentation](https://docs.python.org/3/library/functools.html) for the full set of decorators, provided by this library, this text doesn't cover it all.
+
+The decorator [@functools.cache](https://docs.python.org/3/library/functools.html#functools.cache) will cache the return value of a function, based on the arguments of the call.
+Let's use is with the fibonacci function, the fib function is invoced exactly once for each argument.
+Without this decorator, it woulld have been called over and over again.
+The @functool.cache turns the fib function into a dynamic programming solution. 
+You can try that as an answer at a job interview, let me know if this approach worked ;-)
+
+
+__Source:__
+
+```
+
+import functools
+
+@functools.cache
+def fib(arg_num):
+    print("fib arg_num:", arg_num)
+    if arg_num<2:
+        return arg_num
+    return fib(arg_num-1) + fib(arg_num-2)
+
+print("computing the fibonacci number of fib(30): ", fib(30))
+
+```
+
+__Result:__
+
+```
+>> fib arg_num: 30
+>> fib arg_num: 29
+>> fib arg_num: 28
+>> fib arg_num: 27
+>> fib arg_num: 26
+>> fib arg_num: 25
+>> fib arg_num: 24
+>> fib arg_num: 23
+>> fib arg_num: 22
+>> fib arg_num: 21
+>> fib arg_num: 20
+>> fib arg_num: 19
+>> fib arg_num: 18
+>> fib arg_num: 17
+>> fib arg_num: 16
+>> fib arg_num: 15
+>> fib arg_num: 14
+>> fib arg_num: 13
+>> fib arg_num: 12
+>> fib arg_num: 11
+>> fib arg_num: 10
+>> fib arg_num: 9
+>> fib arg_num: 8
+>> fib arg_num: 7
+>> fib arg_num: 6
+>> fib arg_num: 5
+>> fib arg_num: 4
+>> fib arg_num: 3
+>> fib arg_num: 2
+>> fib arg_num: 1
+>> fib arg_num: 0
+>> computing the fibonacci number of fib(30):  832040
+```
+
+A few word of caution: the @functools.cache decorator will not work, if the decorated function has side effects.
+Also beware that the cache size is not limited, this can result in a huge memory consumption, if the cache is not cleared.
+There is also a way to show the cache usage satistics:
+
+
+__Source:__
+
+```
+
+#calling the functions of the decorator, to get cache statistics.
+print("cache statistics:",fib.cache_info())
+print("clearing the cache")
+fib.cache_clear()
+print("cache statistics after cache_clear:",fib.cache_info())
+
+```
+
+__Result:__
+
+```
+>> cache statistics: CacheInfo(hits=28, misses=31, maxsize=None, currsize=31)
+>> clearing the cache
+>> cache statistics after cache_clear: CacheInfo(hits=0, misses=0, maxsize=None, currsize=0)
+```
+
+Some more words of caution: The key that is used to map the function argument to the return value is used [as follows](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/functools.py#L448) : it makes a tuple that consists of all function arguments, and computes the hash of that tuple.
+Now you have a problem with keyword arguments, as the tuple from these two function calls will result in different hash values: foo(a=1, b=2) and foo(b=2, a=1). 
+The comments in the code mention, that a previous version was sorting the keyword argument by name, before doing the hash; however this was considered to be too slow.
+Here you get your trade offs...
+
+There is also a least recently used cache [@functools.lru\_cache](https://docs.python.org/3/library/functools.html#functools.lru\_cache), of limited size.
+Note that you get the same number of cache hits for the bounded cache, on the fibonacci function  (author is scratching his head)
+
+
+__Source:__
+
+```
+
+@functools.lru_cache(maxsize=5)
+def fib2(arg_num):
+    print("fib2 arg_num:", arg_num)
+    if arg_num<2:
+        return arg_num
+    return fib2(arg_num-1) + fib2(arg_num-2)
+
+print("computing the fibonacci number of fib2(30): ", fib2(30))
+print("cache statistics:",fib2.cache_info())
+
+```
+
+__Result:__
+
+```
+>> fib2 arg_num: 30
+>> fib2 arg_num: 29
+>> fib2 arg_num: 28
+>> fib2 arg_num: 27
+>> fib2 arg_num: 26
+>> fib2 arg_num: 25
+>> fib2 arg_num: 24
+>> fib2 arg_num: 23
+>> fib2 arg_num: 22
+>> fib2 arg_num: 21
+>> fib2 arg_num: 20
+>> fib2 arg_num: 19
+>> fib2 arg_num: 18
+>> fib2 arg_num: 17
+>> fib2 arg_num: 16
+>> fib2 arg_num: 15
+>> fib2 arg_num: 14
+>> fib2 arg_num: 13
+>> fib2 arg_num: 12
+>> fib2 arg_num: 11
+>> fib2 arg_num: 10
+>> fib2 arg_num: 9
+>> fib2 arg_num: 8
+>> fib2 arg_num: 7
+>> fib2 arg_num: 6
+>> fib2 arg_num: 5
+>> fib2 arg_num: 4
+>> fib2 arg_num: 3
+>> fib2 arg_num: 2
+>> fib2 arg_num: 1
+>> fib2 arg_num: 0
+>> computing the fibonacci number of fib2(30):  832040
+>> cache statistics: CacheInfo(hits=28, misses=31, maxsize=5, currsize=5)
+```
 
 *** eof tutorial ***
 

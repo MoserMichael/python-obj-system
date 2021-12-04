@@ -589,8 +589,69 @@ header_md("The functools library", nesting=3)
 
 print_md("""
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
-This library comes with some interesting decorators.
+This library comes with some interesting decorators. The following are examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros.
 
+Please look at the [documentation](https://docs.python.org/3/library/functools.html) for the full set of decorators, provided by this library, this text doesn't cover it all.
 """)
+
+print_md("""
+The decorator [@functools.cache](https://docs.python.org/3/library/functools.html#functools.cache) will cache the return value of a function, based on the arguments of the call.
+Let's use is with the fibonacci function, the fib function is invoced exactly once for each argument.
+Without this decorator, it woulld have been called over and over again.
+The @functool.cache turns the fib function into a dynamic programming solution. 
+You can try that as an answer at a job interview, let me know if this approach worked ;-)
+""")
+
+eval_and_quote("""
+import functools
+
+@functools.cache
+def fib(arg_num):
+    print("fib arg_num:", arg_num)
+    if arg_num<2:
+        return arg_num
+    return fib(arg_num-1) + fib(arg_num-2)
+
+print("computing the fibonacci number of fib(30): ", fib(30))
+""")
+
+print_md("""
+A few word of caution: the @functools.cache decorator will not work, if the decorated function has side effects.
+Also beware that the cache size is not limited, this can result in a huge memory consumption, if the cache is not cleared.
+There is also a way to show the cache usage satistics:
+""")
+
+eval_and_quote("""
+#calling the functions of the decorator, to get cache statistics.
+print("cache statistics:",fib.cache_info())
+print("clearing the cache")
+fib.cache_clear()
+print("cache statistics after cache_clear:",fib.cache_info())
+""")
+
+print_md("""
+Some more words of caution: The key that is used to map the function argument to the return value is used [as follows](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/functools.py#L448) : it makes a tuple that consists of all function arguments, and computes the hash of that tuple.
+Now you have a problem with keyword arguments, as the tuple from these two function calls will result in different hash values: foo(a=1, b=2) and foo(b=2, a=1). 
+The comments in the code mention, that a previous version was sorting the keyword argument by name, before doing the hash; however this was considered to be too slow.
+Here you get your trade offs...
+""")
+
+print_md("""
+There is also a least recently used cache [@functools.lru_cache](https://docs.python.org/3/library/functools.html#functools.lru_cache), of limited size.
+Note that you get the same number of cache hits for the bounded cache, on the fibonacci function  (author is scratching his head)
+""")
+
+eval_and_quote("""
+@functools.lru_cache(maxsize=5)
+def fib2(arg_num):
+    print("fib2 arg_num:", arg_num)
+    if arg_num<2:
+        return arg_num
+    return fib2(arg_num-1) + fib2(arg_num-2)
+
+print("computing the fibonacci number of fib2(30): ", fib2(30))
+print("cache statistics:",fib2.cache_info())
+""")
+
 
 print("*** eof tutorial ***")
