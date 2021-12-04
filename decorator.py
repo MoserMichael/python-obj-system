@@ -358,7 +358,7 @@ print("show the captured variable function_as_value2():", function_as_value2())
 
 """)
 
-print_md("""There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all.
+print_md("""There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all. I think, it means that both objects and closures are equivalent means of storing state.
 Let's see, how this concept is put to use with decorators""")
 
 
