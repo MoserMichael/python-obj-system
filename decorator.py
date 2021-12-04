@@ -35,7 +35,7 @@ callable_obj()
 """)
 
 print_md("""
-This examples show a callbable object that accepts additional parameters, like a real function.
+The next example shows a callbable object that accepts additional parameters, like a real function.
 Here we need to add parameters to the __call__ method.
 """)
 
@@ -59,11 +59,12 @@ Function decorators take a given function, and intercept the call to that functi
 This gives them the chance to add the following behavior:
   - add code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
   - add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+  
 A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
 The class is a callable object, and it calls the original function in its __call__ method.
-The style of doing it as a class has a big plus: you can easily instance variables to the decorator.
+The style of doing it as a class has a big plus: you can add instance variables to the decorator, like for example a counter calls to the original function.
 
 Here is the decorator class, that intercepts the calls to an argument function:
 """)

@@ -43,7 +43,7 @@ __Result:__
 >> <class '__main__.CallableObject'> show me
 ```
 
-This examples show a callbable object that accepts additional parameters, like a real function.
+The next example shows a callbable object that accepts additional parameters, like a real function.
 Here we need to add parameters to the \_\_call\_\_ method.
 
 
@@ -76,11 +76,12 @@ Function decorators take a given function, and intercept the call to that functi
 This gives them the chance to add the following behavior:
   - add code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
   - add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+  
 A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its \_\_init\_\_ method;
 The class is a callable object, and it calls the original function in its \_\_call\_\_ method.
-The style of doing it as a class has a big plus: you can easily instance variables to the decorator.
+The style of doing it as a class has a big plus: you can add instance variables to the decorator, like for example a counter calls to the original function.
 
 Here is the decorator class, that intercepts the calls to an argument function:
 
@@ -187,7 +188,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fbf31ee8a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7f8f7ade8a60>
 ```
 
 Attention!
@@ -340,7 +341,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fbf31eef4c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f8f7adef4c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -446,7 +447,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fbf31eed5e0>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f8f7aded5e0>
 >> do_something in Foo
 ```
 
@@ -613,8 +614,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fbf31ef6940> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fbf31ef6940>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f8f7adf6940> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f8f7adf6940>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -658,7 +659,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fbf31ef6f70>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f8f7adf6f70>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -699,7 +700,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fbf31ef7b50>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f8f7adf7b50>
 >> do_something in Foo3
 ```
 
@@ -730,9 +731,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fbf31ef6d30>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f8f7adf6d30>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fbf31e26c10> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f8f7ad26c10> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -786,8 +787,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.9443542708048287
->> random number between 0 and 1 0.7354985431505027
+>> random number between 0 and 1 0.4102436251998064
+>> random number between 0 and 1 0.6827796212154101
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -825,7 +826,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fbf31f0afa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7f8f7ae0afa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -859,7 +860,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fbf31ee95b0> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7f8f7ade95b0> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
