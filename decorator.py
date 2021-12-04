@@ -614,7 +614,7 @@ header_md("The functools library", nesting=3)
 
 print_md("""
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
-This library comes with some interesting decorators. The following are examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros.
+his library comes with some interesting decorators. 
 
 Please look at the [documentation](https://docs.python.org/3/library/functools.html) for the full set of decorators, provided by this library, this text doesn't cover it all.
 """)
@@ -679,5 +679,35 @@ print("computing the fibonacci number of fib2(30): ", fib2(30))
 print("cache statistics:",fib2.cache_info())
 """)
 
+print_md("""And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator is applied to a class, this makes it intercept the the __init__ method of the decorated class, as we saw earlier.
 
-print("*** eof tutorial ***")
+The decroated class must support two operator function, it must support the __eq__ method and also define either oneone of the following: __lt__(), __le__(), __gt__(), or __ge__()
+The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator then adds all the other missing comparison operators.
+""")
+eval_and_quote("""
+
+@functools.total_ordering
+class Person:
+    def __init__(self, first_name, last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+
+    def __eq__(self, other):
+        return (self.first_name, other.first_name) == (self.last_name, other.last_name)
+
+    def __lt__(self, other):
+        return (self.first_name, self.last_name) < (other.first_name, other.last_name)
+            
+person_a = Person("Jack", "Beean")
+person_b = Person("Patricia", "Donovan")
+
+print("person_a.__dict__ : ", person_a.__dict__)
+print("person_b.__dict__ : ", person_b.__dict__)
+
+assert not person_a == person_b
+assert person_a < person_b
+# the added operators
+assert person_a <= person_b
+""")
+
+print("*** eof .tutorial ***")

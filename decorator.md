@@ -188,7 +188,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fd092714a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7f865fde8a60>
 ```
 
 Attention!
@@ -341,7 +341,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fd0927114c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f865fdee4c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -447,7 +447,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd092718580>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f865fde55b0>
 >> do_something in Foo
 ```
 
@@ -614,8 +614,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fd09271f940> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd09271f940>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f865fdf4940> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f865fdf4940>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -659,7 +659,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd09271ff70>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f865fdf4f70>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -700,7 +700,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd0927220d0>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f865fdf6b50>
 >> do_something in Foo3
 ```
 
@@ -731,9 +731,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd09271fd30>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f865fdf4d30>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd092712040> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f865fd26970> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -787,8 +787,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.27232251260880525
->> random number between 0 and 1 0.32802862616320005
+>> random number between 0 and 1 0.9421784193905641
+>> random number between 0 and 1 0.2758141177857678
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -826,7 +826,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fd092735fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7f865fe0afa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -857,14 +857,14 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fd092718c10> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7f865fde95b0> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 
 ### <a id='s1-6-2' />The functools library
 
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
-This library comes with some interesting decorators. The following are examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros.
+his library comes with some interesting decorators. 
 
 Please look at the [documentation](https://docs.python.org/3/library/functools.html) for the full set of decorators, provided by this library, this text doesn't cover it all.
 
@@ -1018,5 +1018,48 @@ __Result:__
 >> cache statistics: CacheInfo(hits=28, misses=31, maxsize=5, currsize=5)
 ```
 
-*** eof tutorial ***
+And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator is applied to a class, this makes it intercept the the \_\_init\_\_ method of the decorated class, as we saw earlier.
+
+The decroated class must support two operator function, it must support the \_\_eq\_\_ method and also define either oneone of the following: \_\_lt\_\_(), \_\_le\_\_(), \_\_gt\_\_(), or \_\_ge\_\_()
+The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator then adds all the other missing comparison operators.
+
+
+__Source:__
+
+```
+
+
+@functools.total_ordering
+class Person:
+    def __init__(self, first_name, last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+
+    def __eq__(self, other):
+        return (self.first_name, other.first_name) == (self.last_name, other.last_name)
+
+    def __lt__(self, other):
+        return (self.first_name, self.last_name) < (other.first_name, other.last_name)
+            
+person_a = Person("Jack", "Beean")
+person_b = Person("Patricia", "Donovan")
+
+print("person_a.__dict__ : ", person_a.__dict__)
+print("person_b.__dict__ : ", person_b.__dict__)
+
+assert not person_a == person_b
+assert person_a < person_b
+# the added operators
+assert person_a <= person_b
+
+```
+
+__Result:__
+
+```
+>> person_a.__dict__ :  {'first_name': 'Jack', 'last_name': 'Beean'}
+>> person_b.__dict__ :  {'first_name': 'Patricia', 'last_name': 'Donovan'}
+```
+
+*** eof .tutorial ***
 
