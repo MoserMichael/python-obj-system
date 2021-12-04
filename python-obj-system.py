@@ -291,9 +291,9 @@ print_md("""
 """)
 
 eval_and_quote("""
-print(" foo_obj.__class__.__dict__  :", foo_obj.__class__.__dict__)
-print(" Foo.__dict__                :", Foo.__dict__)
-print(" dir(foo_obj.__class__)      :", dir( foo_obj.__class__ ) )
+print("foo_obj.__class__.__dict__   :", foo_obj.__class__.__dict__)
+print("Foo.__dict__                 :", Foo.__dict__)
+print("dir(foo_obj.__class__)       :", dir( foo_obj.__class__))
 """)
 
 
