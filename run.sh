@@ -7,7 +7,8 @@ make_lesson() {
     local outfile=$(basename $script .py)".md"
     local tmpfile=$(basename $script .py)".tmp"
 
-    echo '" Set text width as 72.' >${tmpfile}
+    #echo '" Set text width as 72.' >${tmpfile}
+
     echo "" >>${tmpfile}
     $script >>${tmpfile}
     ./tocgen.py ${tmpfile} ${outfile}
