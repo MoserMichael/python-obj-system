@@ -589,7 +589,10 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 """)
 
 print_md("""
-At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
+At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
+Nnow you can create a ColourWithAlphaChannel object, by means of the same same constructor/factory method from_name
+It calls the correct __init__ method, based on the class instance passed to the from_name class method
+
 """)
 
 eval_and_quote("""
@@ -603,11 +606,17 @@ class ColourWithAlphaChannel(Colour):
         cval = Colour.from_name(colour_name) 
         return cls_(cval.red, cval.green, cval.blue, alpha)
 
-# now you can create a named colour with the same constructor/factory method from_name
-# It calls the correct method, based on the class name of the call ColourWithAlphaChannel.from_name("red", 1.0)
+# now you can create a ColourWithAlphaChannel object, by means of the same same constructor/factory method from_name
+#It calls the correct __init__ method, based on the class instance passed to the from_name class method
 
 colour_red = ColourWithAlphaChannel.from_name( "red", 1.0)
 print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.green, "blue:", colour_red.blue, "alpha:", colour_red.alpha)
+""")
+
+print_md("""Other examples of alternate constructors in the standard library: 
+- [classmethod dict.fromkeys](https://docs.python.org/3/library/stdtypes.html#dict.fromkeys)  Create a new dictionary with keys from iterable and values set to value.
+- [classmethod int.from_bytes](https://docs.python.org/3/library/stdtypes.html#int.from_bytes) Return the integer represented by the given array of bytes.
+
 """)
 
 header_md("The functools library", nesting=3)
