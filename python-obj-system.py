@@ -227,9 +227,7 @@ eval_and_quote( """print("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__di
 #print_md("foo_obj.__class__.__slots__ : ", foo_obj.__class__.__slots__)
 
 print_md("""
-The [dir](https://docs.python.org/3/library/functions.html#dir) built-in function as applied for a class object:
-
-Again, this built-in dir function does different things, depending on the argument type
+Again, the [dir](https://docs.python.org/3/library/functions.html#dir) built-in dir function does different things, depending on the argument type
 for a class object it returns a "list that contains the names of its attributes, and recursively of the attributes of its bases"
 That means it displays both the names of static variables, and the names of the static functions, for the class and it's base classes.
 Note that the names are sorted.
@@ -245,6 +243,7 @@ The class object derives from built-in class type, you can chekck if an object i
 # check that foo_obj.__class__ is a type - it is derived from built-in class type
 eval_and_quote("""
 assert isinstance(foo_obj.__class__, type)
+# same thing as
 assert inspect.isclass(foo_obj.__class__)""")
 
 print_md( """
@@ -280,7 +279,7 @@ The following expressions refer to the same thing: the type of the object foo_ob
 eval_and_quote("""
 print("type(foo_obj)            :", type(foo_obj), " id(type(foo_obj))             :", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
 print("str(foo_obj.__class__)   :", str(foo_obj.__class__), " id(foo_obj.__class__)         :", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
-print("str(Foo)                 :", str(Foo), " id(Foo)                       : ", id( Foo ), "Foo.__name__ :", Foo.__name__)
+print("str(Foo)                 :", str(Foo), " id(Foo)                       :", id( Foo ), "Foo.__name__ :", Foo.__name__)
 
 assert id(Foo) == id(type(foo_obj))
 assert id(type(foo_obj)) == id(foo_obj.__class__)
@@ -293,6 +292,7 @@ print_md("""
 eval_and_quote("""
 print("foo_obj.__class__.__dict__   :", foo_obj.__class__.__dict__)
 print("Foo.__dict__                 :", Foo.__dict__)
+# everything accessible form the class
 print("dir(foo_obj.__class__)       :", dir( foo_obj.__class__))
 """)
 
