@@ -693,21 +693,24 @@ class Person:
         self.last_name = last_name
 
     def __eq__(self, other):
-        return (self.first_name, other.first_name) == (self.last_name, other.last_name)
+        return (self.first_name, other.last_name) == (self.first_name, other.last_name)
 
     def __lt__(self, other):
         return (self.first_name, self.last_name) < (other.first_name, other.last_name)
             
-person_a = Person("Jack", "Beean")
+person_a = Person("Jack", "Bean")
 person_b = Person("Patricia", "Donovan")
 
 print("person_a.__dict__ : ", person_a.__dict__)
 print("person_b.__dict__ : ", person_b.__dict__)
 
-assert not person_a == person_b
+assert person_a == person_b
 assert person_a < person_b
 # the added operators
+assert not person_a != person_b
 assert person_a <= person_b
+assert not person_a > person_b
+assert not person_a >= person_b
 """)
 
-print("*** eof .tutorial ***")
+print("*** eof tutorial ***")
