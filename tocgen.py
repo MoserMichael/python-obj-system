@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # adjusted from https://gist.githubusercontent.com/chriscasola/4700426/raw/ab451e3e750c4aedb07083d6e1225c6aeaf15481/tocgen.py
+# change: ignores section between ```....``` - markdown shows them without formatting.
 
 import sys
 import re
