@@ -639,6 +639,7 @@ Here you get your trade offs...
 print_md("""
 There is also a least recently used cache [@functools.lru_cache](https://docs.python.org/3/library/functools.html#functools.lru_cache), of limited size.
 Note that you get the same number of cache hits for the bounded cache, on the fibonacci function  (author is scratching his head)
+This happens, of course, as only the last two results are needed for the fibonacci sequence!
 """)
 
 eval_and_quote("""

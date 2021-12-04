@@ -187,7 +187,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7f9eacde6a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7f93e95e7a60>
 ```
 
 Attention!
@@ -340,7 +340,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7f9eacde94c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f93e95eb4c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -446,7 +446,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f9eacdec460>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f93e95ec460>
 >> do_something in Foo
 ```
 
@@ -576,8 +576,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f9eacdf3310> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f9eacdf3310>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f93e95f3310> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f93e95f3310>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -621,7 +621,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f9eacdf3940>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f93e95f3940>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -662,7 +662,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f9eacdf5070>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f93e95f5070>
 >> do_something in Foo3
 ```
 
@@ -693,9 +693,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f9eacdf4700>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f93e95f4700>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f9eacde5ac0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f93e95e5ac0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -749,8 +749,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.39104524345933955
->> random number between 0 and 1 0.7975686849823579
+>> random number between 0 and 1 0.5480016164493293
+>> random number between 0 and 1 0.02929297165088285
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -788,7 +788,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7f9eacdfafa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7f93e95fafa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -819,7 +819,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7f9eacdf5790> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7f93e95f5790> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 
@@ -923,6 +923,7 @@ Here you get your trade offs...
 
 There is also a least recently used cache [@functools.lru\_cache](https://docs.python.org/3/library/functools.html#functools.lru\_cache), of limited size.
 Note that you get the same number of cache hits for the bounded cache, on the fibonacci function  (author is scratching his head)
+This happens, of course, as only the last two results are needed for the fibonacci sequence!
 
 
 __Source:__
