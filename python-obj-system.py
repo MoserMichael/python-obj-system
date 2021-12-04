@@ -278,9 +278,9 @@ The following expressions refer to the same thing: the type of the object foo_ob
 """)
 
 eval_and_quote("""
-print("type(foo_obj)            :", type(foo_obj), " id(type(foo_obj)) :", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
-print("str(foo_obj.__class__)   :", str(foo_obj.__class__), " id(foo_obj.__class__) :", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
-print("str(Foo)                 :", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ :", Foo.__name__)
+print("type(foo_obj)\t\t\t:", type(foo_obj), " id(type(foo_obj))             :", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
+print("str(foo_obj.__class__)\t:", str(foo_obj.__class__), " id(foo_obj.__class__)         :", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
+print("str(Foo)\t\t\t\t\t:", str(Foo), " id(Foo)                       : ", id( Foo ), "Foo.__name__ :", Foo.__name__)
 
 assert id(Foo) == id(type(foo_obj))
 assert id(type(foo_obj)) == id(foo_obj.__class__)
