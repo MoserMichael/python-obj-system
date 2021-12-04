@@ -278,9 +278,9 @@ The following expressions refer to the same thing: the type of the object foo_ob
 """)
 
 eval_and_quote("""
-print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
-print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
-print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)
+print("type(foo_obj)            :", type(foo_obj), " id(type(foo_obj)) :", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
+print("str(foo_obj.__class__)   :", str(foo_obj.__class__), " id(foo_obj.__class__) :", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
+print("str(Foo)                 :", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ :", Foo.__name__)
 
 assert id(Foo) == id(type(foo_obj))
 assert id(type(foo_obj)) == id(foo_obj.__class__)
@@ -291,9 +291,9 @@ print_md("""
 """)
 
 eval_and_quote("""
-print(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)
-print(" Foo.__dict__ : ", Foo.__dict__)
-print(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )
+print(" foo_obj.__class__.__dict__  :", foo_obj.__class__.__dict__)
+print(" Foo.__dict__                :", Foo.__dict__)
+print(" dir(foo_obj.__class__)      :", dir( foo_obj.__class__ ) )
 """)
 
 
@@ -304,10 +304,10 @@ The following expressions refer to the same thing: the meta-type of the foo_obj.
 
 
 eval_and_quote("""
-print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )
-print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
-print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
-print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )
+print("type(foo_obj.__class__.__class__):", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) :" , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )
+print("type(Foo)                        :", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ :", Foo.__class__.__name__)
+print("type(Foo.__class__)              :", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ :", Foo.__class__.__name__)
+print("type(Foo.__class__.__class__)    :", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) :", id( type( Foo.__class__.__class__ ) ) )
 
 assert type(Foo) == type(Foo.__class__)
 assert type(Foo.__class__) == type(Foo.__class__.__class__)
@@ -319,8 +319,8 @@ The type of the type is the metaclass - the metaclass constructs the Class objec
 """)
 
 eval_and_quote("""
-print("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )
-print("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )
+print("type( type( foo_obj ) )              :", type( type( foo_obj ) ) )
+print("str( foo_obj.__class__.__class__ )   :", str(foo_obj.__class__.__class__) )
 """)
 
 
