@@ -62,6 +62,9 @@ def processFile(in_file, out_file):
         for line in toc:
             tempFile.insert(tocLoc, line)
             tocLoc += 1
+        tempFile.insert(tocLoc, "")
+        tocLoc += 1
+        tempFile.insert(tocLoc, "")
 
         for line in tempFile:
             newFile.write(line)
