@@ -378,8 +378,8 @@ eval_and_quote("""
 class_obj = Foo
 instance_of_foo = class_obj()
 
-print("foo_obj : ", instance_of_foo)
-print("foo_obj.__dict__ : ", instance_of_foo.__dict__)
+print("instance_of_foo : ", instance_of_foo)
+print("instance_of_foo.__dict__ : ", instance_of_foo.__dict__)
 """)
 
 header_md("""Custom metaclasses""",  nesting = 2)
