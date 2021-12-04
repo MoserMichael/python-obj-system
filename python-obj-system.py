@@ -350,7 +350,13 @@ actually that was a bit of a simplification...
 
 """)
 
-eval_and_quote("""foo_obj = Foo.__call__()""")
+eval_and_quote("""
+foo_obj = Foo.__call__()
+
+print("foo_obj : ", foo_obj)
+print("foo_obj.__dict__ : ", foo_obj.__dict__)
+
+""")
 
 eval_and_quote("""class_obj = Foo
 instance_of_foo = class_obj.__call__()
