@@ -3,10 +3,11 @@
   * [Callable objects](#s1-1)
   * [Simple decorators](#s1-2)
   * [Decorators that can receive parameters](#s1-3)
-  * [Decorators by means of first class functions/closures](#s1-4)
-  * [Decorators in the python standard library](#s1-5)
-      * [@staticmethod and @classmethod](#s1-5-1)
-      * [The functools library](#s1-5-2)
+  * [First class functions/Closures in Python](#s1-4)
+  * [Decorators by means of first class functions/closures](#s1-5)
+  * [Decorators in the python standard library](#s1-6)
+      * [@staticmethod and @classmethod](#s1-6-1)
+      * [The functools library](#s1-6-2)
 
 
 # <a id='s1' />Python decorator walkthrough
@@ -187,7 +188,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7f93e95e7a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7f84d0ce9a60>
 ```
 
 Attention!
@@ -340,7 +341,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7f93e95eb4c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7f84d0ce74c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -446,7 +447,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f93e95ec460>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f84d0ced580>
 >> do_something in Foo
 ```
 
@@ -477,7 +478,38 @@ __Source:__
 
 ```
 
-## <a id='s1-4' />Decorators by means of first class functions/closures
+## <a id='s1-4' />First class functions/Closures in Python
+
+The following example shows the use of a function create\_function\_as\_value, that returns a function object nested\_function as a return value.
+Note that the returned function can still access all of the variables and parameters of its parent function, these values are said to be 'captured' in the returned function object.
+
+
+__Source:__
+
+```
+
+def create_function_as_value(name):
+    def nested_function():
+        print("captured variable:", name)
+        return name
+    return nested_function
+
+function_as_value = create_function_as_value("Michael")
+print("show the captured variable:", function_as_value())
+
+```
+
+__Result:__
+
+```
+>> captured variable: Michael
+>> show the captured variable: Michael
+```
+
+There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all.
+Let's see, how this concept is put to use with decorators
+
+## <a id='s1-5' />Decorators by means of first class functions/closures
 
 Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
 In my book that is a bit of a brain damage, but let's go for it, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
@@ -576,8 +608,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f93e95f3310> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f93e95f3310>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7f84d0cf48b0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f84d0cf48b0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -621,7 +653,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f93e95f3940>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f84d0cf4ee0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -662,7 +694,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f93e95f5070>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f84d0cf8070>
 >> do_something in Foo3
 ```
 
@@ -693,18 +725,18 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f93e95f4700>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f84d0cf4ca0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f93e95e5ac0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f84d0cdaa60> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
 
 
-## <a id='s1-5' />Decorators in the python standard library
+## <a id='s1-6' />Decorators in the python standard library
 
 
-### <a id='s1-5-1' />@staticmethod and @classmethod
+### <a id='s1-6-1' />@staticmethod and @classmethod
 
 @staticmethod and @classmethod are built-in decorators, you don't have to import any package in order to use them
 
@@ -749,8 +781,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.5480016164493293
->> random number between 0 and 1 0.02929297165088285
+>> random number between 0 and 1 0.3397194465849609
+>> random number between 0 and 1 0.6521037987316002
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -788,7 +820,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7f93e95fafa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7f84d0d0afa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -819,11 +851,11 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7f93e95f5790> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7f84d0ced940> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 
-### <a id='s1-5-2' />The functools library
+### <a id='s1-6-2' />The functools library
 
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
 This library comes with some interesting decorators. The following are examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros.

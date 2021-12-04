@@ -337,6 +337,27 @@ eval_and_quote("""
 #
 """)
 
+header_md("First class functions/Closures in Python", nesting=2)
+
+print_md("""The following example shows the use of a function create_function_as_value, that returns a function object nested_function as a return value.
+Note that the returned function can still access all of the variables and parameters of its parent function, these values are said to be 'captured' in the returned function object.
+""")
+
+eval_and_quote("""
+def create_function_as_value(name):
+    def nested_function():
+        print("captured variable:", name)
+        return name
+    return nested_function
+
+function_as_value = create_function_as_value("Michael")
+print("show the captured variable:", function_as_value())
+""")
+
+print_md("""There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all.
+Let's see, how this concept is put to use with decorators""")
+
+
 header_md("Decorators by means of first class functions/closures", nesting=2)
 
 print_md("""
