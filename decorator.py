@@ -350,8 +350,12 @@ def create_function_as_value(name):
         return name
     return nested_function
 
-function_as_value = create_function_as_value("Michael")
-print("show the captured variable:", function_as_value())
+function_as_value1 = create_function_as_value("Wall-e")
+function_as_value2 = create_function_as_value("Pooh")
+
+print("show the captured variable function_as_value1():", function_as_value1())
+print("show the captured variable function_as_value2():", function_as_value2())
+
 """)
 
 print_md("""There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all.
