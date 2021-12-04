@@ -365,6 +365,7 @@ actually that was a bit of a simplification...
 """)
 
 eval_and_quote("""
+# same as: foo_obj = Foo()
 foo_obj = Foo.__call__()
 
 print("foo_obj : ", foo_obj)
@@ -377,8 +378,8 @@ eval_and_quote("""
 class_obj = Foo
 instance_of_foo = class_obj()
 
-print("foo_obj : ", foo_obj)
-print("foo_obj.__dict__ : ", foo_obj.__dict__)
+print("foo_obj : ", instance_of_foo)
+print("foo_obj.__dict__ : ", instance_of_foo.__dict__)
 """)
 
 header_md("""Custom metaclasses""",  nesting = 2)
