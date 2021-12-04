@@ -53,6 +53,7 @@ class Base:
 
     # the object constructor/init method, Note the first 'self' argument, which is the object instance.
     def __init__(self):
+        print("calling Base.__init__")
         # object variables are specific to a given instance of Base
         # each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
         self.obj_var_base = 10
@@ -75,6 +76,7 @@ class Foo(Base):
 
     # the object constructor/init method, Note the first 'self' argument, which is the object instance.
     def __init__(self):
+        print("calling Foo.__init__")
 
         # object variables are specific to a given instance of Foo
         # each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
@@ -354,7 +356,7 @@ take the type of Foo - the metaclass of Foo. (the metaclass knows how to create 
 The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
-   - first it does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class objeect is used.
+   - first it does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class object is used.
    - it uses the Foo class and calls its to create and initialise the object (call it's __init__ method). Tis all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
