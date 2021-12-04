@@ -188,7 +188,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fe6ed4d4a60>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fd092714a60>
 ```
 
 Attention!
@@ -341,7 +341,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fe6ed4d84c0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fd0927114c0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -447,7 +447,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fe6ed4d9580>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd092718580>
 >> do_something in Foo
 ```
 
@@ -512,7 +512,7 @@ __Result:__
 >> show the captured variable function_as_value2(): Pooh
 ```
 
-There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all.
+There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all. I think, it means that both objects and closures are equivalent means of storing state.
 Let's see, how this concept is put to use with decorators
 
 ## <a id='s1-5' />Decorators by means of first class functions/closures
@@ -614,8 +614,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fe6ed4e0940> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fe6ed4e0940>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fd09271f940> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd09271f940>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -659,7 +659,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fe6ed4e0f70>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd09271ff70>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -700,7 +700,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fe6ed4e30d0>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd0927220d0>
 >> do_something in Foo3
 ```
 
@@ -731,9 +731,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fe6ed4e0d30>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd09271fd30>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fe6ed4d2040> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd092712040> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -787,8 +787,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.3580946137078562
->> random number between 0 and 1 0.23840409039187005
+>> random number between 0 and 1 0.27232251260880525
+>> random number between 0 and 1 0.32802862616320005
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -826,7 +826,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fe6ed4f5fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fd092735fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour
@@ -857,7 +857,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fe6ed4d9c10> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fd092718c10> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 

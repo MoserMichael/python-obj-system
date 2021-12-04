@@ -182,13 +182,16 @@ print_md("""
 Again, the built in attribute __class__ can also be accessed with the getattr built-in function.
 """)
 
-eval_and_quote( """print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!") """)
-eval_and_quote( """assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) ) """)
+eval_and_quote( """
+print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!") 
+assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) ) 
+""")
 
 print_md(""" the __name__ and __qualname__ built-in attributes return the name of the class, without the module name """)
 
-eval_and_quote( """print("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)""" )
-eval_and_quote( """print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)""" )
+eval_and_quote( """
+print("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)
+print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)""" )
 
 
 print_md("""
