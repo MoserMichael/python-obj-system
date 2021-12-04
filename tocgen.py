@@ -64,7 +64,8 @@ def processFile(in_file, out_file):
             tocLoc += 1
         tempFile.insert(tocLoc, "\n")
 
-        tempFile.insert(0, '" Set text width as 72.' + "\n")
+        #don't know, if that is of benefit.
+        #tempFile.insert(0, '" Set text width as 72.' + "\n")
 
         for line in tempFile:
             newFile.write(line)

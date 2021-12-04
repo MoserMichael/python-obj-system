@@ -643,7 +643,7 @@ print("computing the fibonacci number of fib(30): ", fib(30))
 print_md("""
 A few word of caution: the @functools.cache decorator will not work, if the decorated function has side effects.
 Also beware that the cache size is not limited, this can result in a huge memory consumption, if the cache is not cleared.
-There is also a way to show the cache usage satistics:
+There is also a way to show the cache usage statistics:
 """)
 
 eval_and_quote("""
