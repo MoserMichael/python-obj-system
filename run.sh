@@ -11,7 +11,7 @@ make_lesson() {
     #echo "" >>${tmpfile}
     $script >${tmpfile}
     ./tocgen.py ${tmpfile} ${outfile}
-    # rm ${tmpfile}
+    rm ${tmpfile}
 }    
 
 make_lesson ./python-obj-system.py

@@ -243,8 +243,9 @@ The class object derives from built-in class type, you can chekck if an object i
 """)
 
 # check that foo_obj.__class__ is a type - it is derived from built-in class type
-eval_and_quote("""assert isinstance(foo_obj.__class__, type)""")
-eval_and_quote("""assert inspect.isclass(foo_obj.__class__)""")
+eval_and_quote("""
+assert isinstance(foo_obj.__class__, type)
+assert inspect.isclass(foo_obj.__class__)""")
 
 print_md( """
 Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
@@ -259,8 +260,10 @@ Attention!
 the type of the object is the Class of the object (remember: the classes is an object, where the __dict__ member holds the class variables)
 """)
 
-eval_and_quote("""print("type(foo_obj) : ", type(foo_obj))""")
-eval_and_quote("""print("str(foo_obj.__class__) : ", str(foo_obj.__class__) )""")
+eval_and_quote("""
+print("type(foo_obj) : ", type(foo_obj))
+# same thing in python3
+print("str(foo_obj.__class__) : ", str(foo_obj.__class__) )""")
 
 print_md("""
 
@@ -274,22 +277,24 @@ print_md("""
 The following expressions refer to the same thing: the type of the object foo_obj, also known as the class of foo_obj
 """)
 
-eval_and_quote("""print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )""")
-eval_and_quote("""print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)""")
-eval_and_quote("""print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)""")
+eval_and_quote("""
+print("type(foo_obj) : ", type(foo_obj), " id(type(foo_obj)) : ", id(type(foo_obj)), " type(foo_obj).__name__ : ", type(foo_obj).__name__ )
+print("str(foo_obj.__class__) : ", str(foo_obj.__class__), " id(foo_obj.__class__) : ", id(foo_obj.__class__), "foo_obj.__class__.__name__ : ", foo_obj.__class__.__name__)
+print("str(Foo) : ", str(Foo), " id(Foo) : ", id( Foo ), "Foo.__name__ : ", Foo.__name__)
 
-eval_and_quote("""assert id(Foo) == id(type(foo_obj))""")
-eval_and_quote("""assert id(type(foo_obj)) == id(foo_obj.__class__)""")
-
+assert id(Foo) == id(type(foo_obj))
+assert id(type(foo_obj)) == id(foo_obj.__class__)
+""")
 
 print_md("""
     The Foo class members
 """)
 
-eval_and_quote("""print(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)""")
-eval_and_quote("""print(" Foo.__dict__ : ", Foo.__dict__)""")
-
-eval_and_quote("""print(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )""")
+eval_and_quote("""
+print(" foo_obj.__class__.__dict__ : ", foo_obj.__class__.__dict__)
+print(" Foo.__dict__ : ", Foo.__dict__)
+print(" dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )
+""")
 
 
 
@@ -298,28 +303,33 @@ The following expressions refer to the same thing: the meta-type of the foo_obj.
 """)
 
 
-eval_and_quote("""print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )""")
-eval_and_quote("""print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)""")
-eval_and_quote("""print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)""")
-eval_and_quote("""print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )""")
+eval_and_quote("""
+print("type(foo_obj.__class__.__class__) : ", type(foo_obj.__class__.__class__), " id( foo_obj.__class__.__class__ ) : " , id( foo_obj.__class__.__class__ ) , "foo_obj.__class__.__class__.__name__ : ", foo_obj.__class__.__class__.__name__ )
+print("type(Foo) : ", type(Foo), " id(type(Foo)) : ", id( type( Foo ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
+print("type(Foo.__class__) : ", type(Foo.__class__), " id(type(Foo.__class__)) : ", id( type( Foo.__class__ ) ), " Foo.__class__.__name__ : ", Foo.__class__.__name__)
+print("type(Foo.__class__.__class__) ", type(Foo.__class__.__class__), " id(type(Foo.__class__.__class__)) : ", id( type( Foo.__class__.__class__ ) ) )
 
-eval_and_quote("""assert type(Foo) == type(Foo.__class__)""")
-eval_and_quote("""assert type(Foo.__class__) == type(Foo.__class__.__class__)""")
+assert type(Foo) == type(Foo.__class__)
+assert type(Foo.__class__) == type(Foo.__class__.__class__)
+""")
 
 
 print_md("""
 The type of the type is the metaclass - the metaclass constructs the Class object! (the class of an object is also an object!)
 """)
 
-eval_and_quote("""print("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )""")
-eval_and_quote("""print("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )""")
+eval_and_quote("""
+print("type( type( foo_obj ) ) : ", type( type( foo_obj ) ) )
+print("str( foo_obj.__class__.__class__ ) : ", str(foo_obj.__class__.__class__) )
+""")
 
 
 # result:
 
-eval_and_quote("""print(" metaclass members: foo_obj.__class__.__class__.__dict__ : ", foo_obj.__class__.__class__.__dict__)""")
-
-eval_and_quote("""print(" everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) : ", dir( foo_obj.__class__.__class__) )""")
+eval_and_quote("""
+print(" metaclass members: foo_obj.__class__.__class__.__dict__ : ", foo_obj.__class__.__class__.__dict__)
+print(" everything accessible form metaclass: dir( foo_obj.__class__.__class__ ) : ", dir( foo_obj.__class__.__class__) )
+""")
 
 print_md("""
 Wow, any class can tell all of its derived classes! I wonder how that works...
