@@ -355,12 +355,16 @@ foo_obj = Foo.__call__()
 
 print("foo_obj : ", foo_obj)
 print("foo_obj.__dict__ : ", foo_obj.__dict__)
-
 """)
 
-eval_and_quote("""class_obj = Foo
+print_md("This is the same as:")
+
+eval_and_quote("""
+class_obj = Foo
 instance_of_foo = class_obj.__call__()
-print('instance_of_foo', instance_of_foo.__dict__)
-pprintex.dprint('instance_of_foo', instance_of_foo)""")
+
+print("foo_obj : ", foo_obj)
+print("foo_obj.__dict__ : ", foo_obj.__dict__)
+""")
 
 print_md("*** eof tutorial ***")
