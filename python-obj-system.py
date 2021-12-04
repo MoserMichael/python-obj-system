@@ -354,9 +354,8 @@ take the type of Foo - the metaclass of Foo. (the metaclass knows how to create 
 The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
-   - first it does a lookup for the Foo class, if the Foo class has already been created.
-     It creates the Foo class instance, if it does not yet exist, upon the first call.
-   - it uses the Foo class and calls its __init__ method, in order to create the instance of class Foo !!!
+   - first it does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class objeect is used.
+   - it uses the Foo class and calls its to create and initialise the object (call it's __init__ method). Tis all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
 actually that was a bit of a simplification...
@@ -374,10 +373,16 @@ print_md("This is the same as:")
 
 eval_and_quote("""
 class_obj = Foo
-instance_of_foo = class_obj.__call__()
+instance_of_foo = class_obj()
 
 print("foo_obj : ", foo_obj)
 print("foo_obj.__dict__ : ", foo_obj.__dict__)
 """)
+
+header_md("""Custom metaclasses""",  nesting = 2)
+
+print_md("""
+An object can define a different way of creating itself, it can define a custom metaclass, which will do exactly the same object creation steps described in the last section.
+""")    
 
 print_md("*** eof tutorial ***")
