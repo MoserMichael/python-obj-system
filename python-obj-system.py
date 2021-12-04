@@ -23,10 +23,18 @@ def show_type_hierarchy(type_class):
     show_type_hierarchy_imp(type_class, 0)
 
 
-print("""
-# Python object primer for python3
+header_md("""Python object primer for python3""" )
 
+header_md("""Introduction""",  nesting = 2)
+
+print_md("""
 Python is good at creating the illusion of being a simple programming language. Sometimes this illusion fails, like when you have to deal with the import/module system  [my attempts to get it](https://github.com/MoserMichael/pythonimportplayground). Another area of complexity is the object system, last week I tried to understand how [python enums](https://docs.python.org/3/library/enum.html), it turns that they are built on top of [meta classes](https://github.com/python/cpython/blob/2c56c97f015a7ea81719615ddcf3c745fba5b4f3/Lib/enum.py#L511), So now I have come to realize, that I really don't know much about python and its object system, after having failed to understand meta classes. The purpose of this text is to figure out, how the python object system ticks.
+""")
+
+
+header_md("""How objects are represented""", nesting=2)
+
+print_md("""
 
 Lets look at a simple python class Foo with a single base class, and see how objects are created and represented in memory
 """)
@@ -216,9 +224,11 @@ eval_and_quote( """print("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__di
 #print_md("foo_obj.__class__.__slots__ : ", foo_obj.__class__.__slots__)
 
 print_md("""
-the dir method for a class:
+The [dir](https://docs.python.org/3/library/functions.html#dir) built-in function as applied for a class object:
+
 Again, this built-in dir function does different things, depending on the argument type
 for a class object it returns a "list that contains the names of its attributes, and recursively of the attributes of its bases"
+That means it displays both the names of static variables, and the names of the static functions, for the class and it's base classes.
 Note that the names are sorted.
 """)
 
@@ -315,10 +325,9 @@ Wow, any class can tell all of its derived classes! I wonder how that works...
 eval_and_quote("""print("Base.__subclasses__() : ", Base.__subclasses__())""")
 
 
-print_md("""
+header_md("""Object creation""", nesting=2)
 
-PART II - OBJECT CREATION
-=========================
+print_md("""
 
 Objects recap:
     The object instance holds the __dict__ attribute of the object instance, it's value is a dictionary that holds the object instance members.
