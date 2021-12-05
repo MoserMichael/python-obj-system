@@ -168,10 +168,9 @@ eval_and_quote("""print("dir(foo_obj) : ", dir(foo_obj))""")
 
 header_md("""How classes are represented""", nesting=3)
 
-print_md("""the built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when aplied to a variable""")
+print_md("""The built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when applied to a variable""")
 
 eval_and_quote("""
-
 # make a new object instance of type Foo class.
 foo_obj=Foo()
 
@@ -179,7 +178,6 @@ print("class of object foo_obj - type(foo_obj): ", type(foo_obj))
 
 # that's the same as showing the __class__ member of the variable (in python3)
 print("foo_obj.__class__ :", foo_obj.__class__)
-
 """)
 
 print_md("""
@@ -208,14 +206,14 @@ print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)""" )
 
 
 print_md("""
-to get the immedeate base class list as declared in that particular class.
+To get the immedeate base class list as declared in that particular class.
 """)
 
 eval_and_quote( """print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)""")
 
 
 print_md("""
-mro stands for 'method resultion order'. This is ;
+The mro member of an object stands for 'method resultion order'. This is ;
 to get the base class list: this includes all of the base class, recursively traversing all base classes, in depth first traversion order.
 This list is used to resolve a member function 'member_function' of an object, when you call it via: obj_ref.member_function()
 """)
