@@ -248,14 +248,20 @@ Note that the names are sorted.
 eval_and_quote("""print("dir(foo_obj.__class__) : ", dir( foo_obj.__class__ ) )""")
 
 print_md("""
-The class object derives from built-in class type, you can chekck if an object is a type by checking if it is an instance of type !
+The class object derives from built-in class type, you can check if an object is a class by checking if it is an instance of class 'type'!
 """)
 
 # check that foo_obj.__class__ is a type - it is derived from built-in class type
 eval_and_quote("""
 assert isinstance(foo_obj.__class__, type)
 # same thing as
-assert inspect.isclass(foo_obj.__class__)""")
+assert inspect.isclass(foo_obj.__class__)
+
+# an object is not derived from class type
+assert not isinstance(foo_obj, type)
+# same thng as 
+assert not inspect.isclass(foo_obj)
+""")
 
 print_md( """
 Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
