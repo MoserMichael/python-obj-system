@@ -155,7 +155,7 @@ print_md("An object of built-in type ", type(int_obj), " doesn't have a __dict__
 eval_and_quote("""assert getattr(int_obj, '__dict__', None) is None""")
 
 print_md("""
-The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function 
+The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function
 does different things, depending on the argument,
 for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes."
 all this sorted alphabetically.
@@ -187,8 +187,8 @@ Again, the built in attribute __class__ can also be accessed with the getattr bu
 """)
 
 eval_and_quote( """
-print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!") 
-assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) ) 
+print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing!")
+assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) )
 """)
 
 print_md(""" the __name__ and __qualname__ built-in attributes return the name of the class, without the module name """)
@@ -386,7 +386,7 @@ header_md("""Custom metaclasses""",  nesting = 2)
 
 print_md("""
 An object can define a different way of creating itself, it can define a custom metaclass, which will do exactly the same object creation steps described in the last section.
-""")    
+""")
 
 
 header_md("""Metaclasses in the python3 standard library""", nesting=2)
@@ -395,9 +395,9 @@ print_md("""
 This section lists examples of metaclasses in the python standard library. Looking at the standard library of a language is often quite usefull, when learning about the intricacies of a programming language.
 """)
 
-header_md("""ABCMetaclass""", nesting=3)
+header_md("""ABCMeta class""", nesting=3)
 
-print_md("""The purpose of this metaclass is to define abstract base classes (also known as ABC's), as defined in [PEPE 3119](https://www.python.org/dev/peps/pep-3119/), the documentation for the metaclass [ABCMetaclass](https://docs.python.org/3/library/abc.html#abc.ABCMeta). 
+print_md("""The purpose of this metaclass is to define abstract base classes (also known as ABC's), as defined in [PEP 3119](https://www.python.org/dev/peps/pep-3119/), the documentation for the metaclass [ABCMeta class](https://docs.python.org/3/library/abc.html#abc.ABCMeta).
 
 A python metaclass imposes a different behavior for builtin function [isinstance](https://docs.python.org/3/library/functions.html#isinstance) and [issubclass](https://docs.python.org/3/library/functions.html#issubclass) Only classes that are [registered](https://docs.python.org/3/library/abc.html#abc.ABCMeta.register) with the metaclass, are reported as being subclasses of the given metaclass. The referenced PEP explains, why this is needed, i didn't quite understand the explanation. Would be helpful if the reader can clarify this issue.
 """)
@@ -407,7 +407,10 @@ header_md("""Enum classes""", nesting=3)
 print_md("""Python has support for [enum classes](https://docs.python.org/3/library/enum.html). An enum class lists a set of integer class variables, these variables can then be accessed both by their name, and by their integer value.
 
 An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a metaclass in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
-""")        
+
+The advantage is, that you get an exception, when accessing an undefined constant, or name. There are also more things there, please refer to the linked [documentation](https://docs.python.org/3/library/enum.html)
+
+""")
 
 eval_and_quote("""
 
