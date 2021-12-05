@@ -58,14 +58,14 @@ header_md("Simple decorators", nesting=2)
 print_md("""
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
 This gives them the chance to add the following behavior:
-  - add code that is run before calling the intercepted function, it can also possibly alter the arguments of the function call
-  - add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+- add code that is run before calling the intercepted function, it can also alter the arguments of the function call, before they are passed to the intercepted/original function.
+- add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
   
 A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
 The class is a callable object, and it calls the original function in its __call__ method.
-The style of doing it as a class has a big plus: you can add instance variables to the decorator, like for example a counter calls to the original function.
+The style of doing it as a class has a big plus: you can add instance variables to the decorator, like for example a counter of calls to the original function.
 
 Here is the decorator class, that intercepts the calls to an argument function:
 """)
@@ -78,15 +78,15 @@ class CountCalls:
     def __init__(self, func):
 
         # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
-        # the CountCalls instance also gets a __wrapped__ attribute, which points to the wrapped function supplied by the func constructor argument.
+        # the CountCalls instance also gets a __wrapped__ attribute, which points to the intercepted/wrapped function supplied by the func constructor argument.
         # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the CountCalls instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
         functools.update_wrapper(self, func)
 
-        # the forwarded function is copied, so that __call__ will be able to forward the call.
+        # the forwarded function put into an instance membe, so that __call__ will be able to forward the call.
         self.func = func
 
-        # set the state variable, the number of calls, that is update upon each call.
+        # set the state variable, the number of calls. This counter is update upon each call.
         self.num_calls = 0
 
     # the __call__ function is called, when an instance of the CounCalls class is used as a function.
@@ -105,7 +105,7 @@ class CountCalls:
         # log the event, that we returned from the original function. Also log the return value of the original function
         print("Return from:", self.func.__name__, "#call:", self.num_calls, "return-value:", ret_val)
 
-        # return the value of the original function call is returned to the caller
+        # the return value of the original function call is returned to the caller
         return ret_val
 """)
 
@@ -118,7 +118,7 @@ def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
-# the global variable say_miau  now refers to an object, that wraps the original say_miau function.
+# the global variable say_miau now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
 # the call to say_miau first calls the __call__ method of the CountCalls object, 
@@ -148,7 +148,7 @@ print("say_miau.__wrapped__ : ", say_miau.__wrapped__)
 print_md("""
 Attention!
 Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
-the @CountCalls syntax is supposed to be a shorter way of doing it the same assignment, as in the previous example!
+the @CountCalls syntax is supposed to be a shorter way of doing the same assignment, as in the previous example!
 """)
 
 eval_and_quote("""
@@ -182,8 +182,8 @@ header_md("Decorators that can receive parameters", nesting=2)
 
 print_md("""
 Lets look at the LimitCalls decorator, it can be used in different scenarios, it receives the following arguments 
-  - log_calls - a boolean, it logs the call if set. 
-  - max_calls - the maximum number of calls, if decorator does not forward the call to the original function, when the limit on the number of calls has been reached.
+- log_calls - a boolean, it logs the call if set. 
+- max_calls - the maximum number of calls, if decorator does not forward the call to the original function, when the limit on the number of calls has been reached.
 
 The class _LimitCalls starts with an underscore, to show that this is a private class, that is not supposed to be exported from a module.
 """)
