@@ -108,5 +108,5 @@ def eval_and_quote(arg_str):
     is_first = format_result(sout, is_first)
     format_result(serr, is_first)
     if has_error:
-        print("Error during evalutation of the preceeding code snippet, see standard outut for more details.", file=sys.stderr) 
+        print("Error during evalutation of the preceeding code snippet, see standard output for more details.", file=sys.stderr) 
         sys.exit(1)
