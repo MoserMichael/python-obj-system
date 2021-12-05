@@ -166,6 +166,22 @@ eval_and_quote("""print("dir(foo_obj) : ", dir(foo_obj))""")
 # doesn't have __slots__, how odd.
 #print_md("foo_obj.__slots__ : ", foo_obj.__slots__)
 
+header_md("""How classes are represented""", nesting=3)
+
+print_md("""the built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when aplied to a variable""")
+
+eval_and_quote("""
+
+# make a new object instance of type Foo class.
+foo_obj=Foo()
+
+print("class of object foo_obj - type(foo_obj): ", type(foo_obj))
+
+# that's the same as showing the __class__ member of the variable (in python3)
+print("foo_obj.__class__ :", foo_obj.__class__)
+
+""")
+
 print_md("""
 The class is an object, it's purpose is to hold the static data that is shared between all object instances.
 
@@ -174,13 +190,6 @@ Each object has a built-in __class__ attribute, that refers to this class object
 Note that the name of the class includes the module name, __main__ if the class is defined in the file given as argument to the python interpreter.
 Also note that the type built-in of type(foo_obj) is really the same as: str(foo_obj.__class__) (for python3)
 """)
-
-
-eval_and_quote( """print("foo_obj.__class__ :", foo_obj.__class__)""")
-
-
-eval_and_quote( """print("type(foo_obj) :", type(foo_obj) )""" )
-
 
 print_md("""
 Again, the built in attribute __class__ can also be accessed with the getattr built-in function.
