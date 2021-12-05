@@ -402,15 +402,15 @@ class Singleton_metaclass(type):
 
     # invoked to create the class object instance (for holding static data)
     # this function is called exactly once, in order to create the class instance!
-    def __new__(cls, name, bases, cls_dict, **kwargs):
+    def __new__(meta_class, name, bases, cls_dict, **kwargs):
 
-        print("Singleton_metaclass: __new__ cls:", cls, "name:", name, "bases:", bases, "cls_dict:", cls_dict, f'kwargs: {kwargs}')
+        print("Singleton_metaclass: __new__ meta_class:", meta_class, "name:", name, "bases:", bases, "cls_dict:", cls_dict, f'kwargs: {kwargs}')
 
-        class_instance = super().__new__(cls, name, bases, cls_dict)
+        class_instance = super().__new__(meta_class, name, bases, cls_dict)
         print("Singleton_metaclass: __new__ return value: ", class_instance, "type(class_instance):", type(class_instance))
 
         # the class class variable __singleton_instance__ will hold a reference to the one an only object instance of this class.
-        cls.__singleton_instance__ = None
+        class_instance.__singleton_instance__ = None
 
         return class_instance
  
@@ -471,19 +471,20 @@ class Singleton_metaclass_with_args(type):
 
     # invoked to create the class object instance (for holding static data)
     # this function is called exactly once, in order to create the class instance!
-    def __new__(cls, name, bases, cls_dict, **kwargs):
+    def __new__(meta_class, name, bases, cls_dict, **kwargs):
 
-        print("Singleton_metaclass_with_args: __new__ cls:", cls, "name:", name, "bases:", bases, "cls_dict:", cls_dict, f'kwargs: {kwargs}')
+        print("Singleton_metaclass_with_args: __new__ meta_class:", meta_class, "name:", name, "bases:", bases, "cls_dict:", cls_dict, f'kwargs: {kwargs}')
 
-        class_instance = super().__new__(cls, name, bases, cls_dict)
+        class_instance = super().__new__(meta_class, name, bases, cls_dict)
         print("Singleton_metaclass_with_args: __new__ return value: ", class_instance, "type(class_instance):", type(class_instance))
 
         # the class class variable __singleton_instance__ will hold a reference to the one an only object instance of this class.
-        cls.__singleton_instance__ = None
+        class_instance.__singleton_instance__ = None
+        
 
         # the keywords that have been specified, are passed into the class creation method __new__. 
         # save them as a class variable, so as to pass them to the object constructor!
-        cls.__kwargs__ = kwargs
+        class_instance.__kwargs__ = kwargs
 
         return class_instance
  
