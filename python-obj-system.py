@@ -444,7 +444,9 @@ class SquareRootOfTwo(metaclass=Singleton_metaclass):
     def __init__(self):
         self.value = math.sqrt(2)
         print("SquareRootOfTwo.__init__  self:", self)
-       
+ 
+print("creating the objects instances...")
+
 sqrt_root_two_a = SquareRootOfTwo()
 print("sqrt_two_a id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_two_a):", type(sqrt_root_two_a), "sqrt_root_two_a.value:", sqrt_root_two_a.value)
 
@@ -527,6 +529,8 @@ class SquareRootOfThree(AnySquareRoot, metaclass=Singleton_metaclass_with_args, 
         super().__init__(arg_num)
 
 
+print("creating the objects instances...")
+
 sqrt_root_two_a = SquareRootOfTwo()
 print("sqrt_two_a id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_two_a):", type(sqrt_root_two_a), "sqrt_root_two_a.value:", sqrt_root_two_a.value)
 
@@ -597,6 +601,18 @@ print("Access by value: Rainbow(4):", Rainbow(4))
 # which is the same thing
 assert id(Rainbow['GREEN']) == id(Rainbow(4))
 
+""")
+
+header_md("""Conclusion""", nesting=2)
+
+print_md("""
+Python metaclasses and decorators are very similar in their capabilities.
+Both are tools for [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming), tools for modifying the program text, and treating code as data.
+
+I would argue, that decorators are most often the easiest way of achieving the same goal.
+Some things, like hooking the classification of classes, can only be done with metaclasses.
+
+I hope, that this course has given you a better understanding, of what is happening under the hood, which would be a good thing.
 """)
 
 print_md("*** eof tutorial ***")
