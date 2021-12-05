@@ -481,7 +481,6 @@ class Singleton_metaclass_with_args(type):
         # the class class variable __singleton_instance__ will hold a reference to the one an only object instance of this class.
         class_instance.__singleton_instance__ = None
         
-
         # the keywords that have been specified, are passed into the class creation method __new__. 
         # save them as a class variable, so as to pass them to the object constructor!
         class_instance.__kwargs__ = kwargs
@@ -518,10 +517,12 @@ class AnySquareRoot:
  
 # the metaclass specifier tells python to use the Singleton_metaclass, for the creation of an instance of type SquareRootOfTwo
 class SquareRootOfTwo(AnySquareRoot, metaclass=Singleton_metaclass_with_args, arg_num=2):
+    # the init method is called with arg_num specified in the class definition (value of 2)
     def __init__(self, arg_num):
         super().__init__(arg_num)
 
 class SquareRootOfThree(AnySquareRoot, metaclass=Singleton_metaclass_with_args, arg_num=3):
+    # the init method is called with arg_num specified in the class definition (value of 3)
     def __init__(self, arg_num):
         super().__init__(arg_num)
 
@@ -540,6 +541,9 @@ print("sqrt_three_a id(sqrt_root_three_a):", id(sqrt_root_three_a), "type(sqrt_r
 
 sqrt_root_three_b = SquareRootOfThree()
 print("sqrt_three_b id(sqrt_root_three_b)", id(sqrt_root_three_b), "type(sqrt_root_three_b):", type(sqrt_root_three_b), "sqrt_root_three_b.value:", sqrt_root_three_b.value)
+
+# all singleton objects of the same class are referring to the same object
+assert id(sqrt_root_three_a) == id(sqrt_root_three_b)
 
 """)
 
