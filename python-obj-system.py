@@ -394,7 +394,8 @@ Let's examine a custom metaclass for creating singleton objects.
 eval_and_quote("""
 
 # metaclass are always derived from the type class. 
-# the type class has functions to create class objects.
+# the type class has functions to create class objects
+# the type class has also a default implementation of the __call__ method, for creating object instances.
 class Singleton_metaclass(type):
 
     # invoked to create the class object instance (for holding static data)
@@ -405,7 +406,7 @@ class Singleton_metaclass(type):
         class_instance = super().__new__(cls, name, bases, cls_dict)
         print("Singleton_metaclass: __new__ return value: ", class_instance, "type(class_instance):", type(class_instance))
 
-        # the class class variable __singleton_instance__ will hold a reference to the one an only object of this class.
+        # the class class variable __singleton_instance__ will hold a reference to the one an only object instance of this class.
         cls.__singleton_instance__ = None
 
         return class_instance
@@ -442,10 +443,10 @@ class SquareRootOfTwo(metaclass=Singleton_metaclass):
         self.value = math.sqrt(2)
 
 sqrt_root_two_a = SquareRootOfTwo()
-print("sqrt_two_a, id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_two_a):", type(sqrt_root_two_a), "value:", sqrt_root_two_a.value)
+print("sqrt_two_a id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_two_a):", type(sqrt_root_two_a), "sqrt_root_two_a.value:", sqrt_root_two_a.value)
 
 sqrt_root_two_b = SquareRootOfTwo()
-print("sqrt_two_b, id(sqrt_root_two_b)", id(sqrt_root_two_b), "type(sqrt_root_two_b):", type(sqrt_root_two_b), "value:", sqrt_root_two_b.value)
+print("sqrt_two_b id(sqrt_root_two_b)", id(sqrt_root_two_b), "type(sqrt_root_two_b):", type(sqrt_root_two_b), "sqrt_root_two_b.value:", sqrt_root_two_b.value)
 
 # all singleton objects of the same class are referring to the same object
 assert id(sqrt_root_two_a) == id(sqrt_root_two_b)
