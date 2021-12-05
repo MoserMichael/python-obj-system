@@ -610,7 +610,7 @@ Python metaclasses and decorators are very similar in their capabilities.
 Both are tools for [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming), tools for modifying the program text, and treating code as data.
 
 I would argue, that decorators are most often the easiest way of achieving the same goal.
-Some things, like hooking the classification of classes, can only be done with metaclasses.
+However some things, like hooking the classification of classes and objects (implementing class methods [__instancecheck__ and __subclasscheck__](https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks), can only be done with metaclasses.
 
 I hope, that this course has given you a better understanding, of what is happening under the hood, which would be a good thing.
 """)
