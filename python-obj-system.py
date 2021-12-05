@@ -394,38 +394,49 @@ Let's examine a custom metaclass for creating singleton objects.
 eval_and_quote("""
 
 # metaclass are always derived from the type class. 
+# the type class has functions to create class objects.
 class Singleton_metaclass(type):
 
     # invoked to create the class object instance (for holding static data)
+    # this function is called exactly once, in order to create the class instance!
     def __new__(cls, name, bases, cls_dict):
+
         print("Singleton_metaclass: __new__ cls:", cls, "name:", name, "bases:", bases, "cls_dict:", cls_dict)
         class_instance = super().__new__(cls, name, bases, cls_dict)
         print("Singleton_metaclass: __new__ return value: ", class_instance, "type(class_instance):", type(class_instance))
 
-
+        # the class class variable __singleton_instance__ will hold a reference to the one an only object of this class.
         cls.__singleton_instance__ = None
 
         return class_instance
  
     def __call__(cls, *args, **kwargs):
-#        calling the baseclass will create another instance.
+        # we get here to create an object instance. the class object has already been created.
         print("Singleton_metaclass: __call__ args:", *args, "kwargs:", **kwargs)
 
+        # check if the singleton has already been created.
         if cls.__singleton_instance__ is None:
 
+            # create the one an only instance object.
             instance = cls.__new__(cls)
+
+            # initialise the one and only instance object
             instance.__init__(*args, **kwargs)
 
+            # store the singleton instance object in the class variable __singleton_instance__
             cls.__singleton_instance__ = instance
 
+        # return the singleton instance
         return cls.__singleton_instance__
-        
         
  
 import math
-        
+ 
+# the metaclass specifier tells python to use the Singleton_metaclass, for the creation of an instance of type SquareRootOfTwo
 class SquareRootOfTwo(metaclass=Singleton_metaclass):
     
+    # the __init__ method is called exactly once, when the first instance of the singleton is created.
+    # the square root of two is computed exactly once.
     def __init__(self):
         print("SquareRootOfTwo.__init__  self:", self)
         self.value = math.sqrt(2)
@@ -436,7 +447,10 @@ print("sqrt_two_a, id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_t
 sqrt_root_two_b = SquareRootOfTwo()
 print("sqrt_two_b, id(sqrt_root_two_b)", id(sqrt_root_two_b), "type(sqrt_root_two_b):", type(sqrt_root_two_b), "value:", sqrt_root_two_b.value)
 
+# all singleton objects of the same class are referring to the same object
+assert id(sqrt_root_two_a) == id(sqrt_root_two_b)
 """)
+
 header_md("""Metaclasses in the python3 standard library""", nesting=2)
 
 print_md("""
