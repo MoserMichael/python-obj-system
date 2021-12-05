@@ -79,6 +79,7 @@ class Foo(Base):
     def __init__(self):
         # when not calling the base class __init__ method: the base class object variables are not added  to the object !!!
         # but then it is called. the 'obj_var_base' member is added to the __dict__ member of this object instance.
+        # by convention: you first init the base classes, before initialising the derived class.
         super().__init__()
 
         print("calling Foo.__init__")
@@ -357,14 +358,12 @@ take the type of Foo - the metaclass of Foo. (the metaclass knows how to create 
 The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
-   - first it does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class object is used.
+   - Class creation is done in the [__new__](https://docs.python.org/3/reference/datamodel.html#object.__new__) method of the metaclass. It does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class object is used.
    - it uses the Foo class and calls its to create and initialise the object (call it's __init__ method). Tis all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
 actually that was a bit of a simplification...
-
 """)
-
 eval_and_quote("""
 # same as: foo_obj = Foo()
 foo_obj = Foo.__call__()
@@ -388,5 +387,52 @@ header_md("""Custom metaclasses""",  nesting = 2)
 print_md("""
 An object can define a different way of creating itself, it can define a custom metaclass, which will do exactly the same object creation steps described in the last section.
 """)    
+
+
+header_md("""Metaclasses in the python3 standard library""", nesting=2)
+
+print_md("""
+This section lists examples of metaclasses in the python standard library. Looking at the standard library of a language is often quite usefull, when learning about the intricacies of a programming language.
+""")
+
+header_md("""ABCMetaclass""", nesting=3)
+
+print_md("""The purpose of this metaclass is to define abstract base classes (also known as ABC's), as defined in [PEPE 3119](https://www.python.org/dev/peps/pep-3119/), the documentation for the metaclass [ABCMetaclass](https://docs.python.org/3/library/abc.html#abc.ABCMeta). 
+
+A python metaclass imposes a different behavior for builtin function [isinstance](https://docs.python.org/3/library/functions.html#isinstance) and [issubclass](https://docs.python.org/3/library/functions.html#issubclass) Only classes that are [registered](https://docs.python.org/3/library/abc.html#abc.ABCMeta.register) with the metaclass, are reported as being subclasses of the given metaclass. The referenced PEP explains, why this is needed, i didn't quite understand the explanation. Would be helpful if the reader can clarify this issue.
+""")
+
+header_md("""Enum classes""", nesting=3)
+
+print_md("""Python has support for [enum classes](https://docs.python.org/3/library/enum.html). An enum class lists a set of integer class variables, these variables can then be accessed both by their name, and by their integer value.
+
+An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a metaclass in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
+""")        
+
+eval_and_quote("""
+
+import enum
+
+class Rainbow(enum.Enum):
+    RED=1
+    ORANGE=2
+    YELLOW=3
+    GREEN=4
+    BLUE=5
+    INDIGO=6
+    VIOLET=7
+
+color=Rainbow.GREEN
+
+print("type(Rainbow.GREEN):", type(Rainbow.GREEN))
+print("The string rep Rainbow.Green.name:", Rainbow.GREEN.name, "type(Rainbow.GREEN.name):", type(Rainbow.GREEN.name))
+print("The integer rep Rainbow.GREEN.value: ", Rainbow.GREEN.value, "type(Rainbow.GREEN.value):", type(Rainbow.GREEN.value))
+print("Access by name: Rainbow['GREEN']:", Rainbow['GREEN'])
+print("Access by value: Rainbow(4):", Rainbow(4))
+
+# which is the same thing
+assert id(Rainbow['GREEN']) == id(Rainbow(4))
+
+""")
 
 print_md("*** eof tutorial ***")
