@@ -47,9 +47,10 @@ class CallableObject2:
 
     def __call__(self, x, y):
         print(type(self), self.prefix, "x:", x, "y:", y)
+        return x * y
 
-callable_obj = CallableObject2("callable with arguments")
-callable_obj(2,3)
+callable_obj = CallableObject2("callable with arguments, and return values")
+print("callable_obj(2,3):", callable_obj(2,3))
 """)
 
 header_md("Simple decorators", nesting=2)
