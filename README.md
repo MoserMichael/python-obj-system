@@ -3,7 +3,7 @@
 This course covers several topics
 
 - [Python decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md) 
-- [The python object system](https://github.com/MoserMichael/python-obj-system/blob/master/python-obj-system.md) 
+- [The python object system / meta classes](https://github.com/MoserMichael/python-obj-system/blob/master/python-obj-system.md) 
 - Also see my text on [Python import system](https://github.com/MoserMichael/pythonimportplayground)
 
 Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.

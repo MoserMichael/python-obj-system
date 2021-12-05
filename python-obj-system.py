@@ -23,7 +23,7 @@ def show_type_hierarchy(type_class):
     show_type_hierarchy_imp(type_class, 0)
 
 
-header_md("""Python object primer for python3""" )
+header_md("""Python object primer for python3 / meta classes""" )
 
 header_md("""Introduction""",  nesting = 2)
 
@@ -359,7 +359,7 @@ The metaclass is used as a 'callable' - it has a __call__ method, and can theref
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
    - Class creation is done in the [__new__](https://docs.python.org/3/reference/datamodel.html#object.__new__) method of the metaclass. It does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class object is used.
-   - it uses the Foo class and calls its to create and initialise the object (call it's __init__ method). Tis all done by the __call__ method of the class object.
+   - It uses the Foo class and calls its to create and initialise the object (call it's __init__ method). This all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
 actually that was a bit of a simplification...
@@ -386,9 +386,57 @@ header_md("""Custom metaclasses""",  nesting = 2)
 
 print_md("""
 An object can define a different way of creating itself, it can define a custom metaclass, which will do exactly the same object creation steps described in the last section.
+
+Let's examine a custom metaclass for creating singleton objects.
 """)
 
 
+eval_and_quote("""
+
+# metaclass are always derived from the type class. 
+class Singleton_metaclass(type):
+
+    # invoked to create the class object instance (for holding static data)
+    def __new__(cls, name, bases, cls_dict):
+        print("Singleton_metaclass: __new__ cls:", cls, "name:", name, "bases:", bases, "cls_dict:", cls_dict)
+        class_instance = super().__new__(cls, name, bases, cls_dict)
+        print("Singleton_metaclass: __new__ return value: ", class_instance, "type(class_instance):", type(class_instance))
+
+
+        cls.__singleton_instance__ = None
+
+        return class_instance
+ 
+    def __call__(cls, *args, **kwargs):
+#        calling the baseclass will create another instance.
+        print("Singleton_metaclass: __call__ args:", *args, "kwargs:", **kwargs)
+
+        if cls.__singleton_instance__ is None:
+
+            instance = cls.__new__(cls)
+            instance.__init__(*args, **kwargs)
+
+            cls.__singleton_instance__ = instance
+
+        return cls.__singleton_instance__
+        
+        
+ 
+import math
+        
+class SquareRootOfTwo(metaclass=Singleton_metaclass):
+    
+    def __init__(self):
+        print("SquareRootOfTwo.__init__  self:", self)
+        self.value = math.sqrt(2)
+
+sqrt_root_two_a = SquareRootOfTwo()
+print("sqrt_two_a, id(sqrt_root_two_a):", id(sqrt_root_two_a), "type(sqrt_root_two_a):", type(sqrt_root_two_a), "value:", sqrt_root_two_a.value)
+
+sqrt_root_two_b = SquareRootOfTwo()
+print("sqrt_two_b, id(sqrt_root_two_b)", id(sqrt_root_two_b), "type(sqrt_root_two_b):", type(sqrt_root_two_b), "value:", sqrt_root_two_b.value)
+
+""")
 header_md("""Metaclasses in the python3 standard library""", nesting=2)
 
 print_md("""
@@ -406,7 +454,7 @@ header_md("""Enum classes""", nesting=3)
 
 print_md("""Python has support for [enum classes](https://docs.python.org/3/library/enum.html). An enum class lists a set of integer class variables, these variables can then be accessed both by their name, and by their integer value.
 
-An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a metaclass in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
+An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a metaclass in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta source code](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
 
 The advantage is, that you get an exception, when accessing an undefined constant, or name. There are also more things there, please refer to the linked [documentation](https://docs.python.org/3/library/enum.html)
 
