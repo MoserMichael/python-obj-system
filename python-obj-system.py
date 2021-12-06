@@ -373,7 +373,7 @@ A metaclass is derived from built-in class 'type', The 'type' constructor with t
 The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
-   - Class creation is done in the [__new__](https://docs.python.org/3/reference/datamodel.html#object.__new__) method of the metaclass. It does a lookup for the Foo class object, remember that this object holds all of the static data. It creates the Foo class instance, if it does not yet exist, upon the first call, otherwise the existing class object is used.
+   - Class creation is done in the [__new__](https://docs.python.org/3/reference/datamodel.html#object.__new__) method of the metaclass.  The __new__ method creates the Foo class, it is called exactly once, upon class declaration (you will see this shortly, in the section on custom meta classes)
    - It uses the Foo class and calls its to create and initialise the object (call it's __init__ method). This all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
