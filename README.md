@@ -1,4 +1,4 @@
-# Advanced course on Python
+# Advanced course on Python3
 
 This course covers several topics
 

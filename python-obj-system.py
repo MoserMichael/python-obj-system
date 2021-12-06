@@ -22,16 +22,16 @@ Lets look at a simple python class Foo with a single base class Base, and see ho
 
 eval_and_quote("""
 
-# The base class. All python3 classes have the base class of type object.
+# The base class. All Python3 classes have the base class of type object.
 # The long form is therefore
 #   class Base(object):
-# However pylint will tell you, that this long form is redundant
+# However Pylint will tell you, that this long form is redundant
 
 
 class Base:
 
     # Class variables are shared between all instances of the class Base, and declared like this:
-    base_clas_var = "Base"
+    base_class_var = "Base"
 
     # The object constructor/init method, Note the first 'self' argument, which refers to the object instance.
     def __init__(self):
@@ -95,7 +95,7 @@ eval_and_quote('print("id(foo_obj) : ", id(foo_obj))')
 print_md("If two variables have the same object id value, then they both refer to the very same object/instance!")
 
 print_md("""
-each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variables.
+Each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variables.
 This also includes instance members that were added by the __init__ method of the base class !!
 """)
 
@@ -253,7 +253,7 @@ print("*** eof mro in detail")
 """)
 
 print_md("""
-the class object has a __dict__ too - here you will see all the class variables (for Foo these are class_var and class_var2) and class methods (defined with @staticmethod), but also  the object methods with the self parameter
+The class object has a __dict__ too - here you will see all the class variables (for Foo these are class_var and class_var2) and class methods (defined with @staticmethod), but also the object methods (with the self parameter)
 """)
 
 
@@ -290,7 +290,7 @@ assert not inspect.isclass(foo_obj)
 
 print_md( """
 Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
-inspect.getmembers returns everything! You can see the source of inspect.getmembers here: https://github.com/python/cpython/blob/3.10/Lib/inspect.py
+inspect.getmembers returns everything! You can see the source of inspect.getmembers [here](https://github.com/python/cpython/blob/3.10/Lib/inspect.py)
 """)
 
 eval_and_quote("""print("inspect.getmembers(foo_obj): ", inspect.getmembers(foo_obj))""")
