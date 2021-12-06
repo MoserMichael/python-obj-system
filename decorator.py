@@ -733,7 +733,8 @@ header_md("dataclasses", nesting=3)
 
 print_md("""
 Dataclasses can be used as an alternative to tuples. It makes it easier to create classes that hold a defined set of named properties.
-The annotation is applied to the class declaration, this allows the decorator to add the missing methods to the class.
+The @dataclass decorator is applied to the class declaration, this allows the decorator to add the missing methods to the class.
+
 """)
 
 eval_and_quote("""
