@@ -241,6 +241,8 @@ class LevelThree(LevelTwoFirst,LevelOneThird):
     pass
 
 show_type_hierarchy(LevelThree)
+
+print("LevelThree.__mro__:", LevelThree.__mro__)
 """)
 
 eval_and_quote("""
