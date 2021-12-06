@@ -2,33 +2,13 @@
 from mdformat import *
 import pprintex
 
-# function to show a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
-def show_type_hierarchy(type_class):
 
-    def show_type_hierarchy_imp(type_class, nesting):
-        if  len(type_class.__bases__) == 0:
-            return
-
-        prefix = "\t" * nesting
-        print_md( prefix + "type:", type_class.__name__ , "base types:", ",".join( map( lambda ty : ty.__name__, type_class.__bases__) ) )
-        #print_md( prefix + "str(",  type_class.__name__ , ").__dict__ : ",  type_class.__dict__ )
-        for base in type_class.__bases__:
-            show_type_hierarchy_imp(base, nesting+1)
-
-    if not inspect.isclass(type_class):
-        print_md("object ", str(type_class), " is not classs")
-        return
-
-    print_md("show type hierarchy of class:")
-    show_type_hierarchy_imp(type_class, 0)
-
-
-header_md("""Python object primer for python3 / meta classes""" )
+header_md("""Python object primer for Python3 / meta classes""" )
 
 header_md("""Introduction""",  nesting = 2)
 
 print_md("""
-Python is good at creating the illusion of being a simple programming language. Sometimes this illusion fails, like when you have to deal with the import/module system  [my attempts to get it](https://github.com/MoserMichael/pythonimportplayground). Another area of complexity is the object system, last week I tried to understand how [python enums](https://docs.python.org/3/library/enum.html), it turns that they are built on top of [meta classes](https://github.com/python/cpython/blob/2c56c97f015a7ea81719615ddcf3c745fba5b4f3/Lib/enum.py#L511), So now I have come to realize, that I really don't know much about python and its object system, after having failed to understand meta classes. The purpose of this text is to figure out, how the python object system ticks.
+Python is good at creating the illusion of being a simple programming language. Sometimes this illusion fails, like when you have to deal with the import/module system  [my attempts to get it](https://github.com/MoserMichael/pythonimportplayground). Another area of complexity is the object system, last week I tried to understand [python enums](https://docs.python.org/3/library/enum.html), it turns that they are built on top of [meta classes](https://github.com/python/cpython/blob/2c56c97f015a7ea81719615ddcf3c745fba5b4f3/Lib/enum.py#L511), So now I have come to realize, that I really don't know much about python and its object system. The purpose of this text is to figure out, how the python object system ticks.
 """)
 
 header_md("""The Python object system""", nesting=2)
@@ -37,33 +17,34 @@ header_md("""How objects are represented""", nesting=3)
 
 print_md("""
 
-Lets look at a simple python class Foo with a single base class, and see how objects are created and represented in memory
+Lets look at a simple python class Foo with a single base class Base, and see how objects are created and represented in memory
 """)
 
 eval_and_quote("""
 
 # The base class. All python3 classes have the base class of type object.
-# the long form is therefore
-# class Base(object):
-# but pylint will tell you that this long form is redundant
+# The long form is therefore
+#   class Base(object):
+# However pylint will tell you, that this long form is redundant
+
 
 class Base:
 
-    # class variables are shared between all instances of the class Base, and declared like this:
+    # Class variables are shared between all instances of the class Base, and declared like this:
     base_clas_var = "Base"
 
-    # the object constructor/init method, Note the first 'self' argument, which is the object instance.
+    # The object constructor/init method, Note the first 'self' argument, which refers to the object instance.
     def __init__(self):
         print("calling Base.__init__")
-        # object variables are specific to a given instance of Base
-        # each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
+        # Object variables are specific to a given instance of Base
+        # Each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
         self.obj_var_base = 10
 
-    # an object method - needs to access the object instance, which is passed as first 'self' argument.
+    # An object method - needs to access the object instance, which is passed as first 'self' argument.
     def show_base(self):
         print_md("obj_var_base: ", self.obj_var_base)
 
-    # a class method/static method is called without an object instance.
+    # A class method/static method is called without an object instance.
     @staticmethod
     def make_base():
         return Base()
@@ -71,50 +52,50 @@ class Base:
 # class Foo with a base class Base
 class Foo(Base):
 
-    # class variables are shared between all instances of the class Foo, and declared like this:
+    # Class variables are shared between all instances of the class Foo, and declared like this:
     class_var = 42
     class_var2 = 43
 
-    # the object constructor/init method, Note the first 'self' argument, which is the object instance.
+    # The object constructor/init method, Note the first 'self' argument, which is the object instance.
     def __init__(self):
-        # when not calling the base class __init__ method: the base class object variables are not added  to the object !!!
-        # but then it is called. the 'obj_var_base' member is added to the __dict__ member of this object instance.
-        # by convention: you first init the base classes, before initialising the derived class.
+        # When not calling the base class __init__ method: the base class object variables are not added  to the object !!!
+        # The base class __init__ adds the 'obj_var_base' member to the __dict__ member of this object instance.
+        # By convention: you first init the base classes, before initialising the derived class.
         super().__init__()
 
         print("calling Foo.__init__")
 
-        # object variables are specific to a given instance of Foo
-        # each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
+        # Object variables are specific to a given instance of Foo
+        # Each object has a builtin hash member: __dict__ this one lists all object members (including those added by the base class __init__ method)
 
-        # define object variable: obj_var_a
+        # Define object variable: obj_var_a
         self.obj_var_a=42
 
-        # define object variable: obj_var_b
+        # Define object variable: obj_var_b
         self.obj_var_b="name"
 
-    # an object method - needs to access the object instance, which is passed as first 'self' argument.
+    # An object method - needs to access the object instance, which is passed as first 'self' argument.
     def show_derived(self):
         print_md("obj_var_a:", self.obj_var_a, "obj_var_b:", self.obj_var_b)
 
-    # a class method/static method is called without an object instance.
+    # A class method/static method is called without an object instance.
     @staticmethod
     def make_foo():
         return Foo()
 
-# make a new object instance of type Foo class.
+# Make a new object instance of type Foo class.
 foo_obj=Foo()
 
 """)
 
-print_md("Memory address where object foo_obj is stored is returned by the [id built-in](https://docs.python.org/3/library/functions.html#id)")
+print_md("The memory address of object foo_obj is returned by the [id built-in](https://docs.python.org/3/library/functions.html#id)")
 
 eval_and_quote('print("id(foo_obj) : ", id(foo_obj))')
 
 print_md("If two variables have the same object id value, then they both refer to the very same object/instance!")
 
 print_md("""
-each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variable.
+each user defined object has a __dict__ attribute, this is a dictionary that lists all the object instance variables.
 This also includes instance members that were added by the __init__ method of the base class !!
 """)
 
@@ -140,7 +121,7 @@ print_md( """foo_obj.__dict__ and getattr(foo_obj,'__dict__',None) is the same t
 eval_and_quote("""assert id(foo_obj.__dict__) == id( getattr(foo_obj,'__dict__',None) )""")
 
 print_md("""
-The getattr builtin function has good part, its return value can be checked for None, to check, if the argument is not an object with a __dict__ attribute.
+The getattr builtin function has a good part, its return value can be checked for None. This can be used, in order to check if the argument is an object with a __dict__ attribute.
 """)
 
 eval_and_quote("""base_obj = object()""")
@@ -155,10 +136,9 @@ print_md("An object of built-in type ", type(int_obj), " doesn't have a __dict__
 eval_and_quote("""assert getattr(int_obj, '__dict__', None) is None""")
 
 print_md("""
-The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function
-does different things, depending on the argument,
-for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes."
-all this sorted alphabetically.
+The [dir builtin](https://docs.python.org/3/library/functions.html#dir) function does different things, depending on the argument,
+for regular objects it returns a  "list that contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes.",
+all this is sorted alphabetically.
 """)
 
 eval_and_quote("""print("dir(foo_obj) : ", dir(foo_obj))""")
@@ -171,12 +151,12 @@ header_md("""How classes are represented""", nesting=3)
 print_md("""The built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when applied to a variable (to be more exact: type is a built-in class, and not a built-in function, more on that later)""")
 
 eval_and_quote("""
-# make a new object instance of type Foo class.
+# Make a new object instance of type Foo class.
 foo_obj=Foo()
 
 print("class of object foo_obj - type(foo_obj): ", type(foo_obj))
 
-# that's the same as showing the __class__ member of the variable (in python3)
+# That's the same as showing the __class__ member of the variable (in Python3)
 print("foo_obj.__class__ :", foo_obj.__class__)
 """)
 
@@ -186,7 +166,7 @@ The class is an object, it's purpose is to hold the static data that is shared b
 Each object has a built-in __class__ attribute, that refers to this class object.
 
 Note that the name of the class includes the module name, __main__ if the class is defined in the file given as argument to the python interpreter.
-Also note that the type built-in of type(foo_obj) is really the same as: str(foo_obj.__class__) (for python3)
+Also note that the type built-in of type(foo_obj) is really the same as: str(foo_obj.__class__) (for Python3)
 """)
 
 print_md("""
@@ -198,7 +178,7 @@ print("foo_obj.__class__ and getattr(foo_obj,'__class__',None) is the same thing
 assert id(foo_obj.__class__) == id( getattr(foo_obj,'__class__',None) )
 """)
 
-print_md(""" the __name__ and __qualname__ built-in attributes return the name of the class, without the module name """)
+print_md("""The __name__ and __qualname__ built-in attributes return the name of the class, without the module name """)
 
 eval_and_quote( """
 print("foo_boj.__class__.__name__ : ", foo_obj.__class__.__name__)
@@ -206,24 +186,67 @@ print("foo_boj.__class__.__qualname__ : ", foo_obj.__class__.__qualname__)""" )
 
 
 print_md("""
-To get the immedeate base class list as declared in that particular class.
+To get the immediate base class list as declared in that particular class.
 """)
 
 eval_and_quote( """print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__bases__)""")
 
 
 print_md("""
-The mro member of an object stands for 'method resultion order'. This is ;
-to get the base class list: this includes all of the base class, recursively traversing all base classes, in depth first traversion order.
+The mro member is a list of types that stands for 'method resoultion order', when searching for an instance method, this list is searched in order to resolve the method name.
+To get this list: a type lists  all of its base classes recursively, in depth first traversal order.
+
 This list is used to resolve a member function 'member_function' of an object, when you call it via: obj_ref.member_function()
 """)
 
 eval_and_quote( """print("foo_obj.__class__.__mro__ :", foo_obj.__class__.__mro__) """ )
 
+print_md("computing the method resolution order by hand")
+
+eval_and_quote("""
+
+# function to a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
+def show_type_hierarchy(type_class):
+
+    def show_type_hierarchy_imp(type_class, nesting):
+        if  len(type_class.__bases__) == 0:
+            return
+
+        prefix = "\t" * nesting
+        print( prefix + "type:", type_class.__name__ , "base types:", ",".join( map( lambda ty : ty.__name__, type_class.__bases__) ) )
+        #print_md( prefix + "str(",  type_class.__name__ , ").__dict__ : ",  type_class.__dict__ )
+        for base in type_class.__bases__:
+            show_type_hierarchy_imp(base, nesting+1)
+
+    if not inspect.isclass(type_class):
+        print("object ", str(type_class), " is not class")
+        return
+
+    print("show type hierarchy of class:")
+    show_type_hierarchy_imp(type_class, 0)
+
+class LevelOneFirst:
+    pass
+
+class LevelOneSecond:
+    pass
+
+class LevelOneThird:
+    pass
+
+class LevelTwoFirst(LevelOneThird):
+    pass
+
+class LevelThree(LevelTwoFirst,LevelOneThird):
+    pass
+
+show_type_hierarchy(LevelThree)
+""")
+
 eval_and_quote("""
 print("*** mro in detail:")
 for cls in foo_obj.__class__.__mro__:
-    print_md("\tclass-in-mro: ", str(cls), "id:", id(cls), "dir(cls): ", dir(cls))
+    print_md("\tclass-in-mro: ", str(cls), "id:", id(cls), "cls.__dict__: ", cls.__dict__)
 print("*** eof mro in detail")
 """)
 
