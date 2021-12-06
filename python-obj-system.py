@@ -234,7 +234,7 @@ class LevelOneSecond:
 class LevelOneThird:
     pass
 
-class LevelTwoFirst(LevelOneThird):
+class LevelTwoFirst(LevelOneFirst, LevelOneSecond):
     pass
 
 class LevelThree(LevelTwoFirst,LevelOneThird):
