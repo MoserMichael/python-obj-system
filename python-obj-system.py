@@ -168,7 +168,7 @@ eval_and_quote("""print("dir(foo_obj) : ", dir(foo_obj))""")
 
 header_md("""How classes are represented""", nesting=3)
 
-print_md("""The built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when applied to a variable""")
+print_md("""The built-in function [type](https://docs.python.org/3/library/functions.html#type), is returning the class of an object, when applied to a variable (to be more exact: type is a built-in class, and not a built-in function, more on that later)""")
 
 eval_and_quote("""
 # make a new object instance of type Foo class.
@@ -365,7 +365,9 @@ Objects recap:
 
 What happens upon: foo = Foo() ?
 
-take the type of Foo - the metaclass of Foo. (the metaclass knows how to create an instance of the class, and instances of the object)
+Take the type of Foo - the metaclass of Foo, the metaclass both knows how to create an instance of the class, and instances of the object.
+A metaclass is derived from built-in class 'type', The 'type' constructor with three argument creates a new class object. [see reference](https://docs.python.org/3/library/functions.html#type)
+
     class_obj = Foo
 
 The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
@@ -375,7 +377,7 @@ The implementation of __call__ now does two steps:
    - It uses the Foo class and calls its to create and initialise the object (call it's __init__ method). This all done by the __call__ method of the class object.
      instance_of_foo = class_obj.__call__()
 
-actually that was a bit of a simplification...
+(actually that was a bit of a simplification...)
 """)
 eval_and_quote("""
 # same as: foo_obj = Foo()
