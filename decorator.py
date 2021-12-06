@@ -774,7 +774,7 @@ import fcntl
 
 @contextlib.contextmanager
 def writable_file_with_lock_exclusive(file_path):
-    print("opening and locking file:", file_path)
+    print("opening file for writing and locking file exclusively:", file_path)
     file = open(file_path, mode="w")
     fcntl.lockf(file.fileno(), fcntl.LOCK_EX)
     try:
@@ -786,6 +786,19 @@ def writable_file_with_lock_exclusive(file_path):
         fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
         file.close()
 
+@contextlib.contextmanager
+def readable_file_with_lock_shared(file_path):
+    print("opening file for reading and locking file shared:", file_path)
+    file = open(file_path, mode="r")
+    fcntl.lockf(file.fileno(), fcntl.LOCK_SH)
+    try:
+        print("calling yield...")
+        yield file
+        print("returning from yield...")
+    finally:
+        print("unlocking and closing file:", file_path)
+        fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
+        file.close()
 """)
 
 print_md("""Using the resulting decorator""")
@@ -793,7 +806,14 @@ print_md("""Using the resulting decorator""")
 eval_and_quote("""
 
 with writable_file_with_lock_exclusive("hello.txt") as file:
+    print("writing to the file...")
     file.write("hello.txt")
+
+print("reading the file")
+
+with readable_file_with_lock_shared("hello.txt") as file:
+    lines = file.readlines()
+    print("the file:", lines)
 
 """)
     

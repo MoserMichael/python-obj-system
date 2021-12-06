@@ -197,7 +197,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fb0f9713c10>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fe159816af0>
 ```
 
 Attention!
@@ -350,7 +350,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fb0f9719670> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fe159820550> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -380,7 +380,7 @@ __Result:__
 
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
->> wrapper function: <function cube_me at 0x7fb0f9719c10>
+>> wrapper function: <function cube_me at 0x7fe159820af0>
 ```
 
 cube\_me is a variable of type \_LimitCalls
@@ -457,7 +457,7 @@ __Result:__
 >> wrapper function: <class '__main__.Foo'>
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fb0f971d820>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fe15981c820>
 >> do_something in Foo
 ```
 
@@ -627,8 +627,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fb0f9725af0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fb0f9725af0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fe15981b9d0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fe15981b9d0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -673,7 +673,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fb0f9728160>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fe159828040>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -714,7 +714,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fb0f9714d00>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fe159813d00>
 >> do_something in Foo3
 ```
 
@@ -745,9 +745,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fb0f9725d30>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fe15981bdc0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fb0f9525ca0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fe156f25ca0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -801,8 +801,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.31955054237631175
->> random number between 0 and 1 0.8646987056131776
+>> random number between 0 and 1 0.2199349593805261
+>> random number between 0 and 1 0.32365683308102444
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -840,7 +840,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fb0f9738fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fe159838fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -874,7 +874,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fb0f9716430> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fe159814430> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
@@ -1143,7 +1143,7 @@ import fcntl
 
 @contextlib.contextmanager
 def writable_file_with_lock_exclusive(file_path):
-    print("opening and locking file:", file_path)
+    print("opening file for writing and locking file exclusively:", file_path)
     file = open(file_path, mode="w")
     fcntl.lockf(file.fileno(), fcntl.LOCK_EX)
     try:
@@ -1155,6 +1155,19 @@ def writable_file_with_lock_exclusive(file_path):
         fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
         file.close()
 
+@contextlib.contextmanager
+def readable_file_with_lock_shared(file_path):
+    print("opening file for reading and locking file shared:", file_path)
+    file = open(file_path, mode="r")
+    fcntl.lockf(file.fileno(), fcntl.LOCK_SH)
+    try:
+        print("calling yield...")
+        yield file
+        print("returning from yield...")
+    finally:
+        print("unlocking and closing file:", file_path)
+        fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
+        file.close()
 
 ```
 Using the resulting decorator
@@ -1165,7 +1178,14 @@ __Source:__
 
 
 with writable_file_with_lock_exclusive("hello.txt") as file:
+    print("writing to the file...")
     file.write("hello.txt")
+
+print("reading the file")
+
+with readable_file_with_lock_shared("hello.txt") as file:
+    lines = file.readlines()
+    print("the file:", lines)
 
 
 ```
@@ -1173,8 +1193,15 @@ with writable_file_with_lock_exclusive("hello.txt") as file:
 __Result:__
 
 ```
->> opening and locking file: hello.txt
+>> opening file for writing and locking file exclusively: hello.txt
 >> calling yield...
+>> writing to the file...
+>> returning from yield...
+>> unlocking and closing file: hello.txt
+>> reading the file
+>> opening file for reading and locking file shared: hello.txt
+>> calling yield...
+>> the file: ['hello.txt']
 >> returning from yield...
 >> unlocking and closing file: hello.txt
 ```
