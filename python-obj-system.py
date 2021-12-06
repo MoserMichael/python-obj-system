@@ -193,19 +193,19 @@ eval_and_quote( """print("foo_obj.__class__.__bases__ :", foo_obj.__class__.__ba
 
 
 print_md("""
-The mro member is a list of types that stands for 'method resoultion order', when searching for an instance method, this list is searched in order to resolve the method name.
-To get this list: a type lists  all of its base classes recursively, in depth first traversal order.
+The __mro__ member is a list of types that stands for 'method resoultion order', when searching for an instance method, this list is searched in order to resolve the method name.
+The Python runtime creates this lists by enumerating all of its base classes recursively, in depth first traversal order. For each class it follows the base classes, from the left ot the right
 
 This list is used to resolve a member function 'member_function' of an object, when you call it via: obj_ref.member_function()
 """)
 
 eval_and_quote( """print("foo_obj.__class__.__mro__ :", foo_obj.__class__.__mro__) """ )
 
-print_md("computing the method resolution order by hand")
+print_md("Computing the method resolution order by hand")
 
 eval_and_quote("""
 
-# function to a class hierarchy, in depth first search order (like what you get in mro - method resolution order)
+# function to a class hierarchy, in depth first search order (like what you get in MRO - method resolution order)
 def show_type_hierarchy(type_class):
 
     def show_type_hierarchy_imp(type_class, nesting):
@@ -214,7 +214,7 @@ def show_type_hierarchy(type_class):
 
         prefix = "\t" * nesting
         print( prefix + "type:", type_class.__name__ , "base types:", ",".join( map( lambda ty : ty.__name__, type_class.__bases__) ) )
-        #print_md( prefix + "str(",  type_class.__name__ , ").__dict__ : ",  type_class.__dict__ )
+        #print( prefix + "str(",  type_class.__name__ , ").__dict__ : ",  type_class.__dict__ )
         for base in type_class.__bases__:
             show_type_hierarchy_imp(base, nesting+1)
 
@@ -263,7 +263,7 @@ eval_and_quote( """print("foo_obj.__class__.__dict__ : ", foo_obj.__class__.__di
 #print_md("foo_obj.__class__.__slots__ : ", foo_obj.__class__.__slots__)
 
 print_md("""
-Again, the [dir](https://docs.python.org/3/library/functions.html#dir) built-in dir function does different things, depending on the argument type
+Again, the [dir](https://docs.python.org/3/library/functions.html#dir) built-in function does different things, depending on the argument type
 for a class object it returns a "list that contains the names of its attributes, and recursively of the attributes of its bases"
 That means it displays both the names of static variables, and the names of the static functions, for the class and it's base classes.
 Note that the names are sorted.
@@ -282,14 +282,14 @@ assert isinstance(foo_obj.__class__, type)
 # same thing as
 assert inspect.isclass(foo_obj.__class__)
 
-# an object is not derived from class type
+# an object is not derived from class type.
 assert not isinstance(foo_obj, type)
 # same thng as 
 assert not inspect.isclass(foo_obj)
 """)
 
 print_md( """
-Now there is much more. there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
+Now there is much more: there is the inspect module that returns it all, a kind of rosetta stone of the python object model.
 inspect.getmembers returns everything! You can see the source of inspect.getmembers [here](https://github.com/python/cpython/blob/3.10/Lib/inspect.py)
 """)
 
@@ -298,7 +298,7 @@ eval_and_quote("""print("inspect.getmembers(foo_obj): ", inspect.getmembers(foo_
 
 print_md("""
 Attention!
-the type of the object is the Class of the object (remember: the classes is an object, where the __dict__ member holds the class variables)
+the type of the object is the class of the object (remember: the classes is an object, where the __dict__ member holds the class variables)
 """)
 
 eval_and_quote("""
@@ -337,7 +337,6 @@ print("Foo.__dict__                 :", Foo.__dict__)
 # everything accessible form the class
 print("dir(foo_obj.__class__)       :", dir( foo_obj.__class__))
 """)
-
 
 
 print_md("""
@@ -390,19 +389,21 @@ Objects recap:
 
 What happens upon: foo = Foo() ?
 
-Take the type of Foo - the metaclass of Foo, the metaclass both knows how to create an instance of the class, and instances of the object.
+Take the type of Foo - the metaclass of Foo, the metaclass both knows how to create an instance of the class Foo, and the object instances.
 A metaclass is derived from built-in class 'type', The 'type' constructor with three argument creates a new class object. [see reference](https://docs.python.org/3/library/functions.html#type)
 
     class_obj = Foo
 
-The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function
+The metaclass is used as a 'callable' - it has a __call__ method, and can therefore be called as if it were a function (see more about callables in the course on [decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md))
+
 Now this __call__ method creates and initialises the object instance.
 The implementation of __call__ now does two steps:
    - Class creation is done in the [__new__](https://docs.python.org/3/reference/datamodel.html#object.__new__) method of the metaclass.  The __new__ method creates the Foo class, it is called exactly once, upon class declaration (you will see this shortly, in the section on custom meta classes)
-   - It uses the Foo class and calls its to create and initialise the object (call it's __init__ method). This all done by the __call__ method of the class object.
-     instance_of_foo = class_obj.__call__()
+   - It uses the Foo class and calls its to create and initialise the object (call the __new__ method of the Foo class, in order to create an instance of Foo, then calls the __init__ instance method of the Foo class, on order to initialise it). This all done by the __call__ method of the metaclass.
+     instance_of_foo = meta_class_obj.__call__()
 
-(actually that was a bit of a simplification...)
+(actually that was a bit of a simplification...
+)
 """)
 eval_and_quote("""
 # same as: foo_obj = Foo()
@@ -501,14 +502,14 @@ assert id(sqrt_root_two_a) == id(sqrt_root_two_b)
 header_md("""Passing arguments to metaclasses""",  nesting = 3)
 
 print_md(""""
-Lets extend the previous singleton creating metaclass, so that it can pass parameters to the __init__ method of the object, these parameters are defined togather with the metaclass specifier.
+Lets extend the previous singleton creating metaclass, so that it can pass parameters to the __init__ method of the object, these parameters are defined together with the metaclass specifier.
 """)
 
 eval_and_quote("""
 
 # metaclass are always derived from the type class. 
-# the type class has functions to create class objects
-# the type class has also a default implementation of the __call__ method, for creating object instances.
+# The type class has functions to create class objects
+# The type class has also a default implementation of the __call__ method, for creating object instances.
 class Singleton_metaclass_with_args(type):
 
     # invoked to create the class object instance (for holding static data)
@@ -594,10 +595,10 @@ assert id(sqrt_root_three_a) == id(sqrt_root_three_b)
 
 
 
-header_md("""Metaclasses in the python3 standard library""", nesting=2)
+header_md("""Metaclasses in the Python3 standard library""", nesting=2)
 
 print_md("""
-This section lists examples of metaclasses in the python standard library. Looking at the standard library of a language is often quite usefull, when learning about the intricacies of a programming language.
+This section lists examples of meta-classes in the python standard library. Looking at the standard library of a language is often quite useful, when learning about the intricacies of a programming language.
 """)
 
 header_md("""ABCMeta class""", nesting=3)
@@ -611,7 +612,7 @@ header_md("""Enum classes""", nesting=3)
 
 print_md("""Python has support for [enum classes](https://docs.python.org/3/library/enum.html). An enum class lists a set of integer class variables, these variables can then be accessed both by their name, and by their integer value.
 
-An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a metaclass in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta source code](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
+An example usage: Note that the class doesn't have a constructor, everything is being taken care of by the baseclass [enum.Enum](https://docs.python.org/3/library/enum.html#enum.Enum) which is making use of a meta-class in he definition of the Enum class [here](https://docs.python.org/3/library/enum.html), this metaclass [EnumMeta source code](https://github.com/python/cpython/blob/f6648e229edf07a1e4897244d7d34989dd9ea647/Lib/enum.py#L161)  then creates a behind the scene dictionary, that maps the integer values to their constant names.
 
 The advantage is, that you get an exception, when accessing an undefined constant, or name. There are also more things there, please refer to the linked [documentation](https://docs.python.org/3/library/enum.html)
 
@@ -646,11 +647,11 @@ assert id(Rainbow['GREEN']) == id(Rainbow(4))
 header_md("""Conclusion""", nesting=2)
 
 print_md("""
-Python metaclasses and decorators are very similar in their capabilities.
-Both are tools for [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming), tools for modifying the program text, and treating code as data.
+Python meta-classes and decorators are very similar in their capabilities.
+Both are tools for [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming), tools for modifying the program text, and treating and modifying code, as if it were data.
 
 I would argue, that decorators are most often the easiest way of achieving the same goal.
-However some things, like hooking the classification of classes and objects (implementing class methods [__instancecheck__ and __subclasscheck__](https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks), can only be done with metaclasses.
+However some things, like hooking the classification of classes and objects (implementing class methods [__instancecheck__ and __subclasscheck__](https://docs.python.org/3/reference/datamodel.html#customizing-instance-and-subclass-checks), can only be done with meta-classes.
 
 I hope, that this course has given you a better understanding, of what is happening under the hood, which would be a good thing.
 """)
