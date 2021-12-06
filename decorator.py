@@ -181,9 +181,9 @@ print("number of calls ", inc_me.num_calls)
 header_md("Decorators that can receive parameters", nesting=2)
 
 print_md("""
-Lets look at the LimitCalls decorator, it can be used in different scenarios, it receives the following arguments 
-- log_calls - a boolean, it logs the call if set. 
-- max_calls - the maximum number of calls, if decorator does not forward the call to the original function, when the limit on the number of calls has been reached.
+Lets look at the configurabl LimitCalls decorator, it can be used in different scenarios, it receives the following configuration parameters:
+- log_calls - a boolean, it logs the call if set to True
+- max_calls - the maximum number of calls, if decorator raises an error and does not forward the call to the original function, when the limit on the number of calls has been reached.
 
 The class _LimitCalls starts with an underscore, to show that this is a private class, that is not supposed to be exported from a module.
 """)
@@ -231,14 +231,14 @@ def LimitCalls(function=None, max_hits=3, log_calls=False):
         return _LimitCalls(function, max_hits, log_calls)
 
     def wrapper(function):
+        print("wrapper function:", function)
         return _LimitCalls(function, max_hits, log_calls)
 
     return wrapper
 """)
 
 print_md("""
-Lets use the LimitCalls decorator
-The defauls values for the parameters of the decorator are used. the LimitCalls function is called gets the the square_me function as parameter
+Lets use the LimitCalls decorator, here the defauls values for the parameters of the decorator are used. the LimitCalls function is called and it receives the square_me function as parameter
 """)
 
 eval_and_quote(
@@ -266,7 +266,7 @@ print_md("""
 setting non default value for the decorator parameters.
 first the LimitCalls function is called with function=None, and maxhits=4, log_calls=True
 The first call returns the internal function wrapper.
-then function wrapper iscalled with the function parameter set to cube_me. this returns the _LimitCall2 object.
+then function wrapper is called with the function parameter set to cube_me, this returns the _LimitCall2 object.
 """)
 
 eval_and_quote("""
