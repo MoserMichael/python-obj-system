@@ -12,7 +12,9 @@ from mdformat import *
 
 header_md("""Python decorator walk-through""")
 
-header_md("Callable objects", nesting=2)
+header_md("Decorators as objects", nesting=2)
+ 
+header_md("Callable objects", nesting=3)
  
 print_md("""
 A class is callable, if an object of the class can be called as a function.
@@ -53,7 +55,7 @@ callable_obj = CallableObject2("callable with arguments, and return values")
 print("callable_obj(2,3):", callable_obj(2,3))
 """)
 
-header_md("Simple decorators", nesting=2)
+header_md("Simple decorators", nesting=3)
 
 print_md("""
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
@@ -178,7 +180,7 @@ print("number of calls ", inc_me.num_calls)
 
 """)
 
-header_md("Decorators that can receive parameters", nesting=2)
+header_md("Decorators that can receive parameters", nesting=3)
 
 print_md("""
 Lets look at the configurabl LimitCalls decorator, it can be used in different scenarios, it receives the following configuration parameters:
@@ -295,8 +297,8 @@ for idx in range(1, 6):
 
 
 print_md("""
-Can we use the @LimitCalls decorator with a class method? lets try.
-Adding the annotation before the class, only the __init__ method gets intercepted.
+Can we use the @LimitCalls decorator with a class declaration? Lets try.
+Only the __init__ method gets intercepted, when adding the annotation before the class,
 """)
 
 eval_and_quote("""
@@ -338,7 +340,10 @@ eval_and_quote("""
 #
 """)
 
-header_md("First class functions/Closures in Python", nesting=2)
+
+header_md("Decorators with first class functions/Closures", nesting=2)
+
+header_md("First class functions/Closures in Python", nesting=3)
 
 print_md("""The following example shows the use of a function create_function_as_value, that returns a function object nested_function as a return value.
 Note that the returned function can still access all of the variables and parameters of its parent function, these values are said to be 'captured' in the returned function object.
