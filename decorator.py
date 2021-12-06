@@ -238,7 +238,7 @@ def LimitCalls(function=None, max_hits=3, log_calls=False):
 """)
 
 print_md("""
-Lets use the LimitCalls decorator, here the defauls values for the parameters of the decorator are used. the LimitCalls function is called and it receives the square_me function as parameter
+Lets use the LimitCalls decorator, here the defauls values for the parameters of the decorator are used. the LimitCalls function is called and it receives the square_me function as parameter, this results in an instantion of the internal _LimitsCalls object, in the same call.
 """)
 
 eval_and_quote(
@@ -263,10 +263,9 @@ for idx in range(1, 4):
 """)
 
 print_md("""
-setting non default value for the decorator parameters.
+Setting non default value for the decorator parameters.
 first the LimitCalls function is called with function=None, and maxhits=4, log_calls=True
-The first call returns the internal function wrapper.
-then function wrapper is called with the function parameter set to cube_me, this returns the _LimitCall2 object.
+The first call returns the internal function wrapper, then function wrapper is called with the function parameter set to cube_me, this returns the _LimitCall2 object.
 """)
 
 eval_and_quote("""
