@@ -695,7 +695,7 @@ print("computing the fibonacci number of fib2(30): ", fib2(30))
 print("cache statistics:",fib2.cache_info())
 """)
 
-print_md("""And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator is applied to a class, this makes it intercept the __init__ method of the decorated class, as we saw earlier.
+print_md("""And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator is applied to a class, this makes it intercept the __init__ method of the decorated class, as we saw earlier. This gives it the opportunity to add methods to the class.
 
 The decroated class must support two operator function, it must support the __eq__ method and also define either oneone of the following: __lt__(), __le__(), __gt__(), or __ge__()
 The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator then adds all the other missing comparison operators.
@@ -731,11 +731,71 @@ assert not person_a >= person_b
 
 header_md("dataclasses", nesting=3)
 
-print_md("read all about it [here](https://docs.python.org/3/library/dataclasses.html)")
+print_md("""
+Dataclasses can be used as an alternative to tuples. It makes it easier to create classes that hold a defined set of named properties.
+The annotation is applied to the class declaration, this allows the decorator to add the missing methods to the class.
+""")
+
+eval_and_quote("""
+
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+    rank: int
+
+person = Person('Roy', 'Mustang', 1)
+print("Person:", person)
+""")
+
+print_md("More documentation is available [here](https://docs.python.org/3/library/dataclasses.html)")
 
 header_md("contextlib", nesting=3)
 
-print_md("""read all about it [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
+print_md("""
+This decorator helps to create contextmanager classes, these are classes that acquire and release resources and are used implicitly by the python with statement.
+Python calls an __enter__ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
+Python calls the __exit__ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+
+The contextlib.contextmanager decorator helps to simplify matters. It uses python generators for the trick, the resource is acquired before the yield statement, and released upon returning from the yield statement.
+
+In this example the resource is acquired by opening a file, and obtaining a lock on tha file, the resource is released by releasing the file lock and closing the filea.
+""")
+
+eval_and_quote("""
+
+import contextlib
+import fcntl
+
+@contextlib.contextmanager
+def writable_file_with_lock_exclusive(file_path):
+    print("opening and locking file:", file_path)
+    file = open(file_path, mode="w")
+    fcntl.lockf(file.fileno(), fcntl.LOCK_EX)
+    try:
+        print("calling yield...")
+        yield file
+        print("returning from yield...")
+    finally:
+        print("unlocking and closing file:", file_path)
+        fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
+        file.close()
+
+""")
+
+print_md("""Using the resulting decorator""")
+
+eval_and_quote("""
+
+with writable_file_with_lock_exclusive("hello.txt") as file:
+    file.write("hello.txt")
+
+""")
+    
+print_md("""More documentation is available [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
+        
 """)
 
 print("*** eof tutorial ***")

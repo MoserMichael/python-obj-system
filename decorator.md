@@ -197,7 +197,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fc1b15e8b80>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fc8f3014c10>
 ```
 
 Attention!
@@ -350,7 +350,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fc1b15f15e0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fc8f3020670> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -380,7 +380,7 @@ __Result:__
 
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
->> wrapper function: <function cube_me at 0x7fc1b15f1b80>
+>> wrapper function: <function cube_me at 0x7fc8f3020c10>
 ```
 
 cube\_me is a variable of type \_LimitCalls
@@ -457,7 +457,7 @@ __Result:__
 >> wrapper function: <class '__main__.Foo'>
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc1b15ee700>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc8f301c820>
 >> do_something in Foo
 ```
 
@@ -627,8 +627,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fc1b15f6a60> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc1b15f6a60>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fc8f3023af0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc8f3023af0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -673,7 +673,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc1b15fa0d0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc8f3026160>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -714,7 +714,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc1b15e5f10>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc8f3011d00>
 >> do_something in Foo3
 ```
 
@@ -745,9 +745,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc1b15f6dc0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc8f3023d30>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc1b1525af0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc8f0725ca0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -801,8 +801,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.8981798981799958
->> random number between 0 and 1 0.36103037756679746
+>> random number between 0 and 1 0.6886943915414823
+>> random number between 0 and 1 0.9678309631714515
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -840,7 +840,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fc1b160bfa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fc8f3037fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -874,7 +874,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fc1b15e6e50> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fc8f3013430> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
@@ -1040,7 +1040,7 @@ __Result:__
 >> cache statistics: CacheInfo(hits=28, misses=31, maxsize=5, currsize=5)
 ```
 
-And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator is applied to a class, this makes it intercept the \_\_init\_\_ method of the decorated class, as we saw earlier.
+And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator is applied to a class, this makes it intercept the \_\_init\_\_ method of the decorated class, as we saw earlier. This gives it the opportunity to add methods to the class.
 
 The decroated class must support two operator function, it must support the \_\_eq\_\_ method and also define either oneone of the following: \_\_lt\_\_(), \_\_le\_\_(), \_\_gt\_\_(), or \_\_ge\_\_()
 The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator then adds all the other missing comparison operators.
@@ -1089,11 +1089,95 @@ __Result:__
 
 ### <a id='s1-3-3' />dataclasses
 
-read all about it [here](https://docs.python.org/3/library/dataclasses.html)
+Dataclasses can be used as an alternative to tuples. It makes it easier to create classes that hold a defined set of named properties.
+The annotation is applied to the class declaration, this allows the decorator to add the missing methods to the class.
+
+
+__Source:__
+
+```
+
+
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+    rank: int
+
+person = Person('Roy', 'Mustang', 1)
+print("Person:", person)
+
+```
+
+__Result:__
+
+```
+>> Person: Person(first_name='Roy', last_name='Mustang', rank=1)
+```
+
+More documentation is available [here](https://docs.python.org/3/library/dataclasses.html)
 
 ### <a id='s1-3-4' />contextlib
 
-read all about it [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
+This decorator helps to create contextmanager classes, these are classes that acquire and release resources and are used implicitly by the python with statement.
+Python calls an \_\_enter\_\_ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
+Python calls the \_\_exit\_\_ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+
+The contextlib.contextmanager decorator helps to simplify matters. It uses python generators for the trick, the resource is acquired before the yield statement, and released upon returning from the yield statement.
+
+In this example the resource is acquired by opening a file, and obtaining a lock on tha file, the resource is released by releasing the file lock and closing the filea.
+
+
+__Source:__
+
+```
+
+
+import contextlib
+import fcntl
+
+@contextlib.contextmanager
+def writable_file_with_lock_exclusive(file_path):
+    print("opening and locking file:", file_path)
+    file = open(file_path, mode="w")
+    fcntl.lockf(file.fileno(), fcntl.LOCK_EX)
+    try:
+        print("calling yield...")
+        yield file
+        print("returning from yield...")
+    finally:
+        print("unlocking and closing file:", file_path)
+        fcntl.lockf(file.fileno(), fcntl.LOCK_UN)
+        file.close()
+
+
+```
+Using the resulting decorator
+
+__Source:__
+
+```
+
+
+with writable_file_with_lock_exclusive("hello.txt") as file:
+    file.write("hello.txt")
+
+
+```
+
+__Result:__
+
+```
+>> opening and locking file: hello.txt
+>> calling yield...
+>> returning from yield...
+>> unlocking and closing file: hello.txt
+```
+
+More documentation is available [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
+        
 
 *** eof tutorial ***
 
