@@ -197,7 +197,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fc8f3014c10>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7ff43e4e9c10>
 ```
 
 Attention!
@@ -350,7 +350,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fc8f3020670> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7ff43e4f5670> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -380,7 +380,7 @@ __Result:__
 
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
->> wrapper function: <function cube_me at 0x7fc8f3020c10>
+>> wrapper function: <function cube_me at 0x7ff43e4f5c10>
 ```
 
 cube\_me is a variable of type \_LimitCalls
@@ -457,7 +457,7 @@ __Result:__
 >> wrapper function: <class '__main__.Foo'>
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc8f301c820>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7ff43e4f1820>
 >> do_something in Foo
 ```
 
@@ -627,8 +627,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fc8f3023af0> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc8f3023af0>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7ff43e4f8af0> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7ff43e4f8af0>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -673,7 +673,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc8f3026160>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7ff43e4fb160>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -714,7 +714,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc8f3011d00>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7ff43e4e6d00>
 >> do_something in Foo3
 ```
 
@@ -745,9 +745,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc8f3023d30>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7ff43e4f8d30>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc8f0725ca0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7ff43e425ca0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -801,8 +801,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.6886943915414823
->> random number between 0 and 1 0.9678309631714515
+>> random number between 0 and 1 0.12155991062484561
+>> random number between 0 and 1 0.3993706626688843
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -840,7 +840,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fc8f3037fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7ff43e50cfa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -874,7 +874,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fc8f3013430> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7ff43e4e8430> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
@@ -1098,9 +1098,9 @@ __Source:__
 ```
 
 
-from dataclasses import dataclass
+import dataclasses
 
-@dataclass
+@dataclasses.dataclass
 class Person:
     first_name: str
     last_name: str
@@ -1122,12 +1122,14 @@ More documentation is available [here](https://docs.python.org/3/library/datacla
 ### <a id='s1-3-4' />contextlib
 
 This decorator helps to create contextmanager classes, these are classes that acquire and release resources and are used implicitly by the python with statement.
-Python calls an \_\_enter\_\_ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
-Python calls the \_\_exit\_\_ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+- Python calls an \_\_enter\_\_ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
+- Python calls the \_\_exit\_\_ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+
+More on context managers and the with statment in [PEP-0343](https://www.python.org/dev/peps/pep-0343/)  
 
 The contextlib.contextmanager decorator helps to simplify matters. It uses python generators for the trick, the resource is acquired before the yield statement, and released upon returning from the yield statement.
 
-In this example the resource is acquired by opening a file, and obtaining a lock on tha file, the resource is released by releasing the file lock and closing the filea.
+In this example, the resource is acquired by opening a file and obtaining a lock on tha file. The resource is released by releasing the file lock and closing the file.
 
 
 __Source:__

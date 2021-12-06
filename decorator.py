@@ -738,9 +738,9 @@ The annotation is applied to the class declaration, this allows the decorator to
 
 eval_and_quote("""
 
-from dataclasses import dataclass
+import dataclasses
 
-@dataclass
+@dataclasses.dataclass
 class Person:
     first_name: str
     last_name: str
@@ -756,12 +756,14 @@ header_md("contextlib", nesting=3)
 
 print_md("""
 This decorator helps to create contextmanager classes, these are classes that acquire and release resources and are used implicitly by the python with statement.
-Python calls an __enter__ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
-Python calls the __exit__ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+- Python calls an __enter__ method of a context manager instance, when entering a block nested within a with statement, in order to acquire a resource.
+- Python calls the __exit__ method on a context manager instance, when exiting a block nested within a with statement, in order to release a resource. 
+
+More on context managers and the with statment in [PEP-0343](https://www.python.org/dev/peps/pep-0343/)  
 
 The contextlib.contextmanager decorator helps to simplify matters. It uses python generators for the trick, the resource is acquired before the yield statement, and released upon returning from the yield statement.
 
-In this example the resource is acquired by opening a file, and obtaining a lock on tha file, the resource is released by releasing the file lock and closing the filea.
+In this example, the resource is acquired by opening a file and obtaining a lock on tha file. The resource is released by releasing the file lock and closing the file.
 """)
 
 eval_and_quote("""
