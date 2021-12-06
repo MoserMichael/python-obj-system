@@ -197,7 +197,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fd041ed3b80>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fc1b15e8b80>
 ```
 
 Attention!
@@ -350,7 +350,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fd041edc5e0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fc1b15f15e0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -380,7 +380,7 @@ __Result:__
 
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
->> wrapper function: <function cube_me at 0x7fd041edcb80>
+>> wrapper function: <function cube_me at 0x7fc1b15f1b80>
 ```
 
 cube\_me is a variable of type \_LimitCalls
@@ -457,7 +457,7 @@ __Result:__
 >> wrapper function: <class '__main__.Foo'>
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd041ed9700>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fc1b15ee700>
 >> do_something in Foo
 ```
 
@@ -596,8 +596,7 @@ def LimitCalls2(_func = None, *,  max_hits = 3, log_calls = False):
     return forward_func_call(_func)
 
 ```
-calling without parameters
-this declaration first calls the LimitCalls2 function with function argument set to dec\_three\_from\_me
+Calling without parameters: this declaration first calls the LimitCalls2 function with function argument set to the argument function dec\_three\_from\_me.
 LimitCalls2 then calls the nested function forward\_fun\_call, and returns the initialised wrapper, which is then assigned to dec\_three\_from\_me variable.
 
 
@@ -628,8 +627,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fd041ee3a60> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd041ee3a60>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fc1b15f6a60> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fc1b15f6a60>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -642,10 +641,11 @@ __Result:__
 >> idx: 4
 ```
 
-The next example uses the @LimitCalls2 decorator with on a function with arguments.
+The next example uses the @LimitCalls2 decorator with configuration parameters set.
 This declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max\_hits and log\_calls) set.
-The LimitCalls2 function returns a reference to closure forward\_func\_call
-The Python runtime then calls forward\_func\_call, which returns the still nested closure wrapper has captured the other decorator arguments (max\_hits and log\_calls).
+The LimitCalls2 function returns a reference to the nested closure forward\_func\_call
+The Python runtime then calls forward\_func\_call, which returns the still nested closure wrapper, the wrapper has captured the decoator configuration parameters (max\_hits and log\_calls).
+
 The result: it works, but poor programmer will probably need a drink here.
 
 
@@ -673,7 +673,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd041ee50d0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fc1b15fa0d0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -685,7 +685,7 @@ __Result:__
 >> idx: 3
 ```
 
-Lets add the decorator the function declaration. It captures the class \_\_init\_\_ method.
+Lets add the decorator the class declaration. It captures the class \_\_init\_\_ method.
 
 
 __Source:__
@@ -714,11 +714,11 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd041ed0f10>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fc1b15e5f10>
 >> do_something in Foo3
 ```
 
-This time. the decorator even works on instance methods!!! 
+This time. the decorator even works on an instance method!
 the extra effort was worth it!
 Three cheers for python!
 
@@ -745,9 +745,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd041ee3dc0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fc1b15f6dc0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd041e25af0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fc1b1525af0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -801,8 +801,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.17719607606002252
->> random number between 0 and 1 0.06299477574126522
+>> random number between 0 and 1 0.8981798981799958
+>> random number between 0 and 1 0.36103037756679746
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -840,7 +840,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fd041ee4fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fc1b160bfa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -874,7 +874,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fd041ed2e50> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fc1b15e6e50> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 

@@ -436,8 +436,7 @@ def LimitCalls2(_func = None, *,  max_hits = 3, log_calls = False):
 """)
 
 print_md("""
-calling without parameters
-this declaration first calls the LimitCalls2 function with function argument set to dec_three_from_me
+Calling without parameters: this declaration first calls the LimitCalls2 function with function argument set to the argument function dec_three_from_me.
 LimitCalls2 then calls the nested function forward_fun_call, and returns the initialised wrapper, which is then assigned to dec_three_from_me variable.
 """)
 
@@ -462,10 +461,11 @@ for idx in range(1, 5):
 """)
 
 print_md("""
-The next example uses the @LimitCalls2 decorator with on a function with arguments.
+The next example uses the @LimitCalls2 decorator with configuration parameters set.
 This declaration first calls the LimitCalls2 function with function argument set to None, but with the other decorator arguments (max_hits and log_calls) set.
-The LimitCalls2 function returns a reference to closure forward_func_call
-The Python runtime then calls forward_func_call, which returns the still nested closure wrapper has captured the other decorator arguments (max_hits and log_calls).
+The LimitCalls2 function returns a reference to the nested closure forward_func_call
+The Python runtime then calls forward_func_call, which returns the still nested closure wrapper, the wrapper has captured the decoator configuration parameters (max_hits and log_calls).
+
 The result: it works, but poor programmer will probably need a drink here.
 """)
 
@@ -486,7 +486,7 @@ for idx in range(1, 4):
 """)
 
 print_md("""
-Lets add the decorator the function declaration. It captures the class __init__ method.
+Lets add the decorator the class declaration. It captures the class __init__ method.
 """)
 
 eval_and_quote("""
@@ -505,7 +505,7 @@ foo.do_something()
 """)
 
 print_md("""
-This time. the decorator even works on instance methods!!! 
+This time. the decorator even works on an instance method!
 the extra effort was worth it!
 Three cheers for python!
 """)
