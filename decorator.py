@@ -373,8 +373,9 @@ header_md("Decorators by means of first class functions/closures", nesting=3)
 print_md("""
 Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
 In my book that is a bit of a brain damage, but let's go for it, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
-You have a very good tutorial here: https://realpython.com/primer-on-python-decorators/#decorating-classes (though it is a bit long wound, in my opinion)
-This one here is more condensed.
+
+You have a very good tutorial in the [Primer on Python Decorators by Geir Arne Hjelle](https://realpython.com/primer-on-python-decorators) 
+This one here is a bit more condensed.
 """)
 
 print_md("""Lets do the LimitCalls decorator in this style:
