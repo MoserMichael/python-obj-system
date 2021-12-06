@@ -1,4 +1,4 @@
-* [Python decorator walkthrough](#s1)
+* [Python decorator walk-through](#s1)
   * [Callable objects](#s1-1)
   * [Simple decorators](#s1-2)
   * [Decorators that can receive parameters](#s1-3)
@@ -11,7 +11,7 @@
       * [contextlib](#s1-6-4)
 
 
-# <a id='s1' />Python decorator walkthrough
+# <a id='s1' />Python decorator walk-through
 
 
 ## <a id='s1-1' />Callable objects
@@ -45,7 +45,7 @@ __Result:__
 >> <class '__main__.CallableObject'> show me
 ```
 
-The next example shows a callbable object that accepts additional parameters, like a real function.
+The next example shows a callable object that accepts additional parameters, like a real function.
 Here we need to add parameters to the \_\_call\_\_ method.
 
 
@@ -78,10 +78,10 @@ __Result:__
 
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
 This gives them the chance to add the following behavior:
-- add code that is run before calling the intercepted function, it can also alter the arguments of the function call, before they are passed to the intercepted/original function.
-- add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+- Add code that is run before calling the intercepted function, it can also alter the arguments of the function call, before they are passed to the intercepted/original function.
+- Add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
   
-A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
+A function decorator therefore acts as a kind of 'smart proxy' around a given Python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its \_\_init\_\_ method;
 The class is a callable object, and it calls the original function in its \_\_call\_\_ method.
@@ -100,23 +100,23 @@ class CountCalls:
     # the CountCalls decorator forwards arguments to this original function, and it does so with style...
     def __init__(self, func):
 
-        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
+        # Copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
         # the CountCalls instance also gets a __wrapped__ attribute, which points to the intercepted/wrapped function supplied by the func constructor argument.
         # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the CountCalls instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
         functools.update_wrapper(self, func)
 
-        # the forwarded function put into an instance membe, so that __call__ will be able to forward the call.
+        # The forwarded function reference is put into an instance member, so that __call__ will be able to forward the call.
         self.func = func
 
-        # set the state variable, the number of calls. This counter is update upon each call.
+        # Set the state variable, the number of calls. This counter is update upon each call.
         self.num_calls = 0
 
     # the __call__ function is called, when an instance of the CounCalls class is used as a function.
     # gets both positional arguments *args and keyword arguments **kwargs, these are all forwarded to the original function.
     def __call__(self, *args, **kwargs):
 
-        # count the number of invocations.
+        # Count the number of invocations.
         self.num_calls += 1
 
         # log that we are about to forward the call to the original function
@@ -143,7 +143,7 @@ def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
-# the global variable say_miau now refers to an object, that wraps the original say_miau function.
+# The global variable say_miau now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
 # the call to say_miau first calls the __call__ method of the CountCalls object, 
@@ -192,12 +192,12 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7fd776f14b80>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7fde54e14b80>
 ```
 
 Attention!
 Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say\_woof method.
-the @CountCalls syntax is supposed to be a shorter way of doing the same assignment, as in the previous example!
+The @CountCalls syntax is supposed to be a shorter way of doing the same assignment, as in the previous example!
 
 
 __Source:__
@@ -270,7 +270,7 @@ __Source:__
 class _LimitCalls:
     def __init__(self, function, max_hits, log_calls):
 
-        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
+        # Copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
         # the _LimitCalls instance also gets a __wrapped__ attribute, which points to the wrapped function supplied by the func constructor argument.
         # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the  instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
@@ -345,7 +345,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7fd776f195e0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7fde54e195e0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -451,7 +451,7 @@ __Result:__
 >> LimitCalls function: None max_hits: 1 log_calls: True
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fd776f17a60>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7fde54e17a60>
 >> do_something in Foo
 ```
 
@@ -618,8 +618,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7fd776f22a60> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fd776f22a60>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7fde54e22a60> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7fde54e22a60>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -663,7 +663,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fd776f240d0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7fde54e240d0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -704,7 +704,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fd776f10f40>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7fde54e10f40>
 >> do_something in Foo3
 ```
 
@@ -735,9 +735,9 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fd776f22dc0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7fde54e22dc0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fd776d25e50> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7fde54c25e50> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
@@ -791,8 +791,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.028615415364562025
->> random number between 0 and 1 0.8649450177685936
+>> random number between 0 and 1 0.12219690105604664
+>> random number between 0 and 1 0.8556902751670017
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -830,7 +830,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7fd776f36fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7fde54e36fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -864,7 +864,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7fd776f12f40> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7fde54e13f40> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
@@ -1030,7 +1030,7 @@ __Result:__
 >> cache statistics: CacheInfo(hits=28, misses=31, maxsize=5, currsize=5)
 ```
 
-And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator is applied to a class, this makes it intercept the the \_\_init\_\_ method of the decorated class, as we saw earlier.
+And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator is applied to a class, this makes it intercept the \_\_init\_\_ method of the decorated class, as we saw earlier.
 
 The decroated class must support two operator function, it must support the \_\_eq\_\_ method and also define either oneone of the following: \_\_lt\_\_(), \_\_le\_\_(), \_\_gt\_\_(), or \_\_ge\_\_()
 The [@functools.total\_ordering](https://docs.python.org/3/library/functools.html#functools.total\_ordering) decorator then adds all the other missing comparison operators.

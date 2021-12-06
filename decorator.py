@@ -10,7 +10,7 @@
 import functools
 from mdformat import *
 
-header_md("""Python decorator walkthrough""")
+header_md("""Python decorator walk-through""")
 
 header_md("Callable objects", nesting=2)
  
@@ -35,7 +35,7 @@ callable_obj()
 """)
 
 print_md("""
-The next example shows a callbable object that accepts additional parameters, like a real function.
+The next example shows a callable object that accepts additional parameters, like a real function.
 Here we need to add parameters to the __call__ method.
 """)
 
@@ -58,10 +58,10 @@ header_md("Simple decorators", nesting=2)
 print_md("""
 Function decorators take a given function, and intercept the call to that function. They act as a kind of proxy for calls of a given function.
 This gives them the chance to add the following behavior:
-- add code that is run before calling the intercepted function, it can also alter the arguments of the function call, before they are passed to the intercepted/original function.
-- add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
+- Add code that is run before calling the intercepted function, it can also alter the arguments of the function call, before they are passed to the intercepted/original function.
+- Add code that is run after calling the intercepted function, it can also alter the return value of the original function, before it is returned to the caller.
   
-A function decorator therefore acts as a kind of 'smart proxy' around a given python function.
+A function decorator therefore acts as a kind of 'smart proxy' around a given Python function.
 
 Lets start with an interceptor class, the class receives the wrapped function as an argument to its __init__ method;
 The class is a callable object, and it calls the original function in its __call__ method.
@@ -77,23 +77,23 @@ class CountCalls:
     # the CountCalls decorator forwards arguments to this original function, and it does so with style...
     def __init__(self, func):
 
-        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
+        # Copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into CountCalls instance,
         # the CountCalls instance also gets a __wrapped__ attribute, which points to the intercepted/wrapped function supplied by the func constructor argument.
         # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the CountCalls instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
         functools.update_wrapper(self, func)
 
-        # the forwarded function put into an instance membe, so that __call__ will be able to forward the call.
+        # The forwarded function reference is put into an instance member, so that __call__ will be able to forward the call.
         self.func = func
 
-        # set the state variable, the number of calls. This counter is update upon each call.
+        # Set the state variable, the number of calls. This counter is update upon each call.
         self.num_calls = 0
 
     # the __call__ function is called, when an instance of the CounCalls class is used as a function.
     # gets both positional arguments *args and keyword arguments **kwargs, these are all forwarded to the original function.
     def __call__(self, *args, **kwargs):
 
-        # count the number of invocations.
+        # Count the number of invocations.
         self.num_calls += 1
 
         # log that we are about to forward the call to the original function
@@ -118,7 +118,7 @@ def say_miau():
     ''' docstring: print the vocalization of a Felis Catus, also known as cat '''
     print("Miau!")
 
-# the global variable say_miau now refers to an object, that wraps the original say_miau function.
+# The global variable say_miau now refers to an object, that wraps the original say_miau function.
 say_miau = CountCalls(say_miau)
 
 # the call to say_miau first calls the __call__ method of the CountCalls object, 
@@ -148,7 +148,7 @@ print("say_miau.__wrapped__ : ", say_miau.__wrapped__)
 print_md("""
 Attention!
 Here is the equivalent way of setting up the decorator instance! just as the previous case, only for the say_woof method.
-the @CountCalls syntax is supposed to be a shorter way of doing the same assignment, as in the previous example!
+The @CountCalls syntax is supposed to be a shorter way of doing the same assignment, as in the previous example!
 """)
 
 eval_and_quote("""
@@ -192,7 +192,7 @@ eval_and_quote("""
 class _LimitCalls:
     def __init__(self, function, max_hits, log_calls):
 
-        # copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
+        # Copy the __name__, ___qualname_, __doc__, __module__, __module__, __annotations__ attributes of the function argument into _LimitCalls instance,
         # the _LimitCalls instance also gets a __wrapped__ attribute, which points to the wrapped function supplied by the func constructor argument.
         # as well as all entries in __dict__ of the wrapped function are copied into  __dict__ member of the  instance.
         # this is in order ot make the wrapper look the same as the wrapped function.
@@ -690,7 +690,7 @@ print("computing the fibonacci number of fib2(30): ", fib2(30))
 print("cache statistics:",fib2.cache_info())
 """)
 
-print_md("""And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator is applied to a class, this makes it intercept the the __init__ method of the decorated class, as we saw earlier.
+print_md("""And now for an examples, where decorators are being used as [metaprogramming tools](https://en.wikipedia.org/wiki/Metaprogramming), as tools that transform programs, in a sense similar to lisp macros. The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator is applied to a class, this makes it intercept the __init__ method of the decorated class, as we saw earlier.
 
 The decroated class must support two operator function, it must support the __eq__ method and also define either oneone of the following: __lt__(), __le__(), __gt__(), or __ge__()
 The [@functools.total_ordering](https://docs.python.org/3/library/functools.html#functools.total_ordering) decorator then adds all the other missing comparison operators.
