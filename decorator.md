@@ -5,12 +5,12 @@
       * [Decorators that can receive parameters](#s1-1-3)
   * [Decorators with first class functions/Closures](#s1-2)
       * [First class functions/Closures in Python](#s1-2-1)
-  * [Decorators by means of first class functions/closures](#s1-3)
-  * [Decorators in the python standard library](#s1-4)
-      * [@staticmethod and @classmethod](#s1-4-1)
-      * [The functools library](#s1-4-2)
-      * [dataclasses](#s1-4-3)
-      * [contextlib](#s1-4-4)
+      * [Decorators by means of first class functions/closures](#s1-2-2)
+  * [Decorators in the python standard library](#s1-3)
+      * [@staticmethod and @classmethod](#s1-3-1)
+      * [The functools library](#s1-3-2)
+      * [dataclasses](#s1-3-3)
+      * [contextlib](#s1-3-4)
 
 
 # <a id='s1' />Python decorator walk-through
@@ -197,7 +197,7 @@ __Result:__
 >> type(say_miau) :  <class '__main__.CountCalls'>
 >> say_miau.__name__ :  say_miau
 >> say_miau.__doc__ :   docstring: print the vocalization of a Felis Catus, also known as cat 
->> say_miau.__wrapped__ :  <function say_miau at 0x7f85f26e7b80>
+>> say_miau.__wrapped__ :  <function say_miau at 0x7faf0ede7b80>
 ```
 
 Attention!
@@ -350,7 +350,7 @@ for idx in range(1, 4):
 __Result:__
 
 ```
->> LimitCalls function: <function square_me at 0x7f85f26f05e0> max_hits: 3 log_calls: False
+>> LimitCalls function: <function square_me at 0x7faf0edf05e0> max_hits: 3 log_calls: False
 >> square_me type:  <class '__main__._LimitCalls'>
 >> idx: 1
 >> call # 1 returns:  4
@@ -380,7 +380,7 @@ __Result:__
 
 ```
 >> LimitCalls function: None max_hits: 4 log_calls: True
->> wrapper function: <function cube_me at 0x7f85f26f0b80>
+>> wrapper function: <function cube_me at 0x7faf0edf0b80>
 ```
 
 cube\_me is a variable of type \_LimitCalls
@@ -457,7 +457,7 @@ __Result:__
 >> wrapper function: <class '__main__.Foo'>
 >> Calling: Foo #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo.__init__
->> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7f85f26ed700>
+>> Return from: Foo #call: 1 return-value: <__main__.Foo object at 0x7faf0eded700>
 >> do_something in Foo
 ```
 
@@ -528,7 +528,7 @@ __Result:__
 There is a saying [Closures are the poor mans objects](https://stackoverflow.com/questions/2497801/closures-are-poor-mans-objects-and-vice-versa-what-does-this-mean), don't know who the poor man is, some languages, like Haskell, do without object systems at all. I think, it means that both objects and closures are equivalent means of storing state.
 Let's see, how this concept is put to use with decorators
 
-## <a id='s1-3' />Decorators by means of first class functions/closures
+### <a id='s1-2-2' />Decorators by means of first class functions/closures
 
 Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
 In my book that is a bit of a brain damage, but let's go for it, real pythonistas are not afraid of brain damage! (i think that's quotable ;-))
@@ -627,8 +627,8 @@ for idx in range(1, 5):
 __Result:__
 
 ```
->> LimitCalls2 _func: <function dec_three_from_me at 0x7f85f26f7a60> max_hits: 3 Log_calls: False
->> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7f85f26f7a60>
+>> LimitCalls2 _func: <function dec_three_from_me at 0x7faf0edf7a60> max_hits: 3 Log_calls: False
+>> LimitCalls in nested forward_func_call. func: <function dec_three_from_me at 0x7faf0edf7a60>
 >> type(dec_three_from_me) :  <class 'function'>
 >> dec_three_from_me.__name__ :  dec_three_from_me
 >> dec_three_from_me.__doc__ :  None
@@ -672,7 +672,7 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 2 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7f85f26f90d0>
+>> LimitCalls in nested forward_func_call. func: <function dec_me at 0x7faf0edf90d0>
 >> idx: 1
 >> Calling: dec_me #call: 1 positional-arguments: 1 keyword-arguments:
 >> Return from: dec_me #call: 1 return-value: 0
@@ -713,7 +713,7 @@ __Result:__
 >> LimitCalls in nested forward_func_call. func: <class '__main__.Foo3'>
 >> Calling: Foo3 #call: 1 positional-arguments: keyword-arguments:
 >> inside Foo3.__init__
->> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7f85f26e4f10>
+>> Return from: Foo3 #call: 1 return-value: <__main__.Foo3 object at 0x7faf0ede4f10>
 >> do_something in Foo3
 ```
 
@@ -744,18 +744,18 @@ __Result:__
 
 ```
 >> LimitCalls2 _func: None max_hits: 3 Log_calls: True
->> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7f85f26f7dc0>
+>> LimitCalls in nested forward_func_call. func: <function Foo4.do_something at 0x7faf0edf7dc0>
 >> inside Foo4.__init__
->> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7f85f2625af0> keyword-arguments:
+>> Calling: do_something #call: 1 positional-arguments: <__main__.Foo4 object at 0x7faf0ed25af0> keyword-arguments:
 >> do_something in Foo4
 >> Return from: do_something #call: 1 return-value: None
 ```
 
 
-## <a id='s1-4' />Decorators in the python standard library
+## <a id='s1-3' />Decorators in the python standard library
 
 
-### <a id='s1-4-1' />@staticmethod and @classmethod
+### <a id='s1-3-1' />@staticmethod and @classmethod
 
 @staticmethod and @classmethod are built-in decorators, you don't have to import any package in order to use them
 
@@ -800,8 +800,8 @@ __Result:__
 
 ```
 >> absolute of a number:  3
->> random number between 0 and 1 0.8809536053849658
->> random number between 0 and 1 0.5903456526346241
+>> random number between 0 and 1 0.9720065130017221
+>> random number between 0 and 1 0.3578250940925185
 ```
 
 A method that is declared with the @classmthod decorator, here the first parameter is the class object. Note that a method like this doesn't have a self parameter.
@@ -839,7 +839,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.Colour object at 0x7f85f26f8fa0> red: 255 green: 0 blue: 0
+>> color red:  <__main__.Colour object at 0x7faf0edf8fa0> red: 255 green: 0 blue: 0
 ```
 
 At first it doesn't make an awfull lot of sense, but lets derive the ColourWithAlphaChannel class from Colour.
@@ -873,7 +873,7 @@ print("color red: ", colour_red , "red:", colour_red.red , "green:", colour_red.
 __Result:__
 
 ```
->> color red:  <__main__.ColourWithAlphaChannel object at 0x7f85f26e6e50> red: 255 green: 0 blue: 0 alpha: 1.0
+>> color red:  <__main__.ColourWithAlphaChannel object at 0x7faf0ede5e50> red: 255 green: 0 blue: 0 alpha: 1.0
 ```
 
 Other examples of alternate constructors in the standard library: 
@@ -882,7 +882,7 @@ Other examples of alternate constructors in the standard library:
 
 
 
-### <a id='s1-4-2' />The functools library
+### <a id='s1-3-2' />The functools library
 
 The [functools library](https://docs.python.org/3/library/functools.html) comes as part of the python standard library.
 his library comes with some interesting decorators. 
@@ -1086,11 +1086,11 @@ __Result:__
 ```
 
 
-### <a id='s1-4-3' />dataclasses
+### <a id='s1-3-3' />dataclasses
 
 read all about it [here](https://docs.python.org/3/library/dataclasses.html)
 
-### <a id='s1-4-4' />contextlib
+### <a id='s1-3-4' />contextlib
 
 read all about it [here](https://docs.python.org/3/reference/datamodel.html#context-managers)
 

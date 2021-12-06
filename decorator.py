@@ -368,7 +368,7 @@ print_md("""There is a saying [Closures are the poor mans objects](https://stack
 Let's see, how this concept is put to use with decorators""")
 
 
-header_md("Decorators by means of first class functions/closures", nesting=2)
+header_md("Decorators by means of first class functions/closures", nesting=3)
 
 print_md("""
 Time to examine other options. Python people like to do decorators with first class functions, that means lots of closures and functions returning closures/function values.
