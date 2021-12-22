@@ -1,14 +1,19 @@
-  * [iterators](#s0-1)
-  * [generators](#s0-2)
+  * [Iterators](#s0-1)
+  * [Generators](#s0-2)
+      * [a generator in action](#s0-2-1)
+      * [stop, what is cooperative threading all about?](#s0-2-2)
   * [built-in range function, for iterating over a range of values](#s0-3)
 
 
-## <a id='s0-1' />iterators
+## <a id='s0-1' />Iterators
 
 
-## <a id='s0-2' />generators
+## <a id='s0-2' />Generators
 
-Let's examine how generators differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function
+
+### <a id='s0-2-1' />a generator in action
+
+Let's examine how generator functions differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function
 
 __Source:__
 
@@ -27,7 +32,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9903de0d30>
+>> type(not_a_generator): <function not_a_generator at 0x7f91244e0dc0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -52,7 +57,7 @@ def my_range(from_val, to_val):
     print("(generator) leaving the generator function, iteration is finished")
 
 ```
-A function that has a yield statement, is is still a function objct.
+A function that has a yield statement, is is technically still a function objct.
 
 __Source:__
 
@@ -68,7 +73,7 @@ __Result:__
 >> type(my_range): <class 'function'>
 ```
 
-You can tell, if a function has a yield statement, or not, the function object owns a \_\_code\_\_ attribute, which has a flag set, if it includes a yield statment, that's what inspect.isgeneratorfunction is checking.
+You can tell, if a function has a yield statement, or not, the function object owns a \_\_code\_\_ attribute, which has a flag set, if it includes a yield statment, that's what [inspect.isgeneratorfunction](https://docs.python.org/3/library/inspect.html#inspect.isgeneratorfunction) is checking.
 
 __Source:__
 
@@ -298,6 +303,71 @@ __Result:__
 ```
 
 
+### <a id='s0-2-2' />stop, what is cooperative threading all about?
+
+What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, 
+however the python bytecode interpreter maintains a separate stack frame entity for both the generator and its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement with the aim to return a value to the caller. It is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals map of the frame object. (are you still with me?)
+
+See the following example:
+
+
+__Source:__
+
+```
+
+
+import traceback
+import threading
+
+def fib_generator():
+    a=0
+    b=1
+
+    print("fib_generator operating system thread_id:", threading.get_ident())
+    print("type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame, "fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+
+    while True:
+        yield b
+        a,b= b,a+b
+
+print("caller of generator operating system thread_id:", threading.get_ident())
+
+fib_gen = fib_generator()
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+
+for num in fib_gen:
+    if num > 100:
+        break
+    print("fibonacci number:", num)
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+
+
+```
+
+__Result:__
+
+```
+>> caller of generator operating system thread_id: 4431637952
+>> inspect.getgeneratorstate(range_generator): GEN_CREATED
+>> fib_generator operating system thread_id: 4431637952
+>> type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f912432e400, file '<string>', line 11, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
+>> fibonacci number: 1
+>> fibonacci number: 1
+>> fibonacci number: 2
+>> fibonacci number: 3
+>> fibonacci number: 5
+>> fibonacci number: 8
+>> fibonacci number: 13
+>> fibonacci number: 21
+>> fibonacci number: 34
+>> fibonacci number: 55
+>> fibonacci number: 89
+>> inspect.getgeneratorstate(range_generator): GEN_SUSPENDED
+```
+
+
 ## <a id='s0-3' />built-in range function, for iterating over a range of values
 
 built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator function and the for loop that is using it
@@ -342,7 +412,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140295171661760 id(range_iter2): 140295171661712
+>> id(range_iter): 140261356134336 id(range_iter2): 140261356134288
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 

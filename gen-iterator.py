@@ -3,11 +3,13 @@
 from mdformat import *
 
 
-header_md("iterators", nesting=2)
+header_md("Iterators", nesting=2)
 
-header_md("generators", nesting=2)
+header_md("Generators", nesting=2)
 
-print_md("""Let's examine how generators differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function""")
+header_md("a generator in action", nesting=3)
+
+print_md("""Let's examine how generator functions differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function""")
 
 eval_and_quote("""
 def not_a_generator(from_val, to_val):
@@ -38,12 +40,13 @@ def my_range(from_val, to_val):
     print("(generator) leaving the generator function, iteration is finished")
 """)
 
-print_md("""A function that has a yield statement, is is still a function objct.""")
+print_md("""A function that has a yield statement, is is technically still a function objct.""")
 eval_and_quote("""
 print("type(my_range):", type(my_range))
 """)
 
-print_md("""You can tell, if a function has a yield statement, or not, the function object owns a __code__ attribute, which has a flag set, if it includes a yield statment, that's what inspect.isgeneratorfunction is checking.""")
+print_md("""You can tell, if a function has a yield statement, or not, the function object owns a __code__ attribute, which has a flag set, if it includes a yield statment, that's what [inspect.isgeneratorfunction](https://docs.python.org/3/library/inspect.html#inspect.isgeneratorfunction) is checking.""")
+
 eval_and_quote("""
 import inspect 
 
@@ -130,31 +133,46 @@ for num in range_generator:
     print("num:", num)
 """)
 
+header_md("stop, what is cooperative threading all about?", nesting=3)
 
-#print_md("""What happens, when a for loop leaves via the break statement? The interpreter stops the iterator by force, by calling the stop methd of the generator object!
-#The fib_generator generator function computes a sequence of infinite size - if it is not stopped, then it continues to compute fibonacci numbers""")
-#
-#eval_and_quote("""
-#
-#def fib_generator():
-#    a=0
-#    b=1
-#    while True:
-#        yield b
-#        a,b= b,a+b
-#
-#fib_gen = fib_generator()
-#
-#print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
-#
-#for num in fib_gen:
-#    print("fibonacci number:", num)
-#    if num > 100:
-#        break
-#
-#print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
-#
-#""")
+print_md("""What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, 
+however the python bytecode interpreter maintains a separate stack frame entity for both the generator and its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement with the aim to return a value to the caller. It is later resumed upon calling the next built-in function (next(fib_gen) in our case), and resumes execution from the bytecode instruction referred to by f_lasti, with the local variable values referred to by the f_locals map of the frame object. (are you still with me?)
+
+See the following example:
+""")
+
+
+
+eval_and_quote("""
+
+import traceback
+import threading
+
+def fib_generator():
+    a=0
+    b=1
+
+    print("fib_generator operating system thread_id:", threading.get_ident())
+    print("type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame, "fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+
+    while True:
+        yield b
+        a,b= b,a+b
+
+print("caller of generator operating system thread_id:", threading.get_ident())
+
+fib_gen = fib_generator()
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+
+for num in fib_gen:
+    if num > 100:
+        break
+    print("fibonacci number:", num)
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+
+""")
 
 header_md("built-in range function, for iterating over a range of values", nesting=2)
 
