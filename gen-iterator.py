@@ -166,14 +166,14 @@ print("caller of generator operating system thread_id:", threading.get_ident())
 
 fib_gen = fib_generator()
 
-print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+print("inspect.getgeneratorstate(fib_gen):", inspect.getgeneratorstate(fib_gen))
 
 for num in fib_gen:
     if num > 100:
         break
     print("fibonacci number:", num)
 
-print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 
 """)
 
