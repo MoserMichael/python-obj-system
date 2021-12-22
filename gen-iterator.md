@@ -32,7 +32,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fad0dcccdc0>
+>> type(not_a_generator): <function not_a_generator at 0x7fcf7f5ccdc0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -307,7 +307,8 @@ __Result:__
 
 What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
 
-Now the python bytecode interpreter maintains a separate stack frame entity for both the generator and its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement with the aim to return a value to the caller. It is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals map of the frame object. (are you still with me?)
+        
+Now the python bytecode interpreter maintains a separate stack frame entity for both the generator and its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals dictionary of the frame object. (are you still with me?)
 
 See the following example:
 
@@ -350,10 +351,10 @@ print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(f
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4455046592
+>> caller of generator operating system thread_id: 4428860864
 >> inspect.getgeneratorstate(range_generator): GEN_CREATED
->> fib_generator operating system thread_id: 4455046592
->> type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fad0d92e400, file '<string>', line 11, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
+>> fib_generator operating system thread_id: 4428860864
+>> type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcf7f32e400, file '<string>', line 11, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> fibonacci number: 1
 >> fibonacci number: 2
@@ -413,7 +414,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140381237649344 id(range_iter2): 140381237649296
+>> id(range_iter): 140529171800000 id(range_iter2): 140529171799952
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
