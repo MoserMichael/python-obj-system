@@ -7,7 +7,50 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
-print_md("""tbd""")
+print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the object, a StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.
+""")
+
+eval_and_quote("""
+
+class FibIter:
+    def __init__(self):
+        self.a = 0
+        self.b = 1
+
+    def __next__(self):
+        ret_val = self.b
+
+        next_val = self.a + self.b
+        self.a = self.b
+        self.b = next_val
+
+        return ret_val
+
+
+fib_iter = FibIter()
+
+for _ in range(1,10):
+    # calling the next built-in function with iterator argument is calling the __next__ member of the iterator object.
+    fib_num = next(fib_iter)
+    print(fib_num)
+
+""") 
+
+print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterator object, required by the for statement""")
+
+eval_and_quote("""
+class InfiniteFibSequence:
+    def __init__(self):
+        pass
+
+    def __iter__(self):
+        return FibIter()
+        
+for num in InfiniteFibSequence():
+    if num > 100:
+        break
+    print("fibonacci number:", num)
+""")
 
 header_md("Built-in range function, for iterating over a range of values", nesting=3)
 
