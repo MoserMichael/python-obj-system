@@ -116,10 +116,11 @@ except StopIteration as stop_iter:
 assert has_stop_iter_ex
 """)
 
+print_md("""The gnerator object is in closed state, upon having completed its iteration""")
+
 eval_and_quote("""
 print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 """)
-
 
 print_md("""Using an generator in a for loop, The for loop uses it as an iterator""")
 
@@ -129,9 +130,31 @@ for num in range_generator:
     print("num:", num)
 """)
 
+
+print_md("""What happens, when a for loop leaves via the break statement? The interpreter stopps the iterator by force, by calling the stop methd of the  generator object!
+The next generator computes a sequence of infinite size - if it is not stopped, then it continues to compute fibonacci numbers """)
+
+eval_and_quote("""
+
+def fib_generator():
+    a=0
+    b=1
+    while True:
+        yield b
+        a,b= b,a+b
+
+for num in fib_generator():
+    print("fibonacci number:", num)
+    if num > 1000:
+        break
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
+
+""")
+
 header_md("built-in range function, for iterating over a range of values", nesting=2)
 
-print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator functio nand the for loop that is using it""")
+print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator function and the for loop that is using it""")
 
 eval_and_quote("""
 range_value = range(1,10)
