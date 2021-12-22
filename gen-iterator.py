@@ -330,6 +330,9 @@ print_md("""
 Both iteraters and generators are means of producing a sequence of objects; iterators are an object based pattern, whereas generators are a more functional pattern.
 There seems to be an analogy with decorators, these can also be object oriented, based on callbable objects vs the functional way of doing it with closures.
 So that there always seem to be these two orthogonal approaches of looking at the same problem, one based on objects and the other based on closures.
+
+To me it seems, that the object oriented way of doing things is achieving the same aims, at the expense of introducing less entities, however the functional way may be adding a slightly more succinct notation, which may be occasionally preferrable.
+
 """)
 
 print("*** eof tutorial ***")

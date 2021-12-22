@@ -224,7 +224,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140515909418176 id(range_iter2): 140515909418224
+>> id(range_iter): 140411854945472 id(range_iter2): 140411854945520
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -276,7 +276,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fcc68ded310>
+>> type(not_a_generator): <function not_a_generator at 0x7fb42ebd9310>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -597,10 +597,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4490460608
+>> caller of generator operating system thread_id: 4390518208
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4490460608
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcc68d5f040, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4390518208
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fb42eb4a040, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -633,6 +633,9 @@ __Result:__
 Both iteraters and generators are means of producing a sequence of objects; iterators are an object based pattern, whereas generators are a more functional pattern.
 There seems to be an analogy with decorators, these can also be object oriented, based on callbable objects vs the functional way of doing it with closures.
 So that there always seem to be these two orthogonal approaches of looking at the same problem, one based on objects and the other based on closures.
+
+To me it seems, that the object oriented way of doing things is achieving the same aims, at the expense of introducing less entities, however the functional way may be adding a slightly more succinct notation, which may be occasionally preferrable.
+
 
 *** eof tutorial ***
 
