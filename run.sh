@@ -16,5 +16,6 @@ make_lesson() {
 
 make_lesson ./python-obj-system.py
 make_lesson ./decorator.py
+make_lesson ./gen-iterator.py
 
 echo "*** all tutorials generated ***"
