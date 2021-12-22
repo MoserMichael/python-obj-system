@@ -1,16 +1,24 @@
-  * [Iterators](#s0-1)
-      * [Iterator example](#s0-1-1)
-      * [Built-in range function, for iterating over a range of values](#s0-1-2)
-  * [Generators](#s0-2)
-      * [a generator in action](#s0-2-1)
-      * [What is going on here?](#s0-2-2)
-  * [Summing it up](#s0-3)
+* [Generating sequences dynamically](#s1)
+  * [Iterators](#s1-1)
+      * [Iterator example](#s1-1-1)
+      * [Built-in range function, for iterating over a range of values](#s1-1-2)
+  * [Generators](#s1-2)
+      * [a generator in action](#s1-2-1)
+      * [What is going on here?](#s1-2-2)
+  * [Summing it up, so far](#s1-3)
+      * [AsyncIO, there is much more!](#s1-3-1)
 
 
-## <a id='s0-1' />Iterators
+# <a id='s1' />Generating sequences dynamically
+
+Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
+There is always the possibility of creating a list, that includes all the members of a desired sequnce. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often more practical to create the elements of a sequence upon demand, that's exactly what is done by both iterators and generators.
 
 
-### <a id='s0-1-1' />Iterator example
+## <a id='s1-1' />Iterators
+
+
+### <a id='s1-1-1' />Iterator example
 
 An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the iterator object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
@@ -154,7 +162,7 @@ __Result:__
 ```
 
 
-### <a id='s0-1-2' />Built-in range function, for iterating over a range of values
+### <a id='s1-1-2' />Built-in range function, for iterating over a range of values
 
 built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
 
@@ -224,7 +232,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140411854945472 id(range_iter2): 140411854945520
+>> id(range_iter): 140692436057568 id(range_iter2): 140692436057616
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -252,10 +260,10 @@ __Result:__
 ```
 
 
-## <a id='s0-2' />Generators
+## <a id='s1-2' />Generators
 
 
-### <a id='s0-2-1' />a generator in action
+### <a id='s1-2-1' />a generator in action
 
 Let's examine how generator functions differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function
 
@@ -276,7 +284,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fb42ebd9310>
+>> type(not_a_generator): <function not_a_generator at 0x7ff582ad9310>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -547,7 +555,7 @@ __Result:__
 ```
 
 
-### <a id='s0-2-2' />What is going on here?
+### <a id='s1-2-2' />What is going on here?
 
 What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
 
@@ -597,10 +605,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4390518208
+>> caller of generator operating system thread_id: 4583448000
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4390518208
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fb42eb4a040, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4583448000
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7ff582a4a040, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -628,7 +636,7 @@ __Result:__
 ```
 
 
-## <a id='s0-3' />Summing it up
+## <a id='s1-3' />Summing it up, so far
 
 Both iteraters and generators are means of producing a sequence of objects; iterators are an object based pattern, whereas generators are a more functional pattern.
 There seems to be an analogy with decorators, these can also be object oriented, based on callbable objects vs the functional way of doing it with closures.
@@ -637,5 +645,9 @@ So that there always seem to be these two orthogonal approaches of looking at th
 To me it seems, that the object oriented way of doing things is achieving the same aims, at the expense of introducing less entities, however the functional way may be adding a slightly more succinct notation, which may be occasionally preferrable.
 
 
+
+### <a id='s1-3-1' />AsyncIO, there is much more!
+
+tbd
 *** eof tutorial ***
 

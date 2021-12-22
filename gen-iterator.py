@@ -2,6 +2,11 @@
 
 from mdformat import *
 
+header_md("Generating sequences dynamically", nesting=1)
+
+print_md("""Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
+There is always the possibility of creating a list, that includes all the members of a desired sequnce. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often more practical to create the elements of a sequence upon demand, that's exactly what is done by both iterators and generators.
+""")
 
 header_md("Iterators", nesting=2)
 
@@ -324,7 +329,7 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 
 """)
 
-header_md("Summing it up", nesting=2)
+header_md("Summing it up, so far", nesting=2)
 
 print_md("""
 Both iteraters and generators are means of producing a sequence of objects; iterators are an object based pattern, whereas generators are a more functional pattern.
@@ -334,6 +339,11 @@ So that there always seem to be these two orthogonal approaches of looking at th
 To me it seems, that the object oriented way of doing things is achieving the same aims, at the expense of introducing less entities, however the functional way may be adding a slightly more succinct notation, which may be occasionally preferrable.
 
 """)
+
+header_md("AsyncIO, there is much more!", nesting=3)
+
+print_md("""tbd""")
+
 
 print("*** eof tutorial ***")
 
