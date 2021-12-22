@@ -342,7 +342,13 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 
 header_md("AsyncIO, there is much more!", nesting=1)
 
-print_md("""tbd""")
+print_md("""AsyncIO is a feature, that has been added to python 3.7""")
+
+import sys
+
+if sys.version_info[0] < 3 or sys.version_info[1] < 7:
+    print_md("""Ups, currently running on python version older than 3.7, can't continue""")
+    sys.exit(1)
 
 
 print("*** eof tutorial ***")
