@@ -178,7 +178,8 @@ print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(f
 
 header_md("built-in range function, for iterating over a range of values", nesting=2)
 
-print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator function and the for loop that is using it""")
+print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
+
 
 eval_and_quote("""
 range_value = range(1,10)
