@@ -212,4 +212,5 @@ for val in range_val:
     print("iteration2:", val)
 """)
 
-print("*** eof lesson ***")
+print("*** eof tutorial ***")
+
