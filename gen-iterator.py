@@ -7,7 +7,8 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
-print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the object, a StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.
+print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the object
+The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 """)
 
 eval_and_quote("""
@@ -36,7 +37,7 @@ for _ in range(1,10):
 
 """) 
 
-print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterator object, required by the for statement""")
+print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterator object, this factory method is required by the for statement""")
 
 eval_and_quote("""
 class InfiniteFibSequence:
@@ -52,6 +53,42 @@ for num in InfiniteFibSequence():
     print("fibonacci number:", num)
 """)
 
+print_md("""An even better example: we want an iterator object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
+
+A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.""")
+
+eval_and_quote("""
+
+class LimitedFibIter:
+    def __init__(self, range_size):
+        self.a = 0
+        self.b = 1
+        self.range_size = range_size
+        self.cur_range = 0
+
+    def __next__(self):
+        self.cur_range += 1
+        if self.cur_range > self.range_size:
+            raise StopIteration()
+        ret_val = self.b
+
+        next_val = self.a + self.b
+        self.a = self.b
+        self.b = next_val
+
+        return ret_val
+
+class LimitedFibRange:
+    def __init__(self, range_size):
+        self.range_size = range_size
+        
+    def __iter__(self):
+        return LimitedFibIter(self.range_size)
+
+for num in LimitedFibRange(10):
+    print("fib number:", num)
+""")
+ 
 header_md("Built-in range function, for iterating over a range of values", nesting=3)
 
 print_md("""built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")

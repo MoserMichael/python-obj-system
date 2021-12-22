@@ -11,7 +11,8 @@
 
 ### <a id='s0-1-1' />Iterator example
 
-An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the object, a StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.
+An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the object
+The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 
 
 __Source:__
@@ -58,7 +59,7 @@ __Result:__
 >> 34
 ```
 
-We want an iterator object that is usable with the for statement. Here we need to  implement the \_\_iter\_\_ method, this is a factory method for returning an iterator object, required by the for statement
+We want an iterator object that is usable with the for statement. Here we need to  implement the \_\_iter\_\_ method, this is a factory method for returning an iterator object, this factory method is required by the for statement
 
 __Source:__
 
@@ -92,6 +93,61 @@ __Result:__
 >> fibonacci number: 34
 >> fibonacci number: 55
 >> fibonacci number: 89
+```
+
+An even better example: we want an iterator object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
+
+A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.
+
+__Source:__
+
+```
+
+
+class LimitedFibIter:
+    def __init__(self, range_size):
+        self.a = 0
+        self.b = 1
+        self.range_size = range_size
+        self.cur_range = 0
+
+    def __next__(self):
+        self.cur_range += 1
+        if self.cur_range > self.range_size:
+            raise StopIteration()
+        ret_val = self.b
+
+        next_val = self.a + self.b
+        self.a = self.b
+        self.b = next_val
+
+        return ret_val
+
+class LimitedFibRange:
+    def __init__(self, range_size):
+        self.range_size = range_size
+        
+    def __iter__(self):
+        return LimitedFibIter(self.range_size)
+
+for num in LimitedFibRange(10):
+    print("fib number:", num)
+
+```
+
+__Result:__
+
+```
+>> fib number: 1
+>> fib number: 1
+>> fib number: 2
+>> fib number: 3
+>> fib number: 5
+>> fib number: 8
+>> fib number: 13
+>> fib number: 21
+>> fib number: 34
+>> fib number: 55
 ```
 
 
@@ -165,7 +221,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140585904250720 id(range_iter2): 140585904250768
+>> id(range_iter): 140693647252480 id(range_iter2): 140693647252528
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -217,7 +273,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fdcb4eeaca0>
+>> type(not_a_generator): <function not_a_generator at 0x7ff5cadee310>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -538,10 +594,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4527472064
+>> caller of generator operating system thread_id: 4713348544
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4527472064
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fdcb4e5d220, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4713348544
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7ff5cad33400, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
