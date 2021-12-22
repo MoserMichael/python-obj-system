@@ -27,7 +27,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9846be0d30>
+>> type(not_a_generator): <function not_a_generator at 0x7f9903de0d30>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -234,6 +234,7 @@ __Result:__
 >> Upon leaving the generator function, received exception of type(stop_iter): <class 'StopIteration'>
 ```
 
+The gnerator object is in closed state, upon having completed its iteration
 
 __Source:__
 
@@ -299,7 +300,7 @@ __Result:__
 
 ## <a id='s0-3' />built-in range function, for iterating over a range of values
 
-built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator functio nand the for loop that is using it
+built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object. It makes sense to avoid generators for the built-in range function: generators are slower, as they need to switch the stack back and forth between the generator function and the for loop that is using it
 
 __Source:__
 
@@ -341,7 +342,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140291998666640 id(range_iter2): 140291998666592
+>> id(range_iter): 140295171661760 id(range_iter2): 140295171661712
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 

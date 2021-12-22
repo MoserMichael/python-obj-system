@@ -131,26 +131,30 @@ for num in range_generator:
 """)
 
 
-print_md("""What happens, when a for loop leaves via the break statement? The interpreter stopps the iterator by force, by calling the stop methd of the  generator object!
-The next generator computes a sequence of infinite size - if it is not stopped, then it continues to compute fibonacci numbers """)
-
-eval_and_quote("""
-
-def fib_generator():
-    a=0
-    b=1
-    while True:
-        yield b
-        a,b= b,a+b
-
-for num in fib_generator():
-    print("fibonacci number:", num)
-    if num > 1000:
-        break
-
-print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
-
-""")
+#print_md("""What happens, when a for loop leaves via the break statement? The interpreter stops the iterator by force, by calling the stop methd of the generator object!
+#The fib_generator generator function computes a sequence of infinite size - if it is not stopped, then it continues to compute fibonacci numbers""")
+#
+#eval_and_quote("""
+#
+#def fib_generator():
+#    a=0
+#    b=1
+#    while True:
+#        yield b
+#        a,b= b,a+b
+#
+#fib_gen = fib_generator()
+#
+#print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+#
+#for num in fib_gen:
+#    print("fibonacci number:", num)
+#    if num > 100:
+#        break
+#
+#print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(fib_gen))
+#
+#""")
 
 header_md("built-in range function, for iterating over a range of values", nesting=2)
 
