@@ -154,10 +154,10 @@ def fib_generator():
     a=0
     b=1
 
-    print("fib_generator operating system thread_id:", threading.get_ident())
-    print("type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame, "fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+    print("(generator) fib_generator operating system thread_id:", threading.get_ident())
 
     while True:
+        print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame, "fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
         yield b
         a,b= b,a+b
 
