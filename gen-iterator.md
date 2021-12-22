@@ -6,7 +6,7 @@
       * [a generator in action](#s1-2-1)
       * [What is going on here?](#s1-2-2)
   * [Summing it up, so far](#s1-3)
-      * [AsyncIO, there is much more!](#s1-3-1)
+* [AsyncIO, there is much more!](#s2)
 
 
 # <a id='s1' />Generating sequences dynamically
@@ -232,7 +232,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140692436057568 id(range_iter2): 140692436057616
+>> id(range_iter): 140463740665312 id(range_iter2): 140463740665360
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -284,7 +284,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7ff582ad9310>
+>> type(not_a_generator): <function not_a_generator at 0x7fc0435ed310>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -605,10 +605,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4583448000
+>> caller of generator operating system thread_id: 4544990656
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4583448000
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7ff582a4a040, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4544990656
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc04355e040, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -646,7 +646,7 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 
 
 
-### <a id='s1-3-1' />AsyncIO, there is much more!
+# <a id='s2' />AsyncIO, there is much more!
 
 tbd
 *** eof tutorial ***
