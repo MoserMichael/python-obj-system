@@ -26,10 +26,11 @@ eval_and_quote("""
 def my_range(from_val, to_val):
     print("(generator) my_range from_val:", from_val, "to_val:", to_val)
 
-    print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
-    print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
-
     while from_val < to_val:
+
+        print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
+        print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
+
         print("(generator) before yield from_val:", from_val)
         yield from_val
         from_val += 1
@@ -42,7 +43,7 @@ eval_and_quote("""
 print("type(my_range):", type(my_range))
 """)
 
-print_md("""You can tell, if a function has a yield statement, or not, the function object owns a __code__ attribute, which has a flag set, if it includes a yield statment""")
+print_md("""You can tell, if a function has a yield statement, or not, the function object owns a __code__ attribute, which has a flag set, if it includes a yield statment, that's what inspect.isgeneratorfunction is checking.""")
 eval_and_quote("""
 import inspect 
 
@@ -101,7 +102,7 @@ val = range_generator.__next__()
 print("return value of next(range_generator):", val)
 """)
 
-print_md("""When the generator function is exiting: a StopIteration exception is raised. I was surprised, that python is using exceptions, as art of regular control flow!
+print_md("""When the generator function is exiting: a StopIteration exception is raised. I was surprised, that python is using exceptions, as part of regular control flow!
 But it makes sence: raising an exception is different, and can't be confused with returning a regular return value""")
 
 eval_and_quote("""

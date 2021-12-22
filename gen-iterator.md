@@ -27,7 +27,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9b40cdfca0>
+>> type(not_a_generator): <function not_a_generator at 0x7f8d13ecbca0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -40,10 +40,11 @@ __Source:__
 def my_range(from_val, to_val):
     print("(generator) my_range from_val:", from_val, "to_val:", to_val)
 
-    print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
-    print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
-
     while from_val < to_val:
+
+        print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
+        print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
+
         print("(generator) before yield from_val:", from_val)
         yield from_val
         from_val += 1
@@ -67,7 +68,7 @@ __Result:__
 >> type(my_range): <class 'function'>
 ```
 
-You can tell, if a function has a yield statement, or not, the function object owns a \_\_code\_\_ attribute, which has a flag set, if it includes a yield statment
+You can tell, if a function has a yield statement, or not, the function object owns a \_\_code\_\_ attribute, which has a flag set, if it includes a yield statment, that's what inspect.isgeneratorfunction is checking.
 
 __Source:__
 
@@ -202,11 +203,13 @@ print("return value of next(range_generator):", val)
 __Result:__
 
 ```
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 11
 >> return value of next(range_generator): 11
 ```
 
-When the generator function is exiting: a StopIteration exception is raised. I was surprised, that python is using exceptions, as art of regular control flow!
+When the generator function is exiting: a StopIteration exception is raised. I was surprised, that python is using exceptions, as part of regular control flow!
 But it makes sence: raising an exception is different, and can't be confused with returning a regular return value
 
 __Source:__
@@ -251,16 +254,28 @@ __Result:__
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 0
 >> num: 0
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 1
 >> num: 1
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 2
 >> num: 2
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 3
 >> num: 3
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 4
 >> num: 4
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 5
 >> num: 5
+>> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 6
 >> num: 6
 >> (generator) leaving the generator function, iteration is finished
@@ -311,7 +326,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140304783912896 id(range_iter2): 140304783912848
+>> id(range_iter): 140243901439936 id(range_iter2): 140243901439888
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
