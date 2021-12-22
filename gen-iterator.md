@@ -57,7 +57,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140478019338176 id(range_iter2): 140478019338128
+>> id(range_iter): 140380818259904 id(range_iter2): 140380818259856
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
@@ -109,7 +109,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fc39670db80>
+>> type(not_a_generator): <function not_a_generator at 0x7facf4ce1b80>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -404,9 +404,10 @@ def fib_generator():
     b=1
 
     print("(generator) fib_generator operating system thread_id:", threading.get_ident())
+    print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame) 
 
     while True:
-        print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame, "fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+        print("(generator) fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
         yield b
         a,b= b,a+b
 
@@ -429,32 +430,33 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4605398464
+>> caller of generator operating system thread_id: 4610588096
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4605398464
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
+>> (generator) fib_generator operating system thread_id: 4610588096
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7facf4a2e400, file '<string>', line 11, code fib_generator>
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
 >> fibonacci number: 1
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 2}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 2}
 >> fibonacci number: 2
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 2, 'b': 3}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 2, 'b': 3}
 >> fibonacci number: 3
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 3, 'b': 5}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 3, 'b': 5}
 >> fibonacci number: 5
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 5, 'b': 8}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 5, 'b': 8}
 >> fibonacci number: 8
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 8, 'b': 13}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 8, 'b': 13}
 >> fibonacci number: 13
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 13, 'b': 21}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 13, 'b': 21}
 >> fibonacci number: 21
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 21, 'b': 34}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 21, 'b': 34}
 >> fibonacci number: 34
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 34, 'b': 55}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 34, 'b': 55}
 >> fibonacci number: 55
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 55, 'b': 89}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 55, 'b': 89}
 >> fibonacci number: 89
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 89, 'b': 144}
+>> (generator) fib_gen.gi_frame.f_locals: {'a': 89, 'b': 144}
 >> inspect.getgeneratorstate(fib_ben): GEN_SUSPENDED
 ```
 
