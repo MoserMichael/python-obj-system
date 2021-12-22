@@ -279,7 +279,7 @@ for num in range_generator:
     print("num:", num)
 """)
 
-header_md("stop, what is cooperative threading all about?", nesting=3)
+header_md("What is going on here?", nesting=3)
 
 print_md("""What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
 
