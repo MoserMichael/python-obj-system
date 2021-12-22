@@ -7,7 +7,7 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
-print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the object
+print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterator object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 """)
 
@@ -30,6 +30,8 @@ class FibIter:
 
 fib_iter = FibIter()
 
+# note that we are calling next(fib_iter) exactly ten times, in order to produce ten fibonacci numbers. 
+# It works, but this way of iterating is a bit awkward.
 for _ in range(1,10):
     # calling the next built-in function with iterator argument is calling the __next__ member of the iterator object.
     fib_num = next(fib_iter)
