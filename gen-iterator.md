@@ -27,7 +27,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f8d13ecbca0>
+>> type(not_a_generator): <function not_a_generator at 0x7f9846be0d30>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -42,7 +42,7 @@ def my_range(from_val, to_val):
 
     while from_val < to_val:
 
-        print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
+        print("(generator) The generator instance is in running state, computes the next value to be returned by the yield statement")
         print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
         print("(generator) before yield from_val:", from_val)
@@ -52,7 +52,7 @@ def my_range(from_val, to_val):
     print("(generator) leaving the generator function, iteration is finished")
 
 ```
-A function that has a yield statement is still a function.
+A function that has a yield statement, is is still a function objct.
 
 __Source:__
 
@@ -81,7 +81,7 @@ assert not inspect.isgeneratorfunction(not_a_generator)
 
 
 ```
-Digression: the \_\_code\_\_ attribute of a function object stands for the compiled byte code of a function. lots and lots of details here
+Digression: the \_\_code\_\_ attribute of a function object stands for the compiled byte code of a function. (but that's another rabbit hole)
 
 __Source:__
 
@@ -167,7 +167,7 @@ __Result:__
 
 ```
 >> (generator) my_range from_val: 10 to_val: 12
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 10
 >> return value of next(range_generator): 10
@@ -203,7 +203,7 @@ print("return value of next(range_generator):", val)
 __Result:__
 
 ```
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 11
 >> return value of next(range_generator): 11
@@ -234,6 +234,21 @@ __Result:__
 >> Upon leaving the generator function, received exception of type(stop_iter): <class 'StopIteration'>
 ```
 
+
+__Source:__
+
+```
+
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
+
+```
+
+__Result:__
+
+```
+>> inspect.getgeneratorstate(range_generator): GEN_CLOSED
+```
+
 Using an generator in a for loop, The for loop uses it as an iterator
 
 __Source:__
@@ -250,31 +265,31 @@ __Result:__
 
 ```
 >> (generator) my_range from_val: 0 to_val: 7
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 0
 >> num: 0
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 1
 >> num: 1
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 2
 >> num: 2
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 3
 >> num: 3
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 4
 >> num: 4
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 5
 >> num: 5
->> (generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement
+>> (generator) The generator instance is in running state, computes the next value to be returned by the yield statement
 >> (generator) inspect.getgeneratorstate(range_generator): GEN_RUNNING
 >> (generator) before yield from_val: 6
 >> num: 6
@@ -326,7 +341,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140243901439936 id(range_iter2): 140243901439888
+>> id(range_iter): 140291998666640 id(range_iter2): 140291998666592
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 

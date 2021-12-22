@@ -28,7 +28,7 @@ def my_range(from_val, to_val):
 
     while from_val < to_val:
 
-        print("(generator) The generator instance is in running state, while it is computing the next value that will be returned by the yield statement")
+        print("(generator) The generator instance is in running state, computes the next value to be returned by the yield statement")
         print("(generator) inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
         print("(generator) before yield from_val:", from_val)
@@ -38,7 +38,7 @@ def my_range(from_val, to_val):
     print("(generator) leaving the generator function, iteration is finished")
 """)
 
-print_md("""A function that has a yield statement is still a function.""")
+print_md("""A function that has a yield statement, is is still a function objct.""")
 eval_and_quote("""
 print("type(my_range):", type(my_range))
 """)
@@ -52,7 +52,7 @@ assert not inspect.isgeneratorfunction(not_a_generator)
 
 """)
 
-print_md("""Digression: the __code__ attribute of a function object stands for the compiled byte code of a function. lots and lots of details here""")
+print_md("""Digression: the __code__ attribute of a function object stands for the compiled byte code of a function. (but that's another rabbit hole)""")
 
 eval_and_quote("""
 print("type(my_range.__code__):", type(my_range.__code__))
@@ -115,6 +115,11 @@ except StopIteration as stop_iter:
 
 assert has_stop_iter_ex
 """)
+
+eval_and_quote("""
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
+""")
+
 
 print_md("""Using an generator in a for loop, The for loop uses it as an iterator""")
 
