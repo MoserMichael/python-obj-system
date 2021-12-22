@@ -1,11 +1,88 @@
   * [Iterators](#s0-1)
+      * [Iterator example](#s0-1-1)
+      * [Built-in range function, for iterating over a range of values](#s0-1-2)
   * [Generators](#s0-2)
       * [a generator in action](#s0-2-1)
       * [stop, what is cooperative threading all about?](#s0-2-2)
-  * [built-in range function, for iterating over a range of values](#s0-3)
 
 
 ## <a id='s0-1' />Iterators
+
+
+### <a id='s0-1-1' />Iterator example
+
+tbd
+
+### <a id='s0-1-2' />Built-in range function, for iterating over a range of values
+
+built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
+
+__Source:__
+
+```
+
+range_value = range(1,10)
+print("type(range_value):", type(range_value))
+assert not inspect.isgenerator(range_value)
+print("dir(range_value):", dir(range_value))
+
+```
+
+__Result:__
+
+```
+>> type(range_value): <class 'range'>
+>> dir(range_value): ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
+```
+
+Each call to the \_\_iter\_\_() member of the range type will return a distinct value of type range\_iterator, here the \_\_next\_\_ member is implemented. 
+
+__Source:__
+
+```
+
+range_iter = range_value.__iter__()
+print("type(range_iter):", type(range_iter))
+print("dir(range_iter):", dir(range_iter))
+assert not inspect.isgenerator(range_iter)
+
+range_iter2 = range_value.__iter__()
+print("id(range_iter):", id(range_iter), "id(range_iter2):", id(range_iter2))
+assert id(range_iter) != id(range_iter2)
+
+```
+
+__Result:__
+
+```
+>> type(range_iter): <class 'range_iterator'>
+>> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
+>> id(range_iter): 140478019338176 id(range_iter2): 140478019338128
+```
+
+Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
+You can use the same range object in different for loops, each time an independent sequence of values is returned!
+
+__Source:__
+
+```
+
+range_val = range(1,3)
+for val in range_val:
+    print("iteration1:", val)
+for val in range_val:
+    print("iteration2:", val)
+
+```
+
+__Result:__
+
+```
+>> iteration1: 1
+>> iteration1: 2
+>> iteration2: 1
+>> iteration2: 2
+```
 
 
 ## <a id='s0-2' />Generators
@@ -32,7 +109,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fc94560cdc0>
+>> type(not_a_generator): <function not_a_generator at 0x7fc39670db80>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -352,105 +429,33 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4501069248
+>> caller of generator operating system thread_id: 4605398464
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4501069248
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
+>> (generator) fib_generator operating system thread_id: 4605398464
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
 >> fibonacci number: 1
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 2}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 1, 'b': 2}
 >> fibonacci number: 2
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 2, 'b': 3}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 2, 'b': 3}
 >> fibonacci number: 3
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 3, 'b': 5}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 3, 'b': 5}
 >> fibonacci number: 5
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 5, 'b': 8}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 5, 'b': 8}
 >> fibonacci number: 8
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 8, 'b': 13}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 8, 'b': 13}
 >> fibonacci number: 13
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 13, 'b': 21}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 13, 'b': 21}
 >> fibonacci number: 21
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 21, 'b': 34}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 21, 'b': 34}
 >> fibonacci number: 34
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 34, 'b': 55}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 34, 'b': 55}
 >> fibonacci number: 55
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 55, 'b': 89}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 55, 'b': 89}
 >> fibonacci number: 89
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc94532e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 89, 'b': 144}
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc39632e400, file '<string>', line 13, code fib_generator> fib_gen.gi_frame.f_locals: {'a': 89, 'b': 144}
 >> inspect.getgeneratorstate(fib_ben): GEN_SUSPENDED
-```
-
-
-## <a id='s0-3' />built-in range function, for iterating over a range of values
-
-built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
-
-__Source:__
-
-```
-
-range_value = range(1,10)
-print("type(range_value):", type(range_value))
-assert not inspect.isgenerator(range_value)
-print("dir(range_value):", dir(range_value))
-
-```
-
-__Result:__
-
-```
->> type(range_value): <class 'range'>
->> dir(range_value): ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
-```
-
-Each call to the \_\_iter\_\_() member of the range type will return a distinct value of type range\_iterator, here the \_\_next\_\_ member is implemented. 
-
-__Source:__
-
-```
-
-range_iter = range_value.__iter__()
-print("type(range_iter):", type(range_iter))
-print("dir(range_iter):", dir(range_iter))
-assert not inspect.isgenerator(range_iter)
-
-range_iter2 = range_value.__iter__()
-print("id(range_iter):", id(range_iter), "id(range_iter2):", id(range_iter2))
-assert id(range_iter) != id(range_iter2)
-
-```
-
-__Result:__
-
-```
->> type(range_iter): <class 'range_iterator'>
->> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140502429179840 id(range_iter2): 140502429179792
-```
-
-Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
-You can use the same range object in different for loops, each time an independent sequence of values is returned!
-
-__Source:__
-
-```
-
-range_val = range(1,3)
-for val in range_val:
-    print("iteration1:", val)
-for val in range_val:
-    print("iteration2:", val)
-
-```
-
-__Result:__
-
-```
->> iteration1: 1
->> iteration1: 2
->> iteration2: 1
->> iteration2: 2
 ```
 
 *** eof tutorial ***

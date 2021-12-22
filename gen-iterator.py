@@ -5,6 +5,46 @@ from mdformat import *
 
 header_md("Iterators", nesting=2)
 
+header_md("Iterator example", nesting=3)
+
+print_md("""tbd""")
+
+header_md("Built-in range function, for iterating over a range of values", nesting=3)
+
+print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
+
+
+eval_and_quote("""
+range_value = range(1,10)
+print("type(range_value):", type(range_value))
+assert not inspect.isgenerator(range_value)
+print("dir(range_value):", dir(range_value))
+""")
+
+print_md("""Each call to the __iter__() member of the range type will return a distinct value of type range_iterator, here the __next__ member is implemented. """)
+
+eval_and_quote("""
+range_iter = range_value.__iter__()
+print("type(range_iter):", type(range_iter))
+print("dir(range_iter):", dir(range_iter))
+assert not inspect.isgenerator(range_iter)
+
+range_iter2 = range_value.__iter__()
+print("id(range_iter):", id(range_iter), "id(range_iter2):", id(range_iter2))
+assert id(range_iter) != id(range_iter2)
+""")
+
+print_md("""Returning a separate range_iter object on each call to __iter__ makes sense: 
+You can use the same range object in different for loops, each time an independent sequence of values is returned!""")
+
+eval_and_quote("""
+range_val = range(1,3)
+for val in range_val:
+    print("iteration1:", val)
+for val in range_val:
+    print("iteration2:", val)
+""")
+
 header_md("Generators", nesting=2)
 
 header_md("a generator in action", nesting=3)
@@ -175,42 +215,6 @@ for num in fib_gen:
 
 print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 
-""")
-
-header_md("built-in range function, for iterating over a range of values", nesting=2)
-
-print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
-
-
-eval_and_quote("""
-range_value = range(1,10)
-print("type(range_value):", type(range_value))
-assert not inspect.isgenerator(range_value)
-print("dir(range_value):", dir(range_value))
-""")
-
-print_md("""Each call to the __iter__() member of the range type will return a distinct value of type range_iterator, here the __next__ member is implemented. """)
-
-eval_and_quote("""
-range_iter = range_value.__iter__()
-print("type(range_iter):", type(range_iter))
-print("dir(range_iter):", dir(range_iter))
-assert not inspect.isgenerator(range_iter)
-
-range_iter2 = range_value.__iter__()
-print("id(range_iter):", id(range_iter), "id(range_iter2):", id(range_iter2))
-assert id(range_iter) != id(range_iter2)
-""")
-
-print_md("""Returning a separate range_iter object on each call to __iter__ makes sense: 
-You can use the same range object in different for loops, each time an independent sequence of values is returned!""")
-
-eval_and_quote("""
-range_val = range(1,3)
-for val in range_val:
-    print("iteration1:", val)
-for val in range_val:
-    print("iteration2:", val)
 """)
 
 print("*** eof tutorial ***")
