@@ -15,7 +15,7 @@ tbd
 
 ### <a id='s0-1-2' />Built-in range function, for iterating over a range of values
 
-built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
+built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
 
 __Source:__
 
@@ -35,6 +35,32 @@ __Result:__
 >> dir(range_value): ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
 ```
 
+The [inspect module](https://docs.python.org/3/library/inspect.html) actually does not have a function that checks, if an object is an iterator, one would look as follows:
+
+__Source:__
+
+```
+
+
+import types
+import inspect
+
+
+def isiterator(arg_obj):
+    """check if argument object supports the iterator protocol"""
+   
+    for mem in inspect.getmembers(arg_obj): 
+        #ups, the type of 'method-wrapper' appears for stuff written in c. Too much crap to check, in python3...
+        #print(mem,type(mem[1]))
+
+        if mem[0] == "__iter__":
+            return True
+    return False
+
+assert isiterator(range_value)
+
+
+```
 Each call to the \_\_iter\_\_() member of the range type will return a distinct value of type range\_iterator, here the \_\_next\_\_ member is implemented. 
 
 __Source:__
@@ -57,10 +83,10 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140380818259904 id(range_iter2): 140380818259856
+>> id(range_iter): 140562968682432 id(range_iter2): 140562968682384
 ```
 
-Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense: 
+Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
 You can use the same range object in different for loops, each time an independent sequence of values is returned!
 
 __Source:__
@@ -109,7 +135,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7facf4ce1b80>
+>> type(not_a_generator): <function not_a_generator at 0x7fd75dd130d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -156,7 +182,7 @@ __Source:__
 
 ```
 
-import inspect 
+import inspect
 
 assert inspect.isgeneratorfunction(my_range)
 assert not inspect.isgeneratorfunction(not_a_generator)
@@ -206,7 +232,7 @@ __Source:__
 
 ```
 
-print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator)) 
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
 ```
 
@@ -384,7 +410,7 @@ __Result:__
 
 What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
 
-        
+
 Now the python bytecode interpreter maintains two separate stack frame entity, one for the generator and one for its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals dictionary of the frame object. (are you still with me?)
 
 
@@ -404,10 +430,10 @@ def fib_generator():
     b=1
 
     print("(generator) fib_generator operating system thread_id:", threading.get_ident())
-    print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame) 
+    print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame)
 
     while True:
-        print("(generator) fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+        print("(generator) fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals)
         yield b
         a,b= b,a+b
 
@@ -430,10 +456,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4610588096
+>> caller of generator operating system thread_id: 4615273920
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4610588096
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7facf4a2e400, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4615273920
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fd75db5c040, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}

@@ -11,7 +11,7 @@ print_md("""tbd""")
 
 header_md("Built-in range function, for iterating over a range of values", nesting=3)
 
-print_md("""built in range function returns an object of built-in type range, the range object is not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
+print_md("""built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
 
 
 eval_and_quote("""
@@ -20,6 +20,30 @@ print("type(range_value):", type(range_value))
 assert not inspect.isgenerator(range_value)
 print("dir(range_value):", dir(range_value))
 """)
+
+print_md("""The [inspect module](https://docs.python.org/3/library/inspect.html) actually does not have a function that checks, if an object is an iterator, one would look as follows:""")
+
+eval_and_quote('''
+
+import types
+import inspect
+
+
+def isiterator(arg_obj):
+    """check if argument object supports the iterator protocol"""
+   
+    for mem in inspect.getmembers(arg_obj): 
+        #ups, the type of 'method-wrapper' appears for stuff written in c. Too much crap to check, in python3...
+        #print(mem,type(mem[1]))
+
+        if mem[0] == "__iter__":
+            return True
+    return False
+
+assert isiterator(range_value)
+
+''')
+        
 
 print_md("""Each call to the __iter__() member of the range type will return a distinct value of type range_iterator, here the __next__ member is implemented. """)
 
@@ -34,7 +58,7 @@ print("id(range_iter):", id(range_iter), "id(range_iter2):", id(range_iter2))
 assert id(range_iter) != id(range_iter2)
 """)
 
-print_md("""Returning a separate range_iter object on each call to __iter__ makes sense: 
+print_md("""Returning a separate range_iter object on each call to __iter__ makes sense:
 You can use the same range object in different for loops, each time an independent sequence of values is returned!""")
 
 eval_and_quote("""
@@ -88,7 +112,7 @@ print("type(my_range):", type(my_range))
 print_md("""You can tell, if a function has a yield statement, or not, the function object owns a __code__ attribute, which has a flag set, if it includes a yield statment, that's what [inspect.isgeneratorfunction](https://docs.python.org/3/library/inspect.html#inspect.isgeneratorfunction) is checking.""")
 
 eval_and_quote("""
-import inspect 
+import inspect
 
 assert inspect.isgeneratorfunction(my_range)
 assert not inspect.isgeneratorfunction(not_a_generator)
@@ -112,7 +136,7 @@ print("type(range_generator):", type(range_generator))
 
 print_md("The generator has not been invoked yet, it is in created state")
 eval_and_quote("""
-print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator)) 
+print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 """)
 
 print_md("""Let's examine the generator object. Generators are iterators, they have the special __iter__ and __next__ attribute. Additional special attributes of generator objects: 'close', 'gi_code', 'gi_frame', 'gi_running', 'gi_yieldfrom', 'send', 'throw' """)
@@ -177,7 +201,7 @@ header_md("stop, what is cooperative threading all about?", nesting=3)
 
 print_md("""What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
 
-        
+
 Now the python bytecode interpreter maintains two separate stack frame entity, one for the generator and one for its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib_gen) in our case), and resumes execution from the bytecode instruction referred to by f_lasti, with the local variable values referred to by the f_locals dictionary of the frame object. (are you still with me?)
 
 
@@ -196,10 +220,10 @@ def fib_generator():
     b=1
 
     print("(generator) fib_generator operating system thread_id:", threading.get_ident())
-    print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame) 
+    print("(generator) type(fib_gen.gi_frame):", type(fib_gen.gi_frame), "fib_gen.gi_frame: ", fib_gen.gi_frame)
 
     while True:
-        print("(generator) fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals) 
+        print("(generator) fib_gen.gi_frame.f_locals:", fib_gen.gi_frame.f_locals)
         yield b
         a,b= b,a+b
 
