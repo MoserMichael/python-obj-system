@@ -51,6 +51,7 @@ __Result:__
 
 Actually this is an advantage of python3 over python2; the range function used to return a full list, so that the first case used occur frequently.
 
+```
 Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> val=range(1,10)
 >>> print(val)
@@ -63,7 +64,7 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> val=xrange(1,10)
 >>> print(type(val))
 <type 'xrange'>
-
+```
 
 ## <a id='s1-1' />Iterators
 
@@ -275,7 +276,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140580896270304 id(range_iter2): 140580896270256
+>> id(range_iter): 140391304292320 id(range_iter2): 140391304292272
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -327,7 +328,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fdb8a6e9820>
+>> type(not_a_generator): <function not_a_generator at 0x7faf65de9820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -644,10 +645,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4401192384
+>> caller of generator operating system thread_id: 4374076864
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4401192384
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fdb8a65e040, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4374076864
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7faf65d5e040, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
