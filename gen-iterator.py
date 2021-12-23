@@ -4,7 +4,7 @@ from mdformat import *
 
 header_md("Generating sequences dynamically", nesting=1)
 
-print_md("""Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
+print_md("""Both iterators and generators are two ways of generating a sequence of values, in a dynamic fashion. 
 There is always the possibility of creating a list, that includes all the members of a desired sequence - if you only need the current value of the sequence. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often much more practical to create the elements of a sequence upon demand, right when they are needed. That's exactly what is done by both iterators and generators.
 """)
 
@@ -33,7 +33,7 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 <type 'list'>
 
 >>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value upon demand.
->>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect.
+>>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect. (nowaday you need to write a full book for that...)
 >>> val=xrange(1,10)
 >>> print(type(val))
 <type 'xrange'>
@@ -198,7 +198,7 @@ for val in range_val:
 
 header_md("Generators", nesting=2)
 
-header_md("a generator in action", nesting=3)
+header_md("A generator in action", nesting=3)
 
 print_md("""Let's examine how generator functions differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function""")
 
@@ -211,7 +211,6 @@ print("type(not_a_generator):", not_a_generator)
 no_gen_ret_val = not_a_generator(10, 20)
 print("type(no_gen_ret_val):", type(no_gen_ret_val))
 """)
-
 
 print_md("""Let's look at a generator function, it has a yield statement in its body""")
 

@@ -6,7 +6,7 @@
         * [Iterator objects that return an iterable over a range of values](#s1-1-1-3)
       * [Built-in range function, for iterating over a range of values](#s1-1-2)
   * [Generators](#s1-2)
-      * [a generator in action](#s1-2-1)
+      * [A generator in action](#s1-2-1)
       * [What is going on here?](#s1-2-2)
   * [Summing it up, so far](#s1-3)
 * [AsyncIO, there is much more!](#s2)
@@ -14,7 +14,7 @@
 
 # <a id='s1' />Generating sequences dynamically
 
-Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
+Both iterators and generators are two ways of generating a sequence of values, in a dynamic fashion. 
 There is always the possibility of creating a list, that includes all the members of a desired sequence - if you only need the current value of the sequence. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often much more practical to create the elements of a sequence upon demand, right when they are needed. That's exactly what is done by both iterators and generators.
 
 
@@ -63,7 +63,7 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 <type 'list'>
 
 >>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value upon demand.
->>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect.
+>>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect. (nowaday you need to write a full book for that...)
 >>> val=xrange(1,10)
 >>> print(type(val))
 <type 'xrange'>
@@ -298,7 +298,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140319262922768 id(range_iter2): 140319262922720
+>> id(range_iter): 140557229905936 id(range_iter2): 140557229905888
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -329,7 +329,7 @@ __Result:__
 ## <a id='s1-2' />Generators
 
 
-### <a id='s1-2-1' />a generator in action
+### <a id='s1-2-1' />A generator in action
 
 Let's examine how generator functions differ from regular functions. Calling a regular function, will execute the statements of the function, and return the return value of the function
 
@@ -350,7 +350,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9e9fde6820>
+>> type(not_a_generator): <function not_a_generator at 0x7fd607e12820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -667,10 +667,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4724211136
+>> caller of generator operating system thread_id: 4730072512
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4724211136
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f9e9fd5d220, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4730072512
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fd607c5d220, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
