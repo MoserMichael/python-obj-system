@@ -98,9 +98,9 @@ for num in InfiniteFibSequence():
 print_md("""Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
 """)        
 
-header_md("Iterator objects that return a range of values", nesting=4)
+header_md("Iterator objects that return an iterable over a range of values", nesting=4)
 
-print_md("""An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
+print_md("""An even better example: we want an to create an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
 A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value. 
 

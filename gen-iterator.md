@@ -3,7 +3,7 @@
       * [Iterator example](#s1-1-1)
         * [Iterable objects](#s1-1-1-1)
         * [Iterator objects used with for loops](#s1-1-1-2)
-        * [Iterator objects that return a range of values](#s1-1-1-3)
+        * [Iterator objects that return an iterable over a range of values](#s1-1-1-3)
       * [Built-in range function, for iterating over a range of values](#s1-1-2)
   * [Generators](#s1-2)
       * [a generator in action](#s1-2-1)
@@ -170,9 +170,9 @@ __Result:__
 Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
 
 
-#### <a id='s1-1-1-3' />Iterator objects that return a range of values
+#### <a id='s1-1-1-3' />Iterator objects that return an iterable over a range of values
 
-An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
+An even better example: we want an to create an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
 A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value. 
 
@@ -298,7 +298,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140377447356432 id(range_iter2): 140377447356384
+>> id(range_iter): 140319262922768 id(range_iter2): 140319262922720
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -350,7 +350,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fac2bee6820>
+>> type(not_a_generator): <function not_a_generator at 0x7f9e9fde6820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -667,10 +667,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4603284928
+>> caller of generator operating system thread_id: 4724211136
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4603284928
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fac2be5d220, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4724211136
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f9e9fd5d220, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
