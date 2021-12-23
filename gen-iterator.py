@@ -43,12 +43,12 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
-print_md("""An iterator object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterator object.
+print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterator object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 """)
 
 eval_and_quote("""
-class FibIter:
+class FibIterable:
     def __init__(self):
         self.a = 0
         self.b = 1
@@ -62,7 +62,7 @@ class FibIter:
 
         return ret_val
 
-fib_iter = FibIter()
+fib_iter = FibIterable()
 
 # note that we are calling next(fib_iter) exactly ten times, in order to produce ten fibonacci numbers. 
 # It works, but this way of iterating is a bit awkward.
@@ -72,7 +72,10 @@ for _ in range(1,10):
     print(fib_num)
 """) 
 
-print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterator object, this factory method is required by the for statement""")
+print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
+
+In this example, the for loop first calls the __iter__ method of InfiniteFibSequence implicitly on the iterator object, in order to produce the iterable.
+It then calls the next built-in implicitly on the iterable repeatedly""")
 
 eval_and_quote("""
 class InfiniteFibSequence:
@@ -80,20 +83,20 @@ class InfiniteFibSequence:
         pass
 
     def __iter__(self):
-        return FibIter()
-        
+        return FibIterable()
+       
 for num in InfiniteFibSequence():
     if num > 100:
         break
     print("fibonacci number:", num)
 """)
 
-print_md("""An even better example: we want an iterator object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
+print_md("""An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
 A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.""")
 
 eval_and_quote("""
-class LimitedFibIter:
+class LimitedFibIterable:
     def __init__(self, range_size):
         self.a = 0
         self.b = 1
@@ -117,7 +120,7 @@ class LimitedFibRange:
         self.range_size = range_size
         
     def __iter__(self):
-        return LimitedFibIter(self.range_size)
+        return LimitedFibIterable(self.range_size)
 
 for num in LimitedFibRange(10):
     print("fib number:", num)
