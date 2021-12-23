@@ -46,8 +46,8 @@ header_md("Iterator example", nesting=3)
 
 header_md("Iterable objects", nesting=4)
 
-print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  [__next__](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) member of the iterable object, this member function is called implicitly by the built-in function [next](https://docs.python.org/3/library/functions.html#next) 
-The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to return the current fibonacci number, and how to prepare the value that will be returned upon the next iteration. All these values are stored as member of the iterable object.
+print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  [__next__](https://docs.python.org/3/library/stdtypes.html#iterator.__next__) member of the iterable object, this member function is called implicitly by the built-in function [next](https://docs.python.org/3/library/functions.html#next).
+The following example returns the first ten fibonacci numbers. The object of type FibIterable knows how to return the current fibonacci number, and how to prepare the value that will be returned upon the next iteration. All these values are stored as member of the iterable object.
 """)
 
 eval_and_quote("""
