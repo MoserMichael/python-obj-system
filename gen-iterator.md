@@ -103,7 +103,7 @@ fib_iter = FibIterable()
 
 # note that we are calling next(fib_iter) exactly ten times, in order to produce ten fibonacci numbers. 
 # It works, but this way of iterating is a bit awkward.
-for _ in range(1,10):
+for _ in range(1,11):
     # calling the next built-in function with iterator argument is calling the __next__ member of the iterator object.
     fib_num = next(fib_iter)
     print(fib_num)
@@ -122,6 +122,7 @@ __Result:__
 >> 13
 >> 21
 >> 34
+>> 55
 ```
 
 
@@ -293,7 +294,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140332709861392 id(range_iter2): 140332709861344
+>> id(range_iter): 140287238363152 id(range_iter2): 140287238363104
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -345,7 +346,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fa1c15e6820>
+>> type(not_a_generator): <function not_a_generator at 0x7f972b0e6820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -662,10 +663,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4587535808
+>> caller of generator operating system thread_id: 4512198080
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4587535808
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fa1c155e220, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4512198080
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f972b05e220, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}

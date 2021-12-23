@@ -68,7 +68,7 @@ fib_iter = FibIterable()
 
 # note that we are calling next(fib_iter) exactly ten times, in order to produce ten fibonacci numbers. 
 # It works, but this way of iterating is a bit awkward.
-for _ in range(1,10):
+for _ in range(1,11):
     # calling the next built-in function with iterator argument is calling the __next__ member of the iterator object.
     fib_num = next(fib_iter)
     print(fib_num)
