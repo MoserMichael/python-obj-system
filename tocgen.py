@@ -84,7 +84,7 @@ def buildToc(line, toc, levels):
     elif line[:4] == '####':
         levels[4] += 1
         secId += str(levels[1]) + '-' + str(levels[2]) + '-' + str(levels[3]) + '-' + str(levels[4])
-        toc.append('       * [' + line[5:] + '](#' + secId + ')\n')
+        toc.append('        * [' + line[5:] + '](#' + secId + ')\n')
     elif line[:3] == '###':
         levels[3] += 1
         secId += str(levels[1]) + '-' + str(levels[2]) + '-' + str(levels[3])
