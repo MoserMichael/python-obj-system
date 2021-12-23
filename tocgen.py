@@ -14,7 +14,7 @@ def processFile(in_file, out_file):
 
     with open(out_file, "w") as newFile:
         toc = []
-        levels = [0,0,0,0]
+        levels = [0,0,0,0,0]
         tempFile = []
         tocLoc = 0
         partOfToc = False
@@ -29,8 +29,8 @@ def processFile(in_file, out_file):
                 section_end = len(in_file_data)
             text_section = in_file_data[  section_start : section_end ]
             section_start = section_end + 3
-        
-            #print( f"is_text: {is_text} section_end: {section_end} text_section: {text_section}") 
+
+            #print( f"is_text: {is_text} section_end: {section_end} text_section: {text_section}")
 
             if is_text:
                 is_text = False
@@ -79,8 +79,11 @@ def addSectionTag(line, secId):
 def buildToc(line, toc, levels):
     line = cleanLine(line)
     secId = 's'
-    if line[:4] == '####':
-        raise UserWarning('Header levels greater than 3 not supported')
+    if line[:5] == '#####':
+        raise UserWarning('Header levels greater than 4 not supported')
+    elif line[:4] == '####':
+        levels[4] += 1
+        secId += str(levels[1]) + '-' + str(levels[2]) + '-' + str(levels[3]) + '-' + str(levels[4])
     elif line[:3] == '###':
         levels[3] += 1
         secId += str(levels[1]) + '-' + str(levels[2]) + '-' + str(levels[3])
