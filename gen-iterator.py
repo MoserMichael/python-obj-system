@@ -43,6 +43,8 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
+header_md("Iterable objects", nesting=4)
+
 print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterable object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 """)
@@ -72,6 +74,8 @@ for _ in range(1,10):
     print(fib_num)
 """) 
 
+header_md("Iterator objects used with for loops", nesting=4)
+
 print_md("""We want an iterator object that is usable with the for statement. Here we need to implement the __iter__ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
 
 In this example, the for loop first calls the __iter__ method of InfiniteFibSequence implicitly on the iterator object, in order to produce the iterable.
@@ -93,6 +97,8 @@ for num in InfiniteFibSequence():
 
 print_md("""Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
 """)        
+
+header_md("Iterator objects that return a range of values", nesting=4)
 
 print_md("""An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
