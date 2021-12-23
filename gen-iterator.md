@@ -12,7 +12,46 @@
 # <a id='s1' />Generating sequences dynamically
 
 Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
-There is always the possibility of creating a list, that includes all the members of a desired sequnce. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often more practical to create the elements of a sequence upon demand, that's exactly what is done by both iterators and generators.
+There is always the possibility of creating a list, that includes all the members of a desired sequence - if you only need the current value of the sequence. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often much more practical to create the elements of a sequence upon demand, right when they are needed. That's exactly what is done by both iterators and generators.
+
+
+__Source:__
+
+```
+
+
+# wasteful example to compute the five ten squares
+range_list = [x for x in range(1, 6) ]        
+
+print(range_list)
+
+for num in range_list:
+    print(f"(wasteful) the square of {num} is {num*num}")
+
+
+# what you really need is just the right value from the range, upon each iteration of the loop!
+
+for num in range(1, 6):
+    print(f"(correct way) the square of {num} is {num*num}")
+
+
+```
+
+__Result:__
+
+```
+>> [1, 2, 3, 4, 5]
+>> (wasteful) the square of 1 is 1
+>> (wasteful) the square of 2 is 4
+>> (wasteful) the square of 3 is 9
+>> (wasteful) the square of 4 is 16
+>> (wasteful) the square of 5 is 25
+>> (correct way) the square of 1 is 1
+>> (correct way) the square of 2 is 4
+>> (correct way) the square of 3 is 9
+>> (correct way) the square of 4 is 16
+>> (correct way) the square of 5 is 25
+```
 
 
 ## <a id='s1-1' />Iterators
@@ -232,7 +271,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140305070185472 id(range_iter2): 140305070184608
+>> id(range_iter): 140244134553520 id(range_iter2): 140244134554960
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -284,7 +323,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9b51ded310>
+>> type(not_a_generator): <function not_a_generator at 0x7f8d21deb820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -557,13 +596,12 @@ __Result:__
 
 ### <a id='s1-2-2' />What is going on here?
 
-What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
+What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, that is hosting the python bytecode interpreter. The interpreter is running both the generator function and its caller.
 
+Now the python bytecode interpreter maintains two separate stack [frame object](https://docs.python.org/3/reference/datamodel.html), one for the generator function and one for its caller. The stack frame object has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals dictionary of the frame object. (are you still with me?)
 
-Now the python bytecode interpreter maintains two separate stack frame entity, one for the generator and one for its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f\_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f\_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib\_gen) in our case), and resumes execution from the bytecode instruction referred to by f\_lasti, with the local variable values referred to by the f\_locals dictionary of the frame object. (are you still with me?)
+The interaction between the caller and generator are an example of [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative\_multitasking), here you have multiple logical threads, but there is only one of them active at a given time. When the active thread/generator has finished, it calls the yield statement, and that's where the other thread is activated, while the generator is put to sleep. Each of the cooperative threads is maintaining its own separate stack, this stack is only used when the thread is running.
 
-
-See the following example:
 
 
 __Source:__
@@ -605,10 +643,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4451323328
+>> caller of generator operating system thread_id: 4699479488
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4451323328
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f9b51d5e040, file '<string>', line 11, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4699479488
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f8d21d5e040, file '<string>', line 11, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -648,6 +686,20 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 
 # <a id='s2' />AsyncIO, there is much more!
 
-AsyncIO is a feature, that has been added to python 3.7
+AsyncIO is a feature, that has been added to python 3.7, so let us therefore check, that we are runnng on the correct python interpreter
+
+
+__Source:__
+
+```
+
+import sys
+
+assert (sys.version_info[0] == 3 and sys.version_info[1] >=7) or (sys.version_info[0] > 3)
+
+```
+AsyncIO is a generalization of the generator feature, with generators we have control that is switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+
+
 *** eof tutorial ***
 

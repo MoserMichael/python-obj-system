@@ -5,7 +5,25 @@ from mdformat import *
 header_md("Generating sequences dynamically", nesting=1)
 
 print_md("""Both iterators and generators are two ways of generating sequences, in a dynamic fashion. 
-There is always the possibility of creating a list, that includes all the members of a desired sequnce. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often more practical to create the elements of a sequence upon demand, that's exactly what is done by both iterators and generators.
+There is always the possibility of creating a list, that includes all the members of a desired sequence - if you only need the current value of the sequence. However that may take a lot of time and memory, also you may end up needing only half of the produced items, it is often much more practical to create the elements of a sequence upon demand, right when they are needed. That's exactly what is done by both iterators and generators.
+""")
+
+eval_and_quote("""
+
+# wasteful example to compute the five ten squares
+range_list = [x for x in range(1, 6) ]        
+
+print(range_list)
+
+for num in range_list:
+    print(f"(wasteful) the square of {num} is {num*num}")
+
+
+# what you really need is just the right value from the range, upon each iteration of the loop!
+
+for num in range(1, 6):
+    print(f"(correct way) the square of {num} is {num*num}")
+
 """)
 
 header_md("Iterators", nesting=2)
@@ -286,13 +304,12 @@ for num in range_generator:
 
 header_md("What is going on here?", nesting=3)
 
-print_md("""What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, this thread is hosting the python bytecode interpeter, which is executing both the generator function and its caller.
+print_md("""What is happening here? Both the generator function and it's caller are running as part of the same operating system thread, that is hosting the python bytecode interpreter. The interpreter is running both the generator function and its caller.
 
+Now the python bytecode interpreter maintains two separate stack [frame object](https://docs.python.org/3/reference/datamodel.html), one for the generator function and one for its caller. The stack frame object has a field for the local variables maintained by the function (see f_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib_gen) in our case), and resumes execution from the bytecode instruction referred to by f_lasti, with the local variable values referred to by the f_locals dictionary of the frame object. (are you still with me?)
 
-Now the python bytecode interpreter maintains two separate stack frame entity, one for the generator and one for its caller, A stack [frame object](https://docs.python.org/3/reference/datamodel.html) represents the current function or generator in the python bytecode interpreter. It has a field for the local variables maintained by the function (see f_locals dictionary member of the frame object) and the current bytecode instruction that is being executed within the function/generator (see f_lasti member of the frame object). The generator object is put into 'suspended' state, once the generator has called the yield statement, with the aim to return a value to the caller. The generator is later resumed upon calling the next built-in function (next(fib_gen) in our case), and resumes execution from the bytecode instruction referred to by f_lasti, with the local variable values referred to by the f_locals dictionary of the frame object. (are you still with me?)
+The interaction between the caller and generator are an example of [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking), here you have multiple logical threads, but there is only one of them active at a given time. When the active thread/generator has finished, it calls the yield statement, and that's where the other thread is activated, while the generator is put to sleep. Each of the cooperative threads is maintaining its own separate stack, this stack is only used when the thread is running.
 
-
-See the following example:
 """)
 
 
@@ -342,14 +359,23 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 
 header_md("AsyncIO, there is much more!", nesting=1)
 
-print_md("""AsyncIO is a feature, that has been added to python 3.7""")
+print_md("""
+AsyncIO is a feature, that has been added to python 3.7, so let us therefore check, that we are runnng on the correct python interpreter
+""")
 
+eval_and_quote("""
 import sys
 
-if sys.version_info[0] < 3 or sys.version_info[1] < 7:
-    print_md("""Ups, currently running on python version older than 3.7, can't continue""")
-    sys.exit(1)
+assert (sys.version_info[0] == 3 and sys.version_info[1] >=7) or (sys.version_info[0] > 3)
+""")
+
+print_md("""
+
+AsyncIO is a generalization of the generator feature, with generators we have control that is switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+
+""")
 
 
 print("*** eof tutorial ***")
+
 
