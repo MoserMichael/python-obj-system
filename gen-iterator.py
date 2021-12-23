@@ -102,7 +102,11 @@ header_md("Iterator objects that return a range of values", nesting=4)
 
 print_md("""An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
-A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.""")
+A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value. 
+
+As an alternative, they could have returned an additional return value, to indicate if the iteration should continue. However this would have been significant only for the last iteration cycle.
+
+""")
 
 eval_and_quote("""
 class LimitedFibIterable:
