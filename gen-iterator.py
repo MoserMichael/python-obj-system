@@ -22,6 +22,22 @@ for num in range(1, 6):
     print(f"(correct way) the square of {num} is {num*num}")
 """)
 
+print_md("""Actually this is an advantage of python3 over python2; the range function used to return a list, so that the first case used to be a frequent occurence.""")
+
+print_md("""
+Python 2.7.16 (default, Jun  5 2020, 22:59:21)
+>>> val=range(1,10)
+>>> print(val)
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> print(type(val))
+<type 'list'>
+
+>>> # to be fair, you had the xrange function, this used to return an iterator object!
+>>> val=xrange(1,10)
+>>> print(type(val))
+<type 'xrange'>
+""")
+
 header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
