@@ -197,6 +197,9 @@ for val in range_val:
     print("iteration2:", val)
 """)
 
+print_md("""Note that built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) has additional features, besides being an iterator. It has a __getitem__ method, this is called by python when used with a subscript syntax, in order to access an arbitrary values by its index. (see more [here](https://docs.python.org/3/reference/datamodel.html#object.__getitem__)) It implements the built-in [__len__](https://docs.python.org/3/reference/datamodel.html#object.__len__) method that returns the number of elements in the sequnce, this is called by built-in function [len](https://docs.python.org/3/library/functions.html#len), lots of goodies here.
+""")
+
 header_md("Generators", nesting=2)
 
 header_md("A generator in action", nesting=3)
