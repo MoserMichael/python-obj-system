@@ -24,7 +24,7 @@ for num in range(1, 6):
 
 print_md("""Actually this is an advantage of python3 over python2; the range function used to return a full list, so that the first case used occur frequently.""")
 
-print_md("""
+print("""
 Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> val=range(1,10)
 >>> print(val)
