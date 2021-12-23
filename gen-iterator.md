@@ -78,7 +78,7 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 #### <a id='s1-1-1-1' />Iterable objects
 
 An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the iterable object.
-The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
+The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to return the current fibonacci number, and how to prepare the value that will be returned upon the next iteration. All these values are stored as member of the iterable object.
 
 
 __Source:__
@@ -293,7 +293,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140379047483408 id(range_iter2): 140379047483360
+>> id(range_iter): 140332709861392 id(range_iter2): 140332709861344
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -345,7 +345,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fac8b4e9820>
+>> type(not_a_generator): <function not_a_generator at 0x7fa1c15e6820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -662,10 +662,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4460088768
+>> caller of generator operating system thread_id: 4587535808
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4460088768
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fac8b27b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4587535808
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fa1c155e220, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}

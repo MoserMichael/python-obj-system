@@ -46,7 +46,7 @@ header_md("Iterator example", nesting=3)
 header_md("Iterable objects", nesting=4)
 
 print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterable object.
-The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
+The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to return the current fibonacci number, and how to prepare the value that will be returned upon the next iteration. All these values are stored as member of the iterable object.
 """)
 
 eval_and_quote("""
