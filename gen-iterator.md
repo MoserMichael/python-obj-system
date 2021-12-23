@@ -299,7 +299,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140624179382336 id(range_iter2): 140624179382960
+>> id(range_iter): 140221610084416 id(range_iter2): 140221610085040
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -326,7 +326,7 @@ __Result:__
 >> iteration2: 2
 ```
 
-Note that built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) has additional features, besides being an iterator. It has a \_\_getitem\_\_ method, this is called by python when used with a subscript syntax, in order to access an arbitrary values by its index. (see more [here](https://docs.python.org/3/reference/datamodel.html#object.\_\_getitem\_\_)) It implements the built-in [\_\_len\_\_](https://docs.python.org/3/reference/datamodel.html#object.\_\_len\_\_) method that returns the number of elements in the sequnce, this is called by built-in function [len](https://docs.python.org/3/library/functions.html#len), lots of goodies here.
+Note that built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) has additional features, besides being an iterator. It has a [\_\_getitem\_\_](https://docs.python.org/3/reference/datamodel.html#object.\_\_getitem\_\_) method, this is called by python when used with a subscript syntax, in order to access an arbitrary values by its index. It implements the built-in [\_\_len\_\_](https://docs.python.org/3/reference/datamodel.html#object.\_\_len\_\_) method that returns the number of elements in the sequnce, this is called by built-in function [len](https://docs.python.org/3/library/functions.html#len), lots of goodies here.
 
 
 ## <a id='s1-2' />Generators
@@ -353,7 +353,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fe59e4e5820>
+>> type(not_a_generator): <function not_a_generator at 0x7f87e34e5820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -670,10 +670,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4569636288
+>> caller of generator operating system thread_id: 4409073088
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4569636288
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fe59e27b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4409073088
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f87e327b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
