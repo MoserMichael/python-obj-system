@@ -36,6 +36,8 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect. 
 >>> # (nowaday you need to write a full book for that...)
 >>> val=xrange(1,10)
+>>> print(val)
+xrange(1, 10)
 >>> print(type(val))
 <type 'xrange'>
 ```""")
@@ -198,6 +200,33 @@ for val in range_val:
 """)
 
 print_md("""Note that built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) has additional features, besides being an iterator. It has a [__getitem__](https://docs.python.org/3/reference/datamodel.html#object.__getitem__) method, this is called by python when used with a subscript syntax, in order to access an arbitrary values by its index. It implements the built-in [__len__](https://docs.python.org/3/reference/datamodel.html#object.__len__) method that returns the number of elements in the sequnce, this is called by built-in function [len](https://docs.python.org/3/library/functions.html#len), lots of goodies here.
+""")
+
+print_md("""The built-in range is also a reversible iterator, you can call the built-in [reversed](https://docs.python.org/3/library/functions.html#reversed) function to get a range o number in decreasing order""")
+
+eval_and_quote("""
+
+range_iter = range(1, 10)
+print(type(range_iter))
+
+reverse_range_val = reversed(range_iter)
+print("type(reverse_range_val):", type(reverse_range_val))
+
+# turn the iterator into a list object
+reverse_range = [ x for x in reverse_range_val ]
+
+print("reverse_range:", reverse_range)
+""")
+
+print_md("""The revesed built-in can be used with an iterator, if it does one of the following
+
+- implements both the __getitem__ and __len__ methods
+- implements a __reversed__ method that returns an iterable object, where the __next__ method returns all items in reverse order.
+
+Now the range type has all of them, it has __getitem__, __len__ but it also has a __reversed__ method. I can't explain, why it is implementing both options, though one would have been sufficient""")
+
+eval_and_quote("""
+print("dir(range(1,10))", dir(range(1,10)))
 """)
 
 header_md("Generators", nesting=2)

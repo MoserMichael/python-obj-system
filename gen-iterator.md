@@ -66,6 +66,8 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect. 
 >>> # (nowaday you need to write a full book for that...)
 >>> val=xrange(1,10)
+>>> print(val)
+xrange(1, 10)
 >>> print(type(val))
 <type 'xrange'>
 ```
@@ -299,7 +301,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140221610084416 id(range_iter2): 140221610085040
+>> id(range_iter): 140513702464176 id(range_iter2): 140513702464848
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -328,6 +330,55 @@ __Result:__
 
 Note that built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) has additional features, besides being an iterator. It has a [\_\_getitem\_\_](https://docs.python.org/3/reference/datamodel.html#object.\_\_getitem\_\_) method, this is called by python when used with a subscript syntax, in order to access an arbitrary values by its index. It implements the built-in [\_\_len\_\_](https://docs.python.org/3/reference/datamodel.html#object.\_\_len\_\_) method that returns the number of elements in the sequnce, this is called by built-in function [len](https://docs.python.org/3/library/functions.html#len), lots of goodies here.
 
+The built-in range is also a reversible iterator, you can call the built-in [reversed](https://docs.python.org/3/library/functions.html#reversed) function to get a range o number in decreasing order
+
+__Source:__
+
+```
+
+
+range_iter = range(1, 10)
+print(type(range_iter))
+
+reverse_range_val = reversed(range_iter)
+print("type(reverse_range_val):", type(reverse_range_val))
+
+# turn the iterator into a list object
+reverse_range = [ x for x in reverse_range_val ]
+
+print("reverse_range:", reverse_range)
+
+```
+
+__Result:__
+
+```
+>> <class 'range'>
+>> type(reverse_range_val): <class 'range_iterator'>
+>> reverse_range: [9, 8, 7, 6, 5, 4, 3, 2, 1]
+```
+
+The revesed built-in can be used with an iterator, if it does one of the following
+
+- implements both the \_\_getitem\_\_ and \_\_len\_\_ methods
+- implements a \_\_reversed\_\_ method that returns an iterable object, where the \_\_next\_\_ method returns all items in reverse order.
+
+Now the range type has all of them, it has \_\_getitem\_\_, \_\_len\_\_ but it also has a \_\_reversed\_\_ method. I can't explain, why it is implementing both options, though one would have been sufficient
+
+__Source:__
+
+```
+
+print("dir(range(1,10))", dir(range(1,10)))
+
+```
+
+__Result:__
+
+```
+>> dir(range(1,10)) ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
+```
+
 
 ## <a id='s1-2' />Generators
 
@@ -353,7 +404,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f87e34e5820>
+>> type(not_a_generator): <function not_a_generator at 0x7fcbe55ee160>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -670,10 +721,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4409073088
+>> caller of generator operating system thread_id: 4418825664
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4409073088
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f87e327b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4418825664
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcbe547b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
