@@ -49,7 +49,7 @@ __Result:__
 >> (correct way) the square of 5 is 25
 ```
 
-Actually this is an advantage of python3 over python2; the range function used to return a full list, so that the first case used occur frequently.
+Actually this is an advantage of python3 over python2; the range function used to return a full list in python2, so that the first case used occur frequently.
 
 ```
 Python 2.7.16 (default, Jun  5 2020, 22:59:21)
@@ -59,8 +59,8 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> print(type(val))
 <type 'list'>
 
->>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value just once.
->>> # contractors had an easier job back then, they just had to point this out to their customers...
+>>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value upon demand.
+>>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect.
 >>> val=xrange(1,10)
 >>> print(type(val))
 <type 'xrange'>
@@ -71,7 +71,7 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 
 ### <a id='s1-1-1' />Iterator example
 
-An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the iterator object.
+An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  \_\_next\_\_ member of the iterable object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 
 
@@ -118,10 +118,10 @@ __Result:__
 >> 34
 ```
 
-We want an iterator object that is usable with the for statement. Here we need to  implement the \_\_iter\_\_ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
+We want an iterator object that is usable with the for statement. Here we need to implement the \_\_iter\_\_ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
 
 In this example, the for loop first calls the \_\_iter\_\_ method of InfiniteFibSequence implicitly on the iterator object, in order to produce the iterable.
-It then calls the next built-in implicitly on the iterable repeatedly
+It then calls the next built-in implicitly on the iterable, and repeats this upon each cycle of the loop.
 
 __Source:__
 
@@ -156,6 +156,8 @@ __Result:__
 >> fibonacci number: 55
 >> fibonacci number: 89
 ```
+
+Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
 
 An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
@@ -214,7 +216,7 @@ __Result:__
 
 ### <a id='s1-1-2' />Built-in range function, for iterating over a range of values
 
-built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
+The built-in [range](https://docs.python.org/3/library/functions.html#func-range) function returns an object of built-in iterator type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an \_\_iter\_\_ function that returns an iterator object.
 
 __Source:__
 
@@ -279,7 +281,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140494123460576 id(range_iter2): 140494123460528
+>> id(range_iter): 140394116573152 id(range_iter2): 140394116573104
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -331,7 +333,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fc756715820>
+>> type(not_a_generator): <function not_a_generator at 0x7fb00f810820>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -648,10 +650,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4471684544
+>> caller of generator operating system thread_id: 4807216576
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4471684544
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc75655e040, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4807216576
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fb00d57b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}

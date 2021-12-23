@@ -22,7 +22,7 @@ for num in range(1, 6):
     print(f"(correct way) the square of {num} is {num*num}")
 """)
 
-print_md("""Actually this is an advantage of python3 over python2; the range function used to return a full list, so that the first case used occur frequently.""")
+print_md("""Actually this is an advantage of python3 over python2; the range function used to return a full list in python2, so that the first case used occur frequently.""")
 
 print("""```
 Python 2.7.16 (default, Jun  5 2020, 22:59:21)
@@ -32,8 +32,8 @@ Python 2.7.16 (default, Jun  5 2020, 22:59:21)
 >>> print(type(val))
 <type 'list'>
 
->>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value just once.
->>> # contractors had an easier job back then, they just had to point this out to their customers...
+>>> # to be fair, you had the xrange function, this used to return an iterator object that returned the desired value upon demand.
+>>> # contractors had an easier job back then, they just had to point this out to their customers, in order to achieve a wow effect.
 >>> val=xrange(1,10)
 >>> print(type(val))
 <type 'xrange'>
@@ -43,7 +43,7 @@ header_md("Iterators", nesting=2)
 
 header_md("Iterator example", nesting=3)
 
-print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterator object.
+print_md("""An iterable object is one that returns a sequence of values. the next value of the sequence is returned by the  __next__ member of the iterable object.
 The following example returns the first ten fibonacci numbers. The object of type FibIter knows how to compute the current fibonacci number, and to compute the next one.
 """)
 
@@ -72,10 +72,10 @@ for _ in range(1,10):
     print(fib_num)
 """) 
 
-print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
+print_md("""We want an iterator object that is usable with the for statement. Here we need to implement the __iter__ method, this is a factory method for returning an iterable object, this factory method is required by the for statement. 
 
 In this example, the for loop first calls the __iter__ method of InfiniteFibSequence implicitly on the iterator object, in order to produce the iterable.
-It then calls the next built-in implicitly on the iterable repeatedly""")
+It then calls the next built-in implicitly on the iterable, and repeats this upon each cycle of the loop.""")
 
 eval_and_quote("""
 class InfiniteFibSequence:
@@ -90,6 +90,9 @@ for num in InfiniteFibSequence():
         break
     print("fibonacci number:", num)
 """)
+
+print_md("""Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
+""")        
 
 print_md("""An even better example: we want an iterable object, that returns a given number of fibonacci numbers, then stops the iteration, once all values have been returned.
 
@@ -128,7 +131,7 @@ for num in LimitedFibRange(10):
  
 header_md("Built-in range function, for iterating over a range of values", nesting=3)
 
-print_md("""built in range function returns an object of built-in type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
+print_md("""The built-in [range](https://docs.python.org/3/library/functions.html#func-range) function returns an object of built-in iterator type [range](https://docs.python.org/3/library/stdtypes.html#range) - it can be used to return a consecutive sequence of numbers. The range object is actually not a generator, the range object returns an iterator, it has an __iter__ function that returns an iterator object.""")
 
 
 eval_and_quote("""
