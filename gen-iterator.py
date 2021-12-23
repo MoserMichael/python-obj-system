@@ -96,7 +96,7 @@ for num in InfiniteFibSequence():
     print("fibonacci number:", num)
 """)
 
-print_md("""Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents, when the same iterator factory object is used in more than one for loop.
+print_md("""Why do we have this distinction between iterator factories and iterable objects? One advantage is to have an independent sequence of objects for each occurence of a for loop. This distinction helps to prevents accidents that would happen, if the same iterator factory object instance is used in more than one for loop.
 """)        
 
 header_md("Iterator objects that return an iterable over a range of values", nesting=4)
