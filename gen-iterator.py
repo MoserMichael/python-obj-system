@@ -9,8 +9,7 @@ There is always the possibility of creating a list, that includes all the member
 """)
 
 eval_and_quote("""
-
-# wasteful example to compute the five ten squares
+# wasteful example to compute the five ten squares - get us a list of input numbers
 range_list = [x for x in range(1, 6) ]        
 
 print(range_list)
@@ -18,12 +17,9 @@ print(range_list)
 for num in range_list:
     print(f"(wasteful) the square of {num} is {num*num}")
 
-
 # what you really need is just the right value from the range, upon each iteration of the loop!
-
 for num in range(1, 6):
     print(f"(correct way) the square of {num} is {num*num}")
-
 """)
 
 header_md("Iterators", nesting=2)
@@ -35,7 +31,6 @@ The following example returns the first ten fibonacci numbers. The object of typ
 """)
 
 eval_and_quote("""
-
 class FibIter:
     def __init__(self):
         self.a = 0
@@ -50,7 +45,6 @@ class FibIter:
 
         return ret_val
 
-
 fib_iter = FibIter()
 
 # note that we are calling next(fib_iter) exactly ten times, in order to produce ten fibonacci numbers. 
@@ -59,7 +53,6 @@ for _ in range(1,10):
     # calling the next built-in function with iterator argument is calling the __next__ member of the iterator object.
     fib_num = next(fib_iter)
     print(fib_num)
-
 """) 
 
 print_md("""We want an iterator object that is usable with the for statement. Here we need to  implement the __iter__ method, this is a factory method for returning an iterator object, this factory method is required by the for statement""")
@@ -83,7 +76,6 @@ print_md("""An even better example: we want an iterator object, that returns a g
 A StopIteration exception is raised, once the last element of the sequence has been returned. I was surprised, that python is using exceptions, as part of regular control flow! But it makes sence: raising an exception is different, and can't be confused with returning a regular return value.""")
 
 eval_and_quote("""
-
 class LimitedFibIter:
     def __init__(self, range_size):
         self.a = 0
@@ -129,10 +121,8 @@ print("dir(range_value):", dir(range_value))
 print_md("""The [inspect module](https://docs.python.org/3/library/inspect.html) actually does not have a function that checks, if an object is an iterator, one would look as follows:""")
 
 eval_and_quote('''
-
 import types
 import inspect
-
 
 def isiterator(arg_obj):
     """check if argument object supports the iterator protocol"""
@@ -146,7 +136,6 @@ def isiterator(arg_obj):
     return False
 
 assert isiterator(range_value)
-
 ''')
         
 
@@ -221,7 +210,6 @@ import inspect
 
 assert inspect.isgeneratorfunction(my_range)
 assert not inspect.isgeneratorfunction(not_a_generator)
-
 """)
 
 print_md("""Digression: the __code__ attribute of a function object stands for the compiled byte code of a function. (but that's another rabbit hole)""")
@@ -315,7 +303,6 @@ The interaction between the caller and generator are an example of [cooperative 
 
 
 eval_and_quote("""
-
 import traceback
 import threading
 
@@ -343,7 +330,6 @@ for num in fib_gen:
     print("fibonacci number:", num)
 
 print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
-
 """)
 
 header_md("Summing it up, so far", nesting=2)
