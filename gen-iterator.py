@@ -424,6 +424,7 @@ major_python_version = sys.version_info[0]
 minor_python_version = sys.version_info[1] 
 
 assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
+print("This python interpreter supports asyncio")
 """)
 
 header_md("Introducing the concept of concurrent programming in Python", nesting=2)
@@ -439,8 +440,7 @@ A short overview of the main AsyncIO concepts:
 
 The main use case for all of this is a program, that is doing networking and multiplexing between several network connections, this is a paradigm, that comes from the world of Unix system programming in C. Concurrent networking in the C programming language is handled by a loop, that is calling any one of following system calls on each iteration of the loop - [select](https://www.man7.org/linux/man-pages/man2/select.2.html)/[poll](https://www.man7.org/linux/man-pages/man2/poll.2.html)/[epoll](https://man7.org/linux/man-pages/man7/epoll.7.html), this system call is waiting on a set of socket file descriptors. The system call returns, when an event of interest happened on a subset of the socket file descriptors that were passed to the select/poll/epoll call. The event loop will then have to react on this event, which may be either one of the following: a new socket connection has been established and you can get it by calling the [accept](https://www.man7.org/linux/man-pages/man2/accept.2.html) system call on a listening socket, data that is available to be [received](https://www.man7.org/linux/man-pages/man2/recv.2.html) over a socket, a [send](https://www.man7.org/linux/man-pages/man2/send.2.html) system call has previously blocked, the data has been sent, and the socket is now ready for action, etc. A C program like this will often be implemented as a very long loop, where all of the network connections are handled by a complex state machine, reacting to any of the possible events that occur on ony one of the handled socket descriptors.
 
-The Python AsyncIO api is designed to write a program like this in much more pleasent style. A set of logically related socket descriptors will be handled by a single coroutine/async IO task. The logic for handling all this will be local to the coroutine function, this is a very big improvement over how you would do it in a classical C program. 
-
+The Python AsyncIO api is designed to write a program like this in a much more pleasent style. A set of logically related socket descriptors will be handled by a single coroutine/async IO task. The logic for handling all this will be local to the coroutine function, this is a very big improvement over the approach described in the previous section.
 """)
 
 
