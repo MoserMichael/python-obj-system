@@ -10,6 +10,7 @@
       * [What is going on here?](#s1-2-2)
   * [Summing it up, so far](#s1-3)
 * [AsyncIO, there is much more!](#s2)
+  * [Introducing the concept of concurrent programming in Python](#s2-1)
 
 
 # <a id='s1' />Generating sequences dynamically
@@ -301,7 +302,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140390146656944 id(range_iter2): 140390146657616
+>> id(range_iter): 140393652046512 id(range_iter2): 140393652047184
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -404,7 +405,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7faf20dee0d0>
+>> type(not_a_generator): <function not_a_generator at 0x7faff1ced0d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -721,10 +722,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4639120832
+>> caller of generator operating system thread_id: 4538207680
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4639120832
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7faf20c7b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4538207680
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7faff1b7b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -782,14 +783,21 @@ minor_python_version = sys.version_info[1]
 assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 
 ```
+
+## <a id='s2-1' />Introducing the concept of concurrent programming in Python
+
 AsyncIO is a generalization of the generator feature, with generators the flow of control is strictly switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
 
 A short overview of the main AsyncIO concepts:
-- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then the coroutine function is running.
-- An event loop is hosting a set of task, only a single task is running at the same time
+- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then its coroutine function is running.
+- An event loop is hosting a set of task object. One single task is running at any given moment. All the other task objects are in suspended state, while that task is running.
 - The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the completion of another concurrent task or calling the asyncio sleep api. If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the prviously currently running task.
 
-The main use case for all of this is a program, that is doing networking and multiplexing between several network connections.
+The main use case for all of this is a program, that is doing networking and multiplexing between several network connections. 
+
+Concurrent networking in the C programming language is handled by a loop that is calling any one of following system calls on each iteration of the loop - [select](https://www.man7.org/linux/man-pages/man2/select.2.html)/[poll](https://www.man7.org/linux/man-pages/man2/poll.2.html)/[epoll](https://man7.org/linux/man-pages/man7/epoll.7.html), this system call is waiting on a set of socket file descriptors. The system call returns, when an event of interest happened on a subset of the socket file descriptors that were passed to the select/poll/epoll call. The event loop will then have to react on this event, which may be either one of the following: a new socket connection has been established, data that is available to be received over the socket, a send system call has previously blocked, the data has been sent, and the socket is now ready for action, etc. A C program like this will often be implemented as a very long loop, where all of the network connections are handled by a complex state machine, reacting to any of the possible events that occur on a socket descriptor.
+
+The Python AsyncIO api is designed to simplify this paradigm. A set of logically related socket descriptors will be handled by a single coroutine/async IO task. The logic for handling all this will be local to the coroutine function, this is a very big improvement over how you would do it in a classical C program. 
 
 
 *** eof tutorial ***

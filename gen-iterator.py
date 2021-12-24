@@ -426,20 +426,27 @@ minor_python_version = sys.version_info[1]
 assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 """)
 
+header_md("Introducing the concept of concurrent programming in Python", nesting=2)
+
 print_md("""
 
 AsyncIO is a generalization of the generator feature, with generators the flow of control is strictly switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
 
 A short overview of the main AsyncIO concepts:
-- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then the coroutine function is running.
-- An event loop is hosting a set of task, only a single task is running at the same time
+- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then its coroutine function is running.
+- An event loop is hosting a set of task object. One single task is running at any given moment. All the other task objects are in suspended state, while that task is running.
 - The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the completion of another concurrent task or calling the asyncio sleep api. If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the prviously currently running task.
 
-The main use case for all of this is a program, that is doing networking and multiplexing between several network connections.
+The main use case for all of this is a program, that is doing networking and multiplexing between several network connections. 
+
+Concurrent networking in the C programming language is handled by a loop that is calling any one of following system calls on each iteration of the loop - [select](https://www.man7.org/linux/man-pages/man2/select.2.html)/[poll](https://www.man7.org/linux/man-pages/man2/poll.2.html)/[epoll](https://man7.org/linux/man-pages/man7/epoll.7.html), this system call is waiting on a set of socket file descriptors. The system call returns, when an event of interest happened on a subset of the socket file descriptors that were passed to the select/poll/epoll call. The event loop will then have to react on this event, which may be either one of the following: a new socket connection has been established, data that is available to be received over the socket, a send system call has previously blocked, the data has been sent, and the socket is now ready for action, etc. A C program like this will often be implemented as a very long loop, where all of the network connections are handled by a complex state machine, reacting to any of the possible events that occur on a socket descriptor.
+
+The Python AsyncIO api is designed to simplify this paradigm. A set of logically related socket descriptors will be handled by a single coroutine/async IO task. The logic for handling all this will be local to the coroutine function, this is a very big improvement over how you would do it in a classical C program. 
 
 """)
 
 
 print("*** eof tutorial ***")
+
 
 
