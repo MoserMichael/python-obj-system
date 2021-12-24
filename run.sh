@@ -3,6 +3,7 @@
 set -e
 
 TOTAL_WORDS=0
+WORDS_IN_PAGE=250
 
 make_lesson() {
     local script=$1
@@ -29,9 +30,13 @@ make_lesson ./python-obj-system.py
 make_lesson ./decorator.py
 make_lesson ./gen-iterator.py
 
+((NUM_PAGES=TOTAL_WORDS/WORDS_IN_PAGE))
+
 cat <<EOF
 ===
 Total number of words: ${TOTAL_WORDS}
+
+This would make ${NUM_PAGES} pages, given an average number of ${WORDS_IN_PAGE} words per page.
 
 *** all tutorials generated ***"
 EOF
