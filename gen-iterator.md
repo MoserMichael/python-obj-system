@@ -301,7 +301,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140513702464176 id(range_iter2): 140513702464848
+>> id(range_iter): 140390146656944 id(range_iter2): 140390146657616
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -404,7 +404,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fcbe55ee160>
+>> type(not_a_generator): <function not_a_generator at 0x7faf20dee0d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -721,10 +721,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4418825664
+>> caller of generator operating system thread_id: 4639120832
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4418825664
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcbe547b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4639120832
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7faf20c7b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -764,7 +764,10 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 
 # <a id='s2' />AsyncIO, there is much more!
 
-AsyncIO is a feature, that has been added to python 3.7, so let us therefore check, that we are runnng on the correct python interpreter
+This is a very large API, and it has undergone many changes since it was introduced. I probably will not be able to present the whole asyncio api here, instead i will focus on a few of the more interesting use cases. 
+
+AsyncIO is a feature, that has reached a more or less mature state, beginning with python 3.7, so let us therefore check, that we are runnng on the correct python interpreter.
+
 
 
 __Source:__
@@ -773,10 +776,20 @@ __Source:__
 
 import sys
 
-assert (sys.version_info[0] == 3 and sys.version_info[1] >=7) or (sys.version_info[0] > 3)
+major_python_version = sys.version_info[0]
+minor_python_version = sys.version_info[1] 
+
+assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 
 ```
-AsyncIO is a generalization of the generator feature, with generators we have control that is switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+AsyncIO is a generalization of the generator feature, with generators the flow of control is strictly switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+
+A short overview of the main AsyncIO concepts:
+- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then the coroutine function is running.
+- An event loop is hosting a set of task, only a single task is running at the same time
+- The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the completion of another concurrent task or calling the asyncio sleep api. If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the prviously currently running task.
+
+The main use case for all of this is a program, that is doing networking and multiplexing between several network connections.
 
 
 *** eof tutorial ***

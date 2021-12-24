@@ -411,18 +411,31 @@ To me it seems, that the object oriented way of doing things is achieving the sa
 header_md("AsyncIO, there is much more!", nesting=1)
 
 print_md("""
-AsyncIO is a feature, that has been added to python 3.7, so let us therefore check, that we are runnng on the correct python interpreter
+This is a very large API, and it has undergone many changes since it was introduced. I probably will not be able to present the whole asyncio api here, instead i will focus on a few of the more interesting use cases. 
+
+AsyncIO is a feature, that has reached a more or less mature state, beginning with python 3.7, so let us therefore check, that we are runnng on the correct python interpreter.
+
 """)
 
 eval_and_quote("""
 import sys
 
-assert (sys.version_info[0] == 3 and sys.version_info[1] >=7) or (sys.version_info[0] > 3)
+major_python_version = sys.version_info[0]
+minor_python_version = sys.version_info[1] 
+
+assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 """)
 
 print_md("""
 
-AsyncIO is a generalization of the generator feature, with generators we have control that is switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+AsyncIO is a generalization of the generator feature, with generators the flow of control is strictly switching back and forth, between the caller and the generator function, AsyncIo is much more flexible in that respect.
+
+A short overview of the main AsyncIO concepts:
+- Each asyncIO task object stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then the coroutine function is running.
+- An event loop is hosting a set of task, only a single task is running at the same time
+- The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the completion of another concurrent task or calling the asyncio sleep api. If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the prviously currently running task.
+
+The main use case for all of this is a program, that is doing networking and multiplexing between several network connections.
 
 """)
 
