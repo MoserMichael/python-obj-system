@@ -505,12 +505,13 @@ asyncio.run( example_coroutine() )
 """)
 
 
-header_md("asyncio server example", nesting=2)
+header_md("AsyncIO client/server example", nesting=2)
 
 print_md("""
 asyncio has very high level functions, to simplify programming with asyncio (like [asyncio.start_server](https://docs.python.org/3/library/asyncio-stream.html#asyncio.start_server). However these make the api interactions harder to understand.
     
 This example is using the slightly more low-level api, in order to make it clearer what exactly is going on.
+You got a time server, and a client that sends a request to the server, in one example. It might be a bit of a stretch, however there are comments...
 """)
 
 eval_and_quote("""
