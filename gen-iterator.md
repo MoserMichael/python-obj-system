@@ -304,7 +304,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140510121576560 id(range_iter2): 140510121577856
+>> id(range_iter): 140448875300976 id(range_iter2): 140448875302272
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -407,7 +407,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fcb0fef00d0>
+>> type(not_a_generator): <function not_a_generator at 0x7fbccd5dc0d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -724,10 +724,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4443409856
+>> caller of generator operating system thread_id: 4543917504
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4443409856
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcb0fd7b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4543917504
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fbccd27b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -800,7 +800,7 @@ AsyncIO is a generalization of the generator feature, with generators the flow o
 
 A short overview of the main AsyncIO concepts:
 - Each asyncIO [task object](https://docs.python.org/3/library/asyncio-task.html#creating-tasks) stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then its coroutine function is running. More [here](https://docs.python.org/3/library/asyncio-task.html)
-- An event loop is hosting a set of task object. At most one single task is running at any given moment. All the other task objects are in suspended state, while that task is running. The event loop object is created upon calling [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run)
+- An event loop is hosting a set of task object. At most one single task is running at any given moment. All the other task objects are in suspended state, while that task is running. The event loop object is created upon calling [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) - this function also creates the first running task (aka the main task)
 - The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the [completion of another concurrent task](https://docs.python.org/3/library/asyncio-task.html#waiting-primitives) or when the running task has called the [asyncio sleep api](https://docs.python.org/3/library/asyncio-task.html#sleeping). If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the currently running task.
 - [Streams](https://docs.python.org/3/library/asyncio-stream.html) are special wrappers for network connections. The purpose here is to deactivate the currently running task when a network request cant be completed immediately, and the currently active task would otherwise have to wait for the completion of the network request.
 
@@ -875,9 +875,11 @@ __Result:__
 
 ```
 >> task_name: ' Task-1 ' tasks created
->> task_name: ' find random bigger than 100 ' task returns: 120
->> task_name: ' find random bigger than 1000 ' task returns: 1876
->> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [120, 1876]
+>> task_name: ' find random bigger than 100 ' sleep...
+>> task_name: ' find random bigger than 1000 ' sleep...
+>> task_name: ' find random bigger than 100 ' task returns: 198
+>> task_name: ' find random bigger than 1000 ' task returns: 1367
+>> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [198, 1367]
 ```
 
 
@@ -1061,12 +1063,12 @@ __Result:__
 >> task_name: ' server task ' calling server.serve_forever()
 >> task_name: ' client task ' after asyncio.sleep(1)
 >> <class '__main__.TimeClientHandler'> request sent
->> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 53210)
+>> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 53305)
 >> task_name: ' client task ' enter await on_con_lost
 >> <class '__main__.TimeServerProtocol'> Data received: type(message) <class 'str'> repr(message): 'local' eof-message
->> <class '__main__.TimeServerProtocol'> Send:  Saturday 25/12/2021 23:15:33 +0200 + nanosec: 1094609322
+>> <class '__main__.TimeServerProtocol'> Send:  Saturday 25/12/2021 23:18:57 +0200 + nanosec: 1099007541
 >> <class '__main__.TimeServerProtocol'> Close the server socket
->> <class '__main__.TimeClientHandler'> Data received:  Saturday 25/12/2021 23:15:33 +0200 + nanosec: 1094609322
+>> <class '__main__.TimeClientHandler'> Data received:  Saturday 25/12/2021 23:18:57 +0200 + nanosec: 1099007541
 >> <class '__main__.TimeClientHandler'> client connection lost
 >> task_name: ' client task ' after await on_con_lost
 >> task_name: ' client task ' closing client transport
