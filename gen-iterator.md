@@ -304,7 +304,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140300330879088 id(range_iter2): 140300330880384
+>> id(range_iter): 140521002650960 id(range_iter2): 140521002649952
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -407,7 +407,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7f9a376ee0d0>
+>> type(not_a_generator): <function not_a_generator at 0x7fcd9a01b0d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -724,10 +724,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4551519680
+>> caller of generator operating system thread_id: 4615257536
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4551519680
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7f9a3747b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4615257536
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcd9867b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -782,6 +782,7 @@ import sys
 major_python_version = sys.version_info[0]
 minor_python_version = sys.version_info[1] 
 
+print(f"Currently looking at python version: {sys.version}")
 assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 print("This python interpreter supports asyncio")
 
@@ -790,8 +791,16 @@ print("This python interpreter supports asyncio")
 __Result:__
 
 ```
+>> Currently looking at python version: 3.9.6 (v3.9.6:db3ff76da1, Jun 28 2021, 11:49:53) 
+>> [Clang 6.0 (clang-600.0.57)]
 >> This python interpreter supports asyncio
 ```
+
+Please take the information in this section with a grain of salt, the AsyncIO api went through many revision, and it may well change in the future. I used the following sources, while compiling the material.
+- [asyncio library reference](https://docs.python.org/3/library/asyncio.html)
+- [coroutines and task](https://docs.python.org/3/library/asyncio-task.html)
+
+One area that is not covered too much here is task cancellation, as it went through many revsions, and I am therefore likely to get the details wrong, for your case. Please consult the linked documentation for info on task cancellation.
 
 
 ## <a id='s2-1' />Overview of AsyncIO concepts
@@ -802,10 +811,9 @@ A short overview of the main AsyncIO concepts:
 - Each asyncIO [task object](https://docs.python.org/3/library/asyncio-task.html#creating-tasks) stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then its coroutine function is running. More [here](https://docs.python.org/3/library/asyncio-task.html)
 - An event loop is hosting a set of task object. At most one single task is running at any given moment. All the other task objects are in suspended state, while that task is running. The event loop object is created upon calling [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) - this function also creates the first running task (aka the main task)
 - The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the [completion of another concurrent task](https://docs.python.org/3/library/asyncio-task.html#waiting-primitives) or when the running task has called the [asyncio sleep api](https://docs.python.org/3/library/asyncio-task.html#sleeping). If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the currently running task.
-- [Streams](https://docs.python.org/3/library/asyncio-stream.html) are special wrappers for network connections. The purpose here is to deactivate the currently running task when a network request cant be completed immediately, and the currently active task would otherwise have to wait for the completion of the network request.
+- [Streams](https://docs.python.org/3/library/asyncio-stream.html) are special wrappers for network connections. The purpose here is to deactivate the currently running task when a network request cant be completed immediately, and to proceed handling a different task, instead of waiting  until the current network io has been completed.
 
 A note to understand asyncio in terms of operating system threads: an event loop instance is always specific to the current operating system thread, two operating system threads that both use the asyncio api will have two separate instances of event loops. An event loop is created per operating system thread, if the operating system thread starts to work with asyncio (upon calling async.run, for example) This enables them to avoid the need for multithread synchronisation, within in the asyncio api objects.
-
 
 The main use case for all of this is a program, that is doing networking and multiplexing between several network connections, this is a paradigm, that comes from the world of Unix system programming in C. Concurrent networking in the C programming language is handled by a loop, that is calling any one of following system calls on each iteration of the loop - [select](https://www.man7.org/linux/man-pages/man2/select.2.html)/[poll](https://www.man7.org/linux/man-pages/man2/poll.2.html)/[epoll](https://man7.org/linux/man-pages/man7/epoll.7.html), this system call is waiting on a set of socket file descriptors. The system call returns, when an event of interest happened on a subset of the socket file descriptors that were passed to the select/poll/epoll call. The event loop will then have to react on this event, which may be either one of the following: a new socket connection has been established and you can get it by calling the [accept](https://www.man7.org/linux/man-pages/man2/accept.2.html) system call on a listening socket, data that is available to be [received](https://www.man7.org/linux/man-pages/man2/recv.2.html) over a socket, a [send](https://www.man7.org/linux/man-pages/man2/send.2.html) system call has previously blocked, the data has been sent, and the socket is now ready for action, the peer has closed a connection, or an error occured. A C program like this will often be implemented as a very long loop, where all of the network connections are handled by a complex state machine, reacting to any of the events that could occur on ony one of the handled socket descriptors.
 
@@ -814,10 +822,11 @@ The Python AsyncIO api is designed to write a program like this in a much more p
 
 ## <a id='s2-2' />AsyncIO task example
 
-The following example shows some very basic AsyncIO api usage, no network IO is done here.
+The following example shows some very basic AsyncIO api usage, no network IO is done here. the example starts an event loop, with the main task in coroutine example\_coroutine, the main task starts two other tasks, both tasks run the same coroutine find\_random\_number\_greater\_than\_min; this coroutine computes a random number that is greater than than the argument number passed to the coroutine function, the tasks pass control to each other, when a lower than required random number has been returned by the random number generator.
 
 - First the event loop is initialised, the main task that is hosting the example\_coroutine is created and run until completion, all this is achieved by the  [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) function.
-- The main task is creating two other tasks, 
+- The main task is creating two other tasks, see [asyncio.create\_task](https://docs.python.org/3/library/asyncio-task.html#asyncio.create\_task) note that the task is not run yet, you also passing parameters to the coroutine function, it's the same syntax as if calling the coroutine function, but no call is being made at this point. There is a similarty with generators, in t his respect.
+- await asyncio.gather( task1, task2) - [see documentation](https://docs.python.org/3/library/asyncio-task.html#asyncio.gather). Please note, that invocation of another task always goes with the await keyword. The asyncio.gather function waits for the completion of both argument tasks (that's what the default arguments say).
 
 
 
@@ -875,10 +884,11 @@ __Result:__
 
 ```
 >> task_name: ' Task-1 ' tasks created
->> task_name: ' find random bigger than 100 ' task returns: 146
+>> task_name: ' find random bigger than 100 ' sleep...
 >> task_name: ' find random bigger than 1000 ' sleep...
->> task_name: ' find random bigger than 1000 ' task returns: 1918
->> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [146, 1918]
+>> task_name: ' find random bigger than 100 ' task returns: 145
+>> task_name: ' find random bigger than 1000 ' task returns: 2000
+>> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [145, 2000]
 ```
 
 
@@ -889,6 +899,11 @@ asyncio has very high level functions, to simplify programming with asyncio (lik
 This example is using the slightly more low-level api, in order to make it clearer what exactly is going on.
 You got a time server, and a client that sends a request to the server, in one example. It might be a bit of a stretch, however there are comments...
 
+- First the event loop is initialised, the main task that is hosting the sever\_and\_client\_coroutine is created and run until completion, all this is achieved by the  [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) function.
+- The main task is creating two other tasks, 
+    - a task named 'server task' running in coroutine server\_coroutine, this task is initialising a server that is listenng for inbound tcp connections, and that responds with a string that contains the current time.
+    - a task named 'client task' running in corotuine client\_coroutine, this task first sleeps for a second, so as to yield for the server coroutine and to give it a chance to initialise. then it sends a request, and waits for the response. Next thing it the server and exits.
+-
 
 __Source:__
 
@@ -901,7 +916,7 @@ import time
 
 server = None
 
-# debug function: call this from a cothread to show all tasks and where they are
+# debug function: call this from a cothread to show all tasks, the state of the task and their stack trace.
 def show_tasks():
     print("show tasks:")
     for task in asyncio.all_tasks():
@@ -1063,12 +1078,12 @@ __Result:__
 >> task_name: ' server task ' calling server.serve_forever()
 >> task_name: ' client task ' after asyncio.sleep(1)
 >> <class '__main__.TimeClientHandler'> request sent
->> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 53567)
+>> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 52773)
 >> task_name: ' client task ' enter await on_con_lost
 >> <class '__main__.TimeServerProtocol'> Data received: type(message) <class 'str'> repr(message): 'local' eof-message
->> <class '__main__.TimeServerProtocol'> Send:  Saturday 25/12/2021 23:30:38 +0200 + nanosec: 1100842691
+>> <class '__main__.TimeServerProtocol'> Send:  Monday 27/12/2021 01:47:33 +0200 + nanosec: 1227690315
 >> <class '__main__.TimeServerProtocol'> Close the server socket
->> <class '__main__.TimeClientHandler'> Data received:  Saturday 25/12/2021 23:30:38 +0200 + nanosec: 1100842691
+>> <class '__main__.TimeClientHandler'> Data received:  Monday 27/12/2021 01:47:33 +0200 + nanosec: 1227690315
 >> <class '__main__.TimeClientHandler'> client connection lost
 >> task_name: ' client task ' after await on_con_lost
 >> task_name: ' client task ' closing client transport

@@ -423,8 +423,17 @@ import sys
 major_python_version = sys.version_info[0]
 minor_python_version = sys.version_info[1] 
 
+print(f"Currently looking at python version: {sys.version}")
 assert (major_python_version == 3 and minor_python_version >=7) or (major_python_version > 3)
 print("This python interpreter supports asyncio")
+""")
+
+print_md("""
+Please take the information in this section with a grain of salt, the AsyncIO api went through many revision, and it may well change in the future. I used the following sources, while compiling the material.
+- [asyncio library reference](https://docs.python.org/3/library/asyncio.html)
+- [coroutines and task](https://docs.python.org/3/library/asyncio-task.html)
+
+One area that is not covered too much here is task cancellation, as it went through many revsions, and I am therefore likely to get the details wrong, for your case. Please consult the linked documentation for info on task cancellation.
 """)
 
 header_md("Overview of AsyncIO concepts", nesting=2)
@@ -437,10 +446,9 @@ A short overview of the main AsyncIO concepts:
 - Each asyncIO [task object](https://docs.python.org/3/library/asyncio-task.html#creating-tasks) stands for a concurrent task, each task is either suspended or currently running. Each task object has its own coroutine function, a coroutine is a regular python function that has an additional async keyword standing right before the def keyword. If a task object is in running state, then its coroutine function is running. More [here](https://docs.python.org/3/library/asyncio-task.html)
 - An event loop is hosting a set of task object. At most one single task is running at any given moment. All the other task objects are in suspended state, while that task is running. The event loop object is created upon calling [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) - this function also creates the first running task (aka the main task)
 - The currently running task stops running, when it is either waiting for the completion of networking IO, waiting for the [completion of another concurrent task](https://docs.python.org/3/library/asyncio-task.html#waiting-primitives) or when the running task has called the [asyncio sleep api](https://docs.python.org/3/library/asyncio-task.html#sleeping). If any one of these events happened, then the event loop is picking another currently suspended task, and running it instead of the currently running task.
-- [Streams](https://docs.python.org/3/library/asyncio-stream.html) are special wrappers for network connections. The purpose here is to deactivate the currently running task when a network request cant be completed immediately, and the currently active task would otherwise have to wait for the completion of the network request.
+- [Streams](https://docs.python.org/3/library/asyncio-stream.html) are special wrappers for network connections. The purpose here is to deactivate the currently running task when a network request cant be completed immediately, and to proceed handling a different task, instead of waiting  until the current network io has been completed.
 
 A note to understand asyncio in terms of operating system threads: an event loop instance is always specific to the current operating system thread, two operating system threads that both use the asyncio api will have two separate instances of event loops. An event loop is created per operating system thread, if the operating system thread starts to work with asyncio (upon calling async.run, for example) This enables them to avoid the need for multithread synchronisation, within in the asyncio api objects.
-
 
 The main use case for all of this is a program, that is doing networking and multiplexing between several network connections, this is a paradigm, that comes from the world of Unix system programming in C. Concurrent networking in the C programming language is handled by a loop, that is calling any one of following system calls on each iteration of the loop - [select](https://www.man7.org/linux/man-pages/man2/select.2.html)/[poll](https://www.man7.org/linux/man-pages/man2/poll.2.html)/[epoll](https://man7.org/linux/man-pages/man7/epoll.7.html), this system call is waiting on a set of socket file descriptors. The system call returns, when an event of interest happened on a subset of the socket file descriptors that were passed to the select/poll/epoll call. The event loop will then have to react on this event, which may be either one of the following: a new socket connection has been established and you can get it by calling the [accept](https://www.man7.org/linux/man-pages/man2/accept.2.html) system call on a listening socket, data that is available to be [received](https://www.man7.org/linux/man-pages/man2/recv.2.html) over a socket, a [send](https://www.man7.org/linux/man-pages/man2/send.2.html) system call has previously blocked, the data has been sent, and the socket is now ready for action, the peer has closed a connection, or an error occured. A C program like this will often be implemented as a very long loop, where all of the network connections are handled by a complex state machine, reacting to any of the events that could occur on ony one of the handled socket descriptors.
 
@@ -451,10 +459,11 @@ header_md("AsyncIO task example", nesting=2)
 
 
 print_md("""
-The following example shows some very basic AsyncIO api usage, no network IO is done here.
+The following example shows some very basic AsyncIO api usage, no network IO is done here. the example starts an event loop, with the main task in coroutine example_coroutine, the main task starts two other tasks, both tasks run the same coroutine find_random_number_greater_than_min; this coroutine computes a random number that is greater than than the argument number passed to the coroutine function, the tasks pass control to each other, when a lower than required random number has been returned by the random number generator.
 
 - First the event loop is initialised, the main task that is hosting the example_coroutine is created and run until completion, all this is achieved by the  [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) function.
-- The main task is creating two other tasks, 
+- The main task is creating two other tasks, see [asyncio.create_task](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) note that the task is not run yet, you also passing parameters to the coroutine function, it's the same syntax as if calling the coroutine function, but no call is being made at this point. There is a similarty with generators, in t his respect.
+- await asyncio.gather( task1, task2) - [see documentation](https://docs.python.org/3/library/asyncio-task.html#asyncio.gather). Please note, that invocation of another task always goes with the await keyword. The asyncio.gather function waits for the completion of both argument tasks (that's what the default arguments say).
 
 """)
 
@@ -512,7 +521,12 @@ asyncio has very high level functions, to simplify programming with asyncio (lik
     
 This example is using the slightly more low-level api, in order to make it clearer what exactly is going on.
 You got a time server, and a client that sends a request to the server, in one example. It might be a bit of a stretch, however there are comments...
-""")
+
+- First the event loop is initialised, the main task that is hosting the sever_and_client_coroutine is created and run until completion, all this is achieved by the  [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) function.
+- The main task is creating two other tasks, 
+    - a task named 'server task' running in coroutine server_coroutine, this task is initialising a server that is listenng for inbound tcp connections, and that responds with a string that contains the current time.
+    - a task named 'client task' running in corotuine client_coroutine, this task first sleeps for a second, so as to yield for the server coroutine and to give it a chance to initialise. then it sends a request, and waits for the response. Next thing it the server and exits.
+-""")
 
 eval_and_quote("""
 import asyncio
@@ -522,7 +536,7 @@ import time
 
 server = None
 
-# debug function: call this from a cothread to show all tasks and where they are
+# debug function: call this from a cothread to show all tasks, the state of the task and their stack trace.
 def show_tasks():
     print("show tasks:")
     for task in asyncio.all_tasks():
