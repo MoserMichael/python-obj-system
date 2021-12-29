@@ -12,7 +12,7 @@ print("install-requires:", install_requires)
 
 setuptools.setup(
     name = "mdpyformat",
-    version = "1.0.1",
+    version = "1.0.2",
     author = "Michael Moser",
     author_email = "moser.michael@gmail.com",
     description = ("mdformat is a literate programming framework for python."),
