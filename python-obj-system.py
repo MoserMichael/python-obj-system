@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from mdformat import *
+from mdpyformat import *
 import pprintex
 
 

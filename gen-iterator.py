@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from mdformat import *
+from mdpyformat import *
 
 header_md("Generating sequences dynamically", nesting=1)
 

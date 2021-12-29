@@ -8,7 +8,7 @@
 
 # required to implement some decorator magic. (see further down)
 import functools
-from mdformat import *
+from mdpyformat import *
 
 header_md("""Python decorator walk-through""")
 

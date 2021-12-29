@@ -304,7 +304,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140521002650960 id(range_iter2): 140521002649952
+>> id(range_iter): 140471103015024 id(range_iter2): 140471103016320
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -407,7 +407,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fcd9a01b0d0>
+>> type(not_a_generator): <function not_a_generator at 0x7fc1fa51b0d0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -724,10 +724,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4615257536
+>> caller of generator operating system thread_id: 4680371648
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4615257536
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fcd9867b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4680371648
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc1fa07b9a0, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -884,11 +884,9 @@ __Result:__
 
 ```
 >> task_name: ' Task-1 ' tasks created
->> task_name: ' find random bigger than 100 ' sleep...
->> task_name: ' find random bigger than 1000 ' sleep...
->> task_name: ' find random bigger than 100 ' task returns: 145
->> task_name: ' find random bigger than 1000 ' task returns: 2000
->> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [145, 2000]
+>> task_name: ' find random bigger than 100 ' task returns: 150
+>> task_name: ' find random bigger than 1000 ' task returns: 1919
+>> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [150, 1919]
 ```
 
 
@@ -1078,12 +1076,12 @@ __Result:__
 >> task_name: ' server task ' calling server.serve_forever()
 >> task_name: ' client task ' after asyncio.sleep(1)
 >> <class '__main__.TimeClientHandler'> request sent
->> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 52773)
+>> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 63754)
 >> task_name: ' client task ' enter await on_con_lost
 >> <class '__main__.TimeServerProtocol'> Data received: type(message) <class 'str'> repr(message): 'local' eof-message
->> <class '__main__.TimeServerProtocol'> Send:  Monday 27/12/2021 01:47:33 +0200 + nanosec: 1227690315
+>> <class '__main__.TimeServerProtocol'> Send:  Wednesday 29/12/2021 17:40:21 +0200 + nanosec: 1177150447
 >> <class '__main__.TimeServerProtocol'> Close the server socket
->> <class '__main__.TimeClientHandler'> Data received:  Monday 27/12/2021 01:47:33 +0200 + nanosec: 1227690315
+>> <class '__main__.TimeClientHandler'> Data received:  Wednesday 29/12/2021 17:40:21 +0200 + nanosec: 1177150447
 >> <class '__main__.TimeClientHandler'> client connection lost
 >> task_name: ' client task ' after await on_con_lost
 >> task_name: ' client task ' closing client transport

@@ -10,9 +10,9 @@ This course covers several topics
 Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.
 
 I am using a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course.
-The tool is right here in this repository, in the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat)
+The tool is right here in this repository, in the [mdpyformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdpyformat)
 
-The main function of the [mdformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdformat) is ```eval_and_quote(string_arg)```. This function does the following steps:
+The main function of the [mdpyformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdpyformat) is ```eval_and_quote(string_arg)```. This function does the following steps:
 1. Renders the argument string as a code snippet
 2. Evaluates the string argument as a python script, with the global variable context of the calling module
 3. Renders the result of evaluating the code (both standard output and standard error)
