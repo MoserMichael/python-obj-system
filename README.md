@@ -30,6 +30,6 @@ There is also ```print_md(*args)``` - this shows the outut as a markdown regular
 
 The mdpyformat library can be installed via pip
 
-```pip install mdpyformat```
+```pip3 install mdpyformat```
 
 Here is the [link to pypi](https://pypi.org/project/mdpyformat/)
