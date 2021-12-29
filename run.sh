@@ -13,7 +13,7 @@ make_lesson() {
     #echo '" Set text width as 72.' >${tmpfile}
     #echo "" >>${tmpfile}
     $script >${tmpfile}
-    ./tocgen.py ${tmpfile} ${outfile}
+    python3 -m mdpyformat.tocgen ${tmpfile} ${outfile}
     rm ${tmpfile}
 
     WORDS=$(wc -w "${outfile}" | awk '{ print $1 }')

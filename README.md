@@ -1,5 +1,4 @@
 # Advanced course on Python3
-
 This course covers several topics
 
 - [Python decorators](https://github.com/MoserMichael/python-obj-system/blob/master/decorator.md) 
@@ -33,3 +32,14 @@ The mdpyformat library can be installed via pip
 ```pip3 install mdpyformat```
 
 Here is the [link to pypi](https://pypi.org/project/mdpyformat/)
+
+### table of content generation script
+
+The mdpyformat package contains a script for the generation of table of contents in the generated markdown files.
+
+To invoke this script run
+
+```python3 -m mdpyformat.tocgen MARKDOWN_INPUT_FILE MARKDOWN_OUTPUT_WITH_ADDED_TABLE_OF_CONTENT```
+
+The script has beend derived from this [gist](https://gist.github.com/chriscasola/4700426) Thanks!
+ 
