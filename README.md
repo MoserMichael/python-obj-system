@@ -9,6 +9,8 @@ This course covers several topics
 
 Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.
 
+## mdpyformat literate programming library
+
 I am using a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course.
 The tool is right here in this repository, in the [mdpyformat package](https://github.com/MoserMichael/python-obj-system/tree/master/mdpyformat)
 
@@ -23,3 +25,11 @@ There is also ```print_md(*args)``` - this shows the outut as a markdown regular
 
 ```print_quoted(*args)``` - shows the aguments as markdown quoted text
 
+
+### Installation of mdpyformat
+
+The mdpyformat library can be installed via pip
+
+```pip install mdpyformat```
+
+Here is the [link to pypi](https://pypi.org/project/mdpyformat/)
