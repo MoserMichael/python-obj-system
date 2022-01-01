@@ -23,7 +23,7 @@ There is always the possibility of creating a list, that includes all the member
 
 __Source:__
 
-```
+```python
 
 # wasteful example to compute the five ten squares - get us a list of input numbers
 range_list = [x for x in range(1, 6) ]        
@@ -89,7 +89,7 @@ The following example returns the first ten fibonacci numbers. The object of typ
 
 __Source:__
 
-```
+```python
 
 class FibIterable:
     def __init__(self):
@@ -141,7 +141,7 @@ It then calls the next built-in implicitly on the iterable, and repeats this upo
 
 __Source:__
 
-```
+```python
 
 class InfiniteFibSequence:
     def __init__(self):
@@ -188,7 +188,7 @@ As an alternative, they could have returned an additional return value, to indic
 
 __Source:__
 
-```
+```python
 
 class LimitedFibIterable:
     def __init__(self, range_size):
@@ -243,7 +243,7 @@ The built-in [range](https://docs.python.org/3/library/functions.html#func-range
 
 __Source:__
 
-```
+```python
 
 range_value = range(1,10)
 print("type(range_value):", type(range_value))
@@ -263,7 +263,7 @@ The [inspect module](https://docs.python.org/3/library/inspect.html) actually do
 
 __Source:__
 
-```
+```python
 
 import types
 import inspect
@@ -286,7 +286,7 @@ Each call to the \_\_iter\_\_() member of the range type will return a distinct 
 
 __Source:__
 
-```
+```python
 
 range_iter = range_value.__iter__()
 print("type(range_iter):", type(range_iter))
@@ -304,7 +304,7 @@ __Result:__
 ```
 >> type(range_iter): <class 'range_iterator'>
 >> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140457439021168 id(range_iter2): 140457439022464
+>> id(range_iter): 140423685359392 id(range_iter2): 140423685359488
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -312,7 +312,7 @@ You can use the same range object in different for loops, each time an independe
 
 __Source:__
 
-```
+```python
 
 range_val = range(1,3)
 for val in range_val:
@@ -337,7 +337,7 @@ The built-in range is also a reversible iterator, you can call the built-in [rev
 
 __Source:__
 
-```
+```python
 
 
 range_iter = range(1, 10)
@@ -370,7 +370,7 @@ Now the range type has all of them, it has \_\_getitem\_\_, \_\_len\_\_ but it a
 
 __Source:__
 
-```
+```python
 
 print("dir(range(1,10))", dir(range(1,10)))
 
@@ -392,7 +392,7 @@ Let's examine how generator functions differ from regular functions. Calling a r
 
 __Source:__
 
-```
+```python
 
 def not_a_generator(from_val, to_val):
     return from_val + to_val
@@ -407,7 +407,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fbecbcda0d0>
+>> type(not_a_generator): <function not_a_generator at 0x7fb6f20071f0>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -415,7 +415,7 @@ Let's look at a generator function, it has a yield statement in its body
 
 __Source:__
 
-```
+```python
 
 def my_range(from_val, to_val):
     print("(generator) my_range from_val:", from_val, "to_val:", to_val)
@@ -436,7 +436,7 @@ A function that has a yield statement, is is technically still a function objct.
 
 __Source:__
 
-```
+```python
 
 print("type(my_range):", type(my_range))
 
@@ -452,7 +452,7 @@ You can tell, if a function has a yield statement, or not, the function object o
 
 __Source:__
 
-```
+```python
 
 import inspect
 
@@ -464,7 +464,7 @@ Digression: the \_\_code\_\_ attribute of a function object stands for the compi
 
 __Source:__
 
-```
+```python
 
 print("type(my_range.__code__):", type(my_range.__code__))
 print("dir(my_range.__code__):", dir(my_range.__code__))
@@ -482,7 +482,7 @@ Attention! Calling the generator function does not execute any of the statements
 
 __Source:__
 
-```
+```python
 
 print("calling: my_range(10,20)")
 range_generator = my_range(10,12)
@@ -501,7 +501,7 @@ The generator has not been invoked yet, it is in created state
 
 __Source:__
 
-```
+```python
 
 print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
@@ -517,7 +517,7 @@ Let's examine the generator object. Generators are iterators, they have the spec
 
 __Source:__
 
-```
+```python
 
 print("dir(range_generator):", dir(range_generator))
 print("dir(type(range_generator):", dir(type(range_generator)))
@@ -535,7 +535,7 @@ Using the generator as an iterator: calling next(range\_generator)...
 
 __Source:__
 
-```
+```python
 
 val = next(range_generator)
 print("return value of next(range_generator):", val)
@@ -556,7 +556,7 @@ The generator is in suspended state, after having returned it's value via the yi
 
 __Source:__
 
-```
+```python
 
 print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
@@ -572,7 +572,7 @@ Calling built-in next(range\_generator) is the same as calling range\_generator.
 
 __Source:__
 
-```
+```python
 
 val = range_generator.__next__()
 print("return value of next(range_generator):", val)
@@ -593,7 +593,7 @@ But it makes sence: raising an exception is different, and can't be confused wit
 
 __Source:__
 
-```
+```python
 
 has_stop_iter_ex = False
 try:
@@ -617,7 +617,7 @@ The gnerator object is in closed state, upon having completed its iteration
 
 __Source:__
 
-```
+```python
 
 print("inspect.getgeneratorstate(range_generator):", inspect.getgeneratorstate(range_generator))
 
@@ -633,7 +633,7 @@ Using an generator in a for loop, The for loop uses it as an iterator
 
 __Source:__
 
-```
+```python
 
 range_generator = my_range(0,7)
 for num in range_generator:
@@ -689,7 +689,7 @@ The interaction between the caller and generator are an example of [cooperative 
 
 __Source:__
 
-```
+```python
 
 import traceback
 import threading
@@ -724,10 +724,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4480503232
+>> caller of generator operating system thread_id: 4629142976
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4480503232
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fbecba7b9a0, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 4629142976
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fb6efe11900, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -775,7 +775,7 @@ AsyncIO is a feature, that has reached a more or less mature state, beginning wi
 
 __Source:__
 
-```
+```python
 
 import sys
 
@@ -832,7 +832,7 @@ The following example shows some very basic AsyncIO api usage, no network IO is 
 
 __Source:__
 
-```
+```python
 
 import asyncio
 import random
@@ -884,9 +884,10 @@ __Result:__
 
 ```
 >> task_name: ' Task-1 ' tasks created
->> task_name: ' find random bigger than 100 ' task returns: 145
->> task_name: ' find random bigger than 1000 ' task returns: 1263
->> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [145, 1263]
+>> task_name: ' find random bigger than 100 ' task returns: 194
+>> task_name: ' find random bigger than 1000 ' sleep...
+>> task_name: ' find random bigger than 1000 ' task returns: 1019
+>> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [194, 1019]
 ```
 
 
@@ -905,7 +906,7 @@ You got a time server, and a client that sends a request to the server, in one e
 
 __Source:__
 
-```
+```python
 
 import asyncio
 import datetime
@@ -1076,12 +1077,12 @@ __Result:__
 >> task_name: ' server task ' calling server.serve_forever()
 >> task_name: ' client task ' after asyncio.sleep(1)
 >> <class '__main__.TimeClientHandler'> request sent
->> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 52481)
+>> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 63103)
 >> task_name: ' client task ' enter await on_con_lost
 >> <class '__main__.TimeServerProtocol'> Data received: type(message) <class 'str'> repr(message): 'local' eof-message
->> <class '__main__.TimeServerProtocol'> Send:  Wednesday 29/12/2021 21:08:00 +0200 + nanosec: 1102273188
+>> <class '__main__.TimeServerProtocol'> Send:  Saturday 01/01/2022 07:01:07 +0200 + nanosec: 1097179725
 >> <class '__main__.TimeServerProtocol'> Close the server socket
->> <class '__main__.TimeClientHandler'> Data received:  Wednesday 29/12/2021 21:08:00 +0200 + nanosec: 1102273188
+>> <class '__main__.TimeClientHandler'> Data received:  Saturday 01/01/2022 07:01:07 +0200 + nanosec: 1097179725
 >> <class '__main__.TimeClientHandler'> client connection lost
 >> task_name: ' client task ' after await on_con_lost
 >> task_name: ' client task ' closing client transport

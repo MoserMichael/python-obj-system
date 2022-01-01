@@ -4,6 +4,7 @@ from io import StringIO
 import inspect
 import traceback
 import contextlib
+import subb
 
 def header_md(line, nesting=1):
     """ show argument string as markdown header. Nesting of level is set by nesting argument """
@@ -19,14 +20,47 @@ def print_md(*args):
 
 def print_quoted(*args):
     """show arguments as quoted text in markdown"""
-    print("```\n" +  ' '.join(map(str, args)) + "\n```" )
+    print("```\n" +  '\n'.join(map(str, args)) + "\n```" )
+
+def print_code(*args,lang="python"):
+    """show arguments as quoted text in markdown"""
+    print(f"```{lang}\n" +  '\n'.join(map(str, args)) + "\n```" )
+
+
+def run_and_quote(file_name, command="python3", line_prefix="> ", exit_on_error=True):
+    """show contents of file name, run the file name with command and show results"""
+    print("")
+    print("__Source:__")
+
+    with open(file_name,"r") as file:
+        src_code = file.read()
+        print_code(src_code)
+
+    cmd_str = f"{command} {file_name}"
+    cmd = subb.RunCommand(stderr_as_stdout=True)
+    cmd.run(cmd_str)
+
+    out = cmd.output
+
+    sline = out.strip()
+    if sline != "":
+        print("")
+        print("__Result:__")
+        print_code( '\n'.join( map( lambda line : line_prefix + line, sline.split("\n") ) ) )
+        print("")
+
+    if exit_on_error and cmd.exit_code != 0:
+        print(f"Error: Command {cmd_str} returned status {cmd.exit_code}")
+        sys.exit(1)
+
+
 
 def eval_and_quote(arg_str):
     """evaluate the argument string, show the source and show the results"""
     print("")
     print("__Source:__")
 
-    print_quoted(arg_str)
+    print_code(arg_str)
 
     @contextlib.contextmanager
     def stderr_io(stderr=None):
@@ -71,7 +105,7 @@ def eval_and_quote(arg_str):
                 if len(code_lines) > lineno -1:
                     error_line = code_lines[ lineno-1 ]
                 print(f"{frame_summary.name}")
-                print(f"\t{lineno}) {error_line}") 
+                print(f"\t{lineno}) {error_line}")
             first_frame = False
 
     frame = inspect.currentframe()
@@ -102,11 +136,11 @@ def eval_and_quote(arg_str):
                 # this doesn't show the line that caused the exception
                 #traceback.print_exc()
                 show_custom_trace(arg_str, exc)
-                        
+
 
     is_first = True
     is_first = format_result(sout, is_first)
     format_result(serr, is_first)
     if has_error:
-        print("Error during evalutation of the preceeding code snippet, see standard output for more details.", file=sys.stderr) 
+        print("Error during evalutation of the preceeding code snippet, see standard output for more details.", file=sys.stderr)
         sys.exit(1)

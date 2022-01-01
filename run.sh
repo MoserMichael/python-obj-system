@@ -14,7 +14,7 @@ make_lesson() {
     #echo "" >>${tmpfile}
     $script >${tmpfile}
     python3 -m mdpyformat.tocgen ${tmpfile} ${outfile}
-    rm ${tmpfile}
+    #rm ${tmpfile}
 
     WORDS=$(wc -w "${outfile}" | awk '{ print $1 }')
     echo "${WORDS} words in ${outfile}"
