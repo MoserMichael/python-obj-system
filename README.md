@@ -6,6 +6,7 @@ This course covers several topics
 - [Iterators, generators and asyncio](https://github.com/MoserMichael/python-obj-system/blob/master/gen-iterator.md)
 - Also see my text on [Python import system](https://github.com/MoserMichael/pythonimportplayground) /different repo/
 - An introduction to the [Python bytecode](https://github.com/MoserMichael/pyasmtool/blob/master/bytecode_disasm.md) /different repo/
+- [Writing a python tracer](https://github.com/MoserMichael/pyasmtool/blob/master/tracer.md) /different repo/ 
 
 Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.
 
