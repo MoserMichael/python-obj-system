@@ -18,14 +18,23 @@ def print_md(*args):
     paragraph = re.sub(r"^\s+","", paragraph)
     print(paragraph)
 
+def _quote_string(str):
+   return str.replace("<","&lt;").replace(">","&gt;") 
+
 def print_quoted(*args):
     """show arguments as quoted text in markdown"""
-    print("```\n" +  '\n'.join(map(str, args)) + "\n```" )
+    msg = '\n'.join(map(str, args)) 
+    print("```\n" +  msg + "\n```" )
+
+def print_quoted_pre(*args):
+    """show arguments as quoted text in markdown"""
+    msg = '\n'.join(map(str, args)) 
+    print("<pre>\n" +  _quote_string(msg) + "\n</pre>" )
+
 
 def print_code(*args,lang="python"):
     """show arguments as quoted text in markdown"""
     print(f"```{lang}\n" +  '\n'.join(map(str, args)) + "\n```" )
-
 
 def run_and_quote(file_name, command="python3", line_prefix="> ", exit_on_error=True):
     """show contents of file name, run the file name with command and show results"""
@@ -46,7 +55,7 @@ def run_and_quote(file_name, command="python3", line_prefix="> ", exit_on_error=
     if sline != "":
         print("")
         print("__Result:__")
-        print_code( '\n'.join( map( lambda line : line_prefix + line, sline.split("\n") ) ) )
+        print_quoted_pre( '\n'.join( map( lambda line : line_prefix + line, sline.split("\n") ) ) )
         print("")
 
     if exit_on_error and cmd.exit_code != 0:
