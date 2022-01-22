@@ -459,7 +459,7 @@ header_md("AsyncIO task example", nesting=2)
 
 
 print_md("""
-The following example shows some very basic AsyncIO api usage, no network IO is done here. the example starts an event loop, with the main task in coroutine example_coroutine, the main task starts two other tasks, both tasks run the same coroutine find_random_number_greater_than_min; this coroutine computes a random number that is greater than than the argument number passed to the coroutine function, the tasks pass control to each other, when a lower than required random number has been returned by the random number generator.
+The following example shows some very basic AsyncIO api usage, no network IO is done here. the example starts an event loop, with the main task in coroutine example_coroutine, the main task starts two other tasks, both tasks run the same coroutine find_random_number_greater_than_min; this coroutine computes a random number that is greater than the argument number passed to the coroutine function, the tasks pass control to each other, when a lower than required random number has been returned by the random number generator.
 
 - First the event loop is initialised, the main task that is hosting the example_coroutine is created and run until completion, all this is achieved by the  [asyncio.run](https://docs.python.org/3/library/asyncio-task.html#asyncio.run) function.
 - The main task is creating two other tasks, see [asyncio.create_task](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) note that the task is not run yet, you also passing parameters to the coroutine function, it's the same syntax as if calling the coroutine function, but no call is being made at this point. There is a similarty with generators, in t his respect.
