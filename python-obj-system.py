@@ -603,10 +603,41 @@ This section lists examples of meta-classes in the python standard library. Look
 
 header_md("""ABCMeta class""", nesting=3)
 
-print_md("""The purpose of this metaclass is to define abstract base classes (also known as ABC's), as defined in [PEP 3119](https://www.python.org/dev/peps/pep-3119/), the documentation for the metaclass [ABCMeta class](https://docs.python.org/3/library/abc.html#abc.ABCMeta).
+print_md("""The purpose of this metaclass is to define abstract base classes (also known as ABC), as defined in [PEP 3119](https://www.python.org/dev/peps/pep-3119/), the documentation for the metaclass [ABCMeta class](https://docs.python.org/3/library/abc.html).
 
-A python metaclass imposes a different behavior for builtin function [isinstance](https://docs.python.org/3/library/functions.html#isinstance) and [issubclass](https://docs.python.org/3/library/functions.html#issubclass) Only classes that are [registered](https://docs.python.org/3/library/abc.html#abc.ABCMeta.register) with the metaclass, are reported as being subclasses of the given metaclass. The referenced PEP explains, why this is needed, i didn't quite understand the explanation. Would be helpful if the reader can clarify this issue.
+You can define an abstract method in a base class, which must be implemented in a derived class, so that the base class defines a contract that must be implemented by any derived class.""")
+
+eval_and_quote("""
+
+import abc
+from six import add_metaclass
+
+@add_metaclass(abc.ABCMeta)
+class Shape(object):
+
+    @abc.abstractmethod
+    def log_me(self):
+        pass
+
+class Line(Shape):
+    def log_me(self):
+        print("this is a Line")
+
+class AnotherShape(Shape):
+    pass
+
+a=Line()
+a.log_me() 
+
+try:
+    t=AnotherShape()
+except TypeError as err:
+    print("Failure to provide an implementation is checked upon instantiation! This is a dynamic programming language!!!")
 """)
+
+print_md("""The requirement for providing an implementation for a required baseclass method is checked upon object creation.""")
+
+print_md("""A python metaclass imposes a different behavior for builtin function [isinstance](https://docs.python.org/3/library/functions.html#isinstance) and [issubclass](https://docs.python.org/3/library/functions.html#issubclass) Only classes that are [registered](https://docs.python.org/3/library/abc.html#abc.ABCMeta.register) with the metaclass, are reported as being subclasses of the given metaclass. The referenced PEP explains, why this is needed, i didn't quite understand the explanation. Would be helpful if the reader can clarify this issue.""")
 
 header_md("""Enum classes""", nesting=3)
 

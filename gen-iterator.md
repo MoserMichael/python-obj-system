@@ -256,7 +256,7 @@ __Result:__
 
 ```
 >> type(range_value): <class 'range'>
->> dir(range_value): ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
+>> dir(range_value): ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
 ```
 
 The [inspect module](https://docs.python.org/3/library/inspect.html) actually does not have a function that checks, if an object is an iterator, one would look as follows:
@@ -303,8 +303,8 @@ __Result:__
 
 ```
 >> type(range_iter): <class 'range_iterator'>
->> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
->> id(range_iter): 140483335703216 id(range_iter2): 140483335703936
+>> dir(range_iter): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__length_hint__', '__lt__', '__ne__', '__new__', '__next__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__str__', '__subclasshook__']
+>> id(range_iter): 4343232528 id(range_iter2): 4343231856
 ```
 
 Returning a separate range\_iter object on each call to \_\_iter\_\_ makes sense:
@@ -379,7 +379,7 @@ print("dir(range(1,10))", dir(range(1,10)))
 __Result:__
 
 ```
->> dir(range(1,10)) ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
+>> dir(range(1,10)) ['__bool__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'count', 'index', 'start', 'step', 'stop']
 ```
 
 
@@ -407,7 +407,7 @@ print("type(no_gen_ret_val):", type(no_gen_ret_val))
 __Result:__
 
 ```
->> type(not_a_generator): <function not_a_generator at 0x7fc4d36d0310>
+>> type(not_a_generator): <function not_a_generator at 0x102e2ff60>
 >> type(no_gen_ret_val): <class 'int'>
 ```
 
@@ -475,7 +475,7 @@ __Result:__
 
 ```
 >> type(my_range.__code__): <class 'code'>
->> dir(my_range.__code__): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_kwonlyargcount', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_posonlyargcount', 'co_stacksize', 'co_varnames', 'replace']
+>> dir(my_range.__code__): ['__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '_co_code_adaptive', '_varname_from_oparg', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_exceptiontable', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_kwonlyargcount', 'co_lines', 'co_linetable', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_positions', 'co_posonlyargcount', 'co_qualname', 'co_stacksize', 'co_varnames', 'replace']
 ```
 
 Attention! Calling the generator function does not execute any of the statements in the body of the function! (you won't see the print at the start of my\_range), instead it returns a generator object. 
@@ -527,8 +527,8 @@ print("dir(type(range_generator):", dir(type(range_generator)))
 __Result:__
 
 ```
->> dir(range_generator): ['__class__', '__del__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__name__', '__ne__', '__new__', '__next__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'close', 'gi_code', 'gi_frame', 'gi_running', 'gi_yieldfrom', 'send', 'throw']
->> dir(type(range_generator): ['__class__', '__del__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__name__', '__ne__', '__new__', '__next__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'close', 'gi_code', 'gi_frame', 'gi_running', 'gi_yieldfrom', 'send', 'throw']
+>> dir(range_generator): ['__class__', '__del__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__name__', '__ne__', '__new__', '__next__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'close', 'gi_code', 'gi_frame', 'gi_running', 'gi_suspended', 'gi_yieldfrom', 'send', 'throw']
+>> dir(type(range_generator): ['__class__', '__del__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__iter__', '__le__', '__lt__', '__name__', '__ne__', '__new__', '__next__', '__qualname__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'close', 'gi_code', 'gi_frame', 'gi_running', 'gi_suspended', 'gi_yieldfrom', 'send', 'throw']
 ```
 
 Using the generator as an iterator: calling next(range\_generator)...
@@ -724,10 +724,10 @@ print("inspect.getgeneratorstate(fib_ben):", inspect.getgeneratorstate(fib_gen))
 __Result:__
 
 ```
->> caller of generator operating system thread_id: 4603416000
+>> caller of generator operating system thread_id: 8433229312
 >> inspect.getgeneratorstate(fib_gen): GEN_CREATED
->> (generator) fib_generator operating system thread_id: 4603416000
->> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x7fc4d3510900, file '<string>', line 10, code fib_generator>
+>> (generator) fib_generator operating system thread_id: 8433229312
+>> (generator) type(fib_gen.gi_frame): <class 'frame'> fib_gen.gi_frame:  <frame at 0x102dbae90, file '<string>', line 10, code fib_generator>
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 0, 'b': 1}
 >> fibonacci number: 1
 >> (generator) fib_gen.gi_frame.f_locals: {'a': 1, 'b': 1}
@@ -791,8 +791,7 @@ print("This python interpreter supports asyncio")
 __Result:__
 
 ```
->> Currently looking at python version: 3.9.6 (v3.9.6:db3ff76da1, Jun 28 2021, 11:49:53) 
->> [Clang 6.0 (clang-600.0.57)]
+>> Currently looking at python version: 3.11.4 (main, Jun 15 2023, 07:55:38) [Clang 14.0.3 (clang-1403.0.22.14.1)]
 >> This python interpreter supports asyncio
 ```
 
@@ -884,10 +883,10 @@ __Result:__
 
 ```
 >> task_name: ' Task-1 ' tasks created
->> task_name: ' find random bigger than 100 ' sleep...
->> task_name: ' find random bigger than 1000 ' task returns: 1518
->> task_name: ' find random bigger than 100 ' task returns: 120
->> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [120, 1518]
+>> task_name: ' find random bigger than 100 ' task returns: 171
+>> task_name: ' find random bigger than 1000 ' sleep...
+>> task_name: ' find random bigger than 1000 ' task returns: 1714
+>> task_name: ' Task-1 ' asynccio.gather finished return value from cothreads:  [171, 1714]
 ```
 
 
@@ -1077,12 +1076,12 @@ __Result:__
 >> task_name: ' server task ' calling server.serve_forever()
 >> task_name: ' client task ' after asyncio.sleep(1)
 >> <class '__main__.TimeClientHandler'> request sent
->> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 55803)
+>> <class '__main__.TimeServerProtocol'> Connection from peername: ('127.0.0.1', 57794)
 >> task_name: ' client task ' enter await on_con_lost
 >> <class '__main__.TimeServerProtocol'> Data received: type(message) <class 'str'> repr(message): 'local' eof-message
->> <class '__main__.TimeServerProtocol'> Send:  Tuesday 11/01/2022 15:18:41 +0200 + nanosec: 1185364120
+>> <class '__main__.TimeServerProtocol'> Send:  Tuesday 08/08/2023 21:26:43 +0300 + nanosec: 278585279979041
 >> <class '__main__.TimeServerProtocol'> Close the server socket
->> <class '__main__.TimeClientHandler'> Data received:  Tuesday 11/01/2022 15:18:41 +0200 + nanosec: 1185364120
+>> <class '__main__.TimeClientHandler'> Data received:  Tuesday 08/08/2023 21:26:43 +0300 + nanosec: 278585279979041
 >> <class '__main__.TimeClientHandler'> client connection lost
 >> task_name: ' client task ' after await on_con_lost
 >> task_name: ' client task ' closing client transport
