@@ -10,6 +10,32 @@ This course covers several topics
 
 Each lesson is a python program, the output of that program is the rendered markdown text that makes up the lesson. This approach gives me some confidence about the quality of the material.
 
+## How to Use This Repository
+
+This repository contains the course material implemented as executable Python programs.
+Each lesson is written as a Python script which, when executed, produces the rendered
+Markdown text for that lesson as its output.
+
+The general workflow for using this repository is:
+
+1. Inspect the lesson source files to understand the presented topic and examples.
+2. Run a lesson script using Python 3 to generate its Markdown output.
+3. Use the generated Markdown as the rendered course material.
+
+The lesson scripts make use of the `mdpyformat` package provided in this repository to
+render code snippets, evaluate Python code, and include both standard output and standard
+error in the generated Markdown.
+
+### Prerequisites
+
+- Python 3.x
+- The `mdpyformat` package (can be installed via `pip3 install mdpyformat`)
+
+Depending on the lesson, additional Python standard library modules may be required.
+
+This approach allows the lesson content and its rendered documentation to stay closely
+aligned, as the Markdown output is generated directly from executable code.
+
 ## mdpyformat literate programming library
 
 I am using a kind of [literate programming tool](https://en.wikipedia.org/wiki/Literate_programming) developed for this course.
